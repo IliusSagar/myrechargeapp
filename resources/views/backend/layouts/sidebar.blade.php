@@ -22,7 +22,7 @@
 
             <li class="nav-item">
                 <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-users text-primary"></i>
+                    <i class="nav-icon fas fa-users text-success"></i>
                     <p>
                         Users Management
                         <i class="fas fa-angle-left right"></i>
@@ -35,6 +35,27 @@
                         <a href="{{ route('admin.users.list') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>List Users</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-wallet text-warning"></i>
+             
+                    <p>
+                        Balance Management
+                        <i class="fas fa-angle-left right"></i>
+
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+
+                        <a href="{{ route('admin.balance.pending') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pending Balance</p>
                         </a>
                     </li>
                 </ul>

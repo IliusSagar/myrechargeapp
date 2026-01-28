@@ -37,6 +37,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
     // Balance Add Routes
     Route::get('/balance/add', [App\Http\Controllers\BalanceController::class, 'showAddForm'])->name('balance.add.form');
     Route::post('/balance/add', [App\Http\Controllers\BalanceController::class, 'addBalance'])->name('balance.add');
+   
 });
 
 // Admin Auth Routes
@@ -53,5 +54,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // admin.users.list route is already defined above
         Route::get('/users', [AdminUserController::class, 'userList'])->name('users.list');
         Route::post('/users/{id}/approve', [AdminUserController::class, 'approve'])->name('users.approve');
+
+        // Pending Balance Route
+        Route::get('/balance/pending', [App\Http\Controllers\BalanceController::class, 'pendingBalance'])->name('balance.pending');
+        Route::get('/download/{transaction}', [App\Http\Controllers\BalanceController::class, 'downloadFile'])->name('transaction.download');
+            Route::post('/balance/status/{transaction}', [App\Http\Controllers\BalanceController::class, 'changeStatus'])->name('balance.changeStatus');
+
+    
     });
 });

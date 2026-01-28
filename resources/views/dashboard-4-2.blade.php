@@ -156,84 +156,48 @@
 
 
     <!-- Add Balance Modal -->
-   <!-- Add Balance Modal -->
-<div id="balanceModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
+    <div id="balanceModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
 
-        <!-- Close Button -->
-        <button onclick="closeBalanceModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
+            <!-- Close Button -->
+            <button onclick="closeBalanceModal()"
+                class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
 
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Add Balance</h2>
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Add Balance</h2>
 
-        <!-- Payment Methods -->
-        <div class="bg-gray-50 rounded-lg p-4 mb-4 border-l-4 border-indigo-500">
-            <h3 class="font-semibold text-gray-800 mb-2">Mobile Financial Services (MFS)</h3>
-            <ul class="list-disc list-inside text-gray-700">
-                <li>bKash account no: 01756351556 (Send money only)</li>
-                <li>Nagad account no: 01756351556 (Send money only)</li>
-                <li>Rocket account no: 01756351556 (Send money only)</li>
-                <li>Upay account no: Off now</li>
-            </ul>
+            <form method="POST" action="{{ route('balance.add') }}" enctype="multipart/form-data">
+                @csrf
+
+                <!-- Amount -->
+                <label class="block text-sm font-medium text-gray-600 mb-1">Amount (MVR)</label>
+                <div class="flex items-center border rounded-lg overflow-hidden mb-4">
+                    <span class="px-3 bg-gray-100 text-gray-600 font-semibold">MVR</span>
+                    <input type="number" name="amount" required min="1" placeholder="Enter amount"
+                        class="w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <!-- Transaction ID -->
+                <label class="block text-sm font-medium text-gray-600 mb-1">Transaction ID</label>
+                <input type="text" name="transaction_id" required placeholder="Enter transaction ID"
+                    class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500">
+
+                <!-- File Upload -->
+                <label class="block text-sm font-medium text-gray-600 mb-1">Payment Proof (Screenshot / PDF)</label>
+                <input type="file" name="file_upload" required accept="image/*,.pdf"
+                    class="w-full border rounded-lg px-3 py-2 mb-5 file:bg-green-600 file:text-white file:px-4 file:py-2 file:rounded-lg file:border-0 file:cursor-pointer">
+
+                <!-- Actions -->
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeBalanceModal()"
+                        class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">Cancel</button>
+
+                    <button type="submit"
+                        class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 font-semibold">Submit Request</button>
+                </div>
+            </form>
+
         </div>
-
-        <!-- Bank Account Details -->
-        <div class="bg-gray-50 rounded-lg p-4 mb-4 border-l-4 border-green-500">
-            <h3 class="font-semibold text-gray-800 mb-2">Bank Account Details</h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
-                <li>DBBL Account Number: 2381100010503</li>
-                <li>Account Name: Digital Flexiload</li>
-                <li>Branch: Alenga, Kalihati, Tangail</li>
-                <li>Brac Bank Account Number: 1053681080001</li>
-                <li>Account Name: HASEBUL HASAN</li>
-                <li>Branch: Bashundhara Branch, Dhaka</li>
-                <li>Cellfin number: 01705080902</li>
-            </ul>
-        </div>
-
-        <!-- Important Note -->
-        <div class="bg-yellow-100 text-yellow-800 rounded-lg p-4 mb-4 border-l-4 border-yellow-500">
-            <h3 class="font-semibold text-gray-800 mb-1">Important Note (বিঃদ্রঃ)</h3>
-            <p class="text-sm text-gray-800">
-                বাংলা: মেইন ব্যালেন্সটাই শুধু আপনারা ব্যবহার করবেন। মেইন ব্যালেন্স দিয়েই ড্রাইভসহ সকল কিছু ব্যবহার করতে পারবেন।
-            </p>
-        </div>
-
-        <!-- Add Balance Form -->
-        <form method="POST" action="{{ route('balance.add') }}" enctype="multipart/form-data">
-            @csrf
-
-            <!-- Amount -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">Amount (MVR)</label>
-            <div class="flex items-center border rounded-lg overflow-hidden mb-4">
-                <span class="px-3 bg-gray-100 text-gray-600 font-semibold">MVR</span>
-                <input type="number" name="amount" required min="1" placeholder="Enter amount"
-                    class="w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-
-            <!-- Transaction ID -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">Transaction ID</label>
-            <input type="text" name="transaction_id" required placeholder="Enter transaction ID"
-                class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500">
-
-            <!-- File Upload -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">Payment Proof (Screenshot / PDF)</label>
-            <input type="file" name="file_upload" required accept="image/*,.pdf"
-                class="w-full border rounded-lg px-3 py-2 mb-5 file:bg-green-600 file:text-white file:px-4 file:py-2 file:rounded-lg file:border-0 file:cursor-pointer">
-
-            <!-- Actions -->
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeBalanceModal()"
-                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">Cancel</button>
-
-                <button type="submit"
-                    class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 font-semibold">Submit Request</button>
-            </div>
-        </form>
-
     </div>
-</div>
-
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
