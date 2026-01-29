@@ -276,43 +276,29 @@
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        @php
-        $packages = \App\Models\Package::where('status', 'active')->get();
-        @endphp
 
-       @foreach($packages as $package)
-<div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition flex flex-col justify-between items-center">
-
-    <!-- Package Image with Link -->
-    @if($package->image_icon)
-        <a href="#" class="block">
-            <img src="{{ asset('storage/'.$package->image_icon) }}" 
-                 alt="{{ $package->name }}" 
-                 class="w-32 h-32 object-cover rounded-full mb-4 hover:scale-105 transition-transform">
-        </a>
-    @else
-        <a href="#" class="block">
-            <div class="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-full mb-4 text-gray-500">
-                No Image
-            </div>
-        </a>
-    @endif
-
-    <!-- Package Info -->
-    <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{{ $package->name }}</h3>
-
-</div>
-@endforeach
+    @php
+    $packages = \App\Models\Package::all();
+    @endphp
 
 
+        @foreach($packages as $package)
+        <div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition flex flex-col justify-between">
+            <h3 class="text-lg font-bold text-gray-800 mb-2">{{ $package->name }}</h3>
+            <p class="text-gray-600 mb-4">{{ $package->description }}</p>
+            <span class="text-indigo-600 font-semibold mb-4">Price: MVR {{ $package->price }}</span>
+            <a href="#"
+               class="self-start bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+               Buy Now
+            </a>
+        </div>
+        @endforeach
 
         @if($packages->isEmpty())
         <p class="col-span-3 text-center text-gray-500">No packages available.</p>
         @endif
-
     </div>
 </div>
-
 
 
 

@@ -32,70 +32,39 @@
 
     <!-- Main Content -->
     <main class="max-w-5xl mx-auto mt-10 px-4">
-       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-    <!-- Deposit Card -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
-        <!-- Icon Circle -->
-        <div class="absolute -top-6 left-6 bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.1 0-2 .9-2 2m0 0c0 1.1.9 2 2 2s2-.9 2-2m-2-2v4m0 6v2m0 0h4m-4 0H8"/>
-            </svg>
+            <!-- Deposit Card -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">Deposit</h2>
+                    <p class="text-gray-600 mb-4">Check your deposits and manage your funds.</p>
+                </div>
+                <!-- <a href="#deposit"
+                    class="self-start bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition">
+                    View Deposit
+                </a> -->
+
+                <button onclick="showDepositTable()"
+    class="self-start bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition cursor-pointer">
+    View Deposit
+</button>
+
+            </div>
+
+            <!-- Add Balance Card -->
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-2">Add Balance</h2>
+                    <p class="text-gray-600 mb-4">Add funds to your account quickly and securely.</p>
+                </div>
+                <button onclick="openBalanceModal()"
+                    class="self-start bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition cursor-pointer">
+                    Add Balance
+                </button>
+            </div>
+
         </div>
-
-        <div class="mt-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Deposit</h2>
-            <p class="text-gray-600 mb-4">Check your deposits and manage your funds.</p>
-        </div>
-        <button onclick="showDepositTable()"
-            class="self-start bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition cursor-pointer">
-            View Deposit
-        </button>
-    </div>
-
-    <!-- Add Balance Card -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
-        <!-- Icon Circle -->
-        <div class="absolute -top-6 left-6 bg-green-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v8m4-4H8"/>
-            </svg>
-        </div>
-
-        <div class="mt-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Add Balance</h2>
-            <p class="text-gray-600 mb-4">Add funds to your account quickly and securely.</p>
-        </div>
-        <button onclick="openBalanceModal()"
-            class="self-start bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition cursor-pointer">
-            Add Balance
-        </button>
-    </div>
-
-    <!-- Packages Card -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
-        <!-- Icon Circle -->
-        <div class="absolute -top-6 left-6 bg-blue-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m2 0a9 9 0 11-4-7.7"/>
-            </svg>
-        </div>
-
-        <div class="mt-6">
-            <h2 class="text-xl font-bold text-gray-800 mb-2">Packages</h2>
-            <p class="text-gray-600 mb-4">Explore and purchase available packages.</p>
-        </div>
-
-        <a href="javascript:void(0)"
-   onclick="showPackagesTable()"
-   class="self-start bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
-   View Packages
-</a>
-
-    </div>
-
-</div>
-
 
         <!-- Optional Stats / Info -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
@@ -265,56 +234,6 @@
     </div>
 </div>
 
-<!-- Packages Table / Cards -->
-<div id="packagesTable" class="hidden mt-10 max-w-5xl mx-auto">
-
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-xl font-bold text-gray-800">Available Packages</h2>
-        <button onclick="backToDashboard()"
-            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold">Back</button>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-        @php
-        $packages = \App\Models\Package::where('status', 'active')->get();
-        @endphp
-
-       @foreach($packages as $package)
-<div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition flex flex-col justify-between items-center">
-
-    <!-- Package Image with Link -->
-    @if($package->image_icon)
-        <a href="#" class="block">
-            <img src="{{ asset('storage/'.$package->image_icon) }}" 
-                 alt="{{ $package->name }}" 
-                 class="w-32 h-32 object-cover rounded-full mb-4 hover:scale-105 transition-transform">
-        </a>
-    @else
-        <a href="#" class="block">
-            <div class="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-full mb-4 text-gray-500">
-                No Image
-            </div>
-        </a>
-    @endif
-
-    <!-- Package Info -->
-    <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{{ $package->name }}</h3>
-
-</div>
-@endforeach
-
-
-
-        @if($packages->isEmpty())
-        <p class="col-span-3 text-center text-gray-500">No packages available.</p>
-        @endif
-
-    </div>
-</div>
-
-
-
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -373,27 +292,6 @@
         document.getElementById('depositTable').classList.add('hidden');
     }
 </script>
-
-<script>
-function showPackagesTable() {
-    // Hide main dashboard
-    document.querySelector('main').classList.add('hidden');
-    // Hide deposit table if open
-    document.getElementById('depositTable').classList.add('hidden');
-    // Show packages table
-    document.getElementById('packagesTable').classList.remove('hidden');
-}
-
-function backToDashboard() {
-    // Show main dashboard
-    document.querySelector('main').classList.remove('hidden');
-    // Hide deposit table
-    document.getElementById('depositTable').classList.add('hidden');
-    // Hide packages table
-    document.getElementById('packagesTable').classList.add('hidden');
-}
-</script>
-
 
 
 </body>

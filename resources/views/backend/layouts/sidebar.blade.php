@@ -20,19 +20,19 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+            <li class="nav-item {{ request()->routeIs('admin.users.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-users text-success"></i>
                     <p>
                         Users Management
                         <i class="fas fa-angle-left right"></i>
-
                     </p>
                 </a>
+
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-
-                        <a href="{{ route('admin.users.list') }}" class="nav-link">
+                        <a href="{{ route('admin.users.list') }}"
+                            class="nav-link {{ request()->routeIs('admin.users.list') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>List Users</p>
                         </a>
@@ -40,26 +40,70 @@
                 </ul>
             </li>
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
+
+            <li class="nav-item {{ request()->routeIs('admin.balance.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.balance.*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-wallet text-warning"></i>
-             
                     <p>
                         Balance Management
                         <i class="fas fa-angle-left right"></i>
-
                     </p>
                 </a>
+
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-
-                        <a href="{{ route('admin.balance.pending') }}" class="nav-link">
+                        <a href="{{ route('admin.balance.pending') }}"
+                            class="nav-link {{ request()->routeIs('admin.balance.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Pending Balance</p>
                         </a>
+
+                        <a href="{{ route('admin.balance.approved') }}"
+                            class="nav-link {{ request()->routeIs('admin.balance.approved') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Approved Balance</p>
+                        </a>
+
+                        <a href="{{ route('admin.balance.rejected') }}"
+                            class="nav-link {{ request()->routeIs('admin.balance.rejected') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Rejected Balance</p>
+                        </a>
+
                     </li>
                 </ul>
             </li>
+
+            <!-- // Package Management -->
+            <li class="nav-item {{ request()->routeIs('admin.packages.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-box-open text-info"></i>
+                    <p>
+                        Package Management
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.packages.list') }}"
+                            class="nav-link {{ request()->routeIs('admin.packages.list') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Packages List </p>
+                        </a>
+
+                        
+
+                    <li class="nav-item">
+                        <a href="{{ route('admin.subpackages.list') }}"
+                            class="nav-link {{ request()->routeIs('admin.subpackages.list') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Sub Package List</p>
+                        </a>
+
+                </ul>
+            </li>
+
 
 
 

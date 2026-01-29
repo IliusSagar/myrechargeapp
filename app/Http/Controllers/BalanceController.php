@@ -78,6 +78,24 @@ class BalanceController extends Controller
     return view('backend.balance.pending', compact('pendingTransactions'));
 }
 
+// approved balance data
+public function approvedBalance()
+{
+    $approvedTransactions = Transaction::with('account.user')
+        ->where('status', 'approved')
+        ->get();
+    return view('backend.balance.approved', compact('approvedTransactions'));
+}
+
+// rejected balance data
+public function rejectedBalance()
+{
+    $rejectedTransactions = Transaction::with('account.user')
+        ->where('status', 'rejected')
+        ->get();
+    return view('backend.balance.rejected', compact('rejectedTransactions'));
+}
+
 public function downloadFile(Transaction $transaction)
 {
     if (!$transaction->file_upload || !Storage::disk('public')->exists($transaction->file_upload)) {
