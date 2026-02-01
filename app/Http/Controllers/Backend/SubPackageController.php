@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\Package;
 use App\Models\PackageDetail;
+use App\Models\PackageOrderl;
 use Illuminate\Http\Request;
 
 class SubPackageController extends Controller
@@ -81,5 +82,59 @@ class SubPackageController extends Controller
         $subpackage->save();
 
         return redirect()->back()->with('success', 'Status updated successfully.');
+    }
+
+    //package show sub-packages method
+    public function showSubPackages($packageId)
+    {
+
+        $package = Package::findOrFail($packageId);
+        $subpackages = PackageDetail::where('package_id', $packageId)->where('status', 'active')->get();
+        return view('frontend.package_details', compact('package', 'subpackages'));
+    }
+
+    // payStore 
+    public function payStore(Request $request)
+    {
+        $request->validate([
+            'mobile' => 'required|string',
+            'amount' => 'required|numeric',
+        ]);
+
+
+
+        PackageOrderl::create([
+            'package_id' => $request->package_id,
+            'number' => $request->mobile,
+            'amount' => $request->amount,
+            'status' => 'pending',
+        ]);
+
+        return redirect()->back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
+    }
+
+    // package order list method
+    public function packageOrders()
+    {
+        
+        $packageOrders = PackageOrderl::with('package')->orderBy('created_at', 'desc')->get();
+        return view('backend.package_orders.index', compact('packageOrders'));
+    }
+
+    // approve order method
+    public function approveOrder($id)
+    {
+        $order = PackageOrderl::findOrFail($id);
+        $order->status = 'approved';
+        $order->save();
+        return redirect()->back()->with('success', 'Order approved successfully.');
+    }
+    // reject order method
+    public function rejectOrder($id)
+    {
+        $order = PackageOrderl::findOrFail($id);
+        $order->status = 'rejected';
+        $order->save();
+        return redirect()->back()->with('success', 'Order rejected successfully.');
     }
 }

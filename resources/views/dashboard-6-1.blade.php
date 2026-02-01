@@ -266,57 +266,48 @@
 </div>
 
 <!-- Packages Table / Cards -->
-<div id="packagesTable" class="hidden mt-10 max-w-6xl mx-auto">
+<div id="packagesTable" class="hidden mt-10 max-w-5xl mx-auto">
 
-    <div class="flex justify-between items-center mb-6">
-
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold text-gray-800">Available Packages</h2>
         <button onclick="backToDashboard()"
-            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl font-semibold transition">
-            Back
-        </button>
+            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold">Back</button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         @php
         $packages = \App\Models\Package::where('status', 'active')->get();
         @endphp
 
-        @foreach($packages as $package)
-        <div class="relative bg-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-1 transition transform">
+       @foreach($packages as $package)
+<div class="bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition flex flex-col justify-between items-center">
 
-            <!-- Gradient Glow Circle Behind Image -->
-            <div class="absolute -top-10 w-40 h-40 rounded-full bg-gradient-to-tr from-indigo-400 via-purple-400 to-pink-400 blur-2xl opacity-30"></div>
+    <!-- Package Image with Link -->
+    @if($package->image_icon)
+        <a href="{{ route('package.show', $package->id) }}" class="block">
+            <img src="{{ asset('storage/'.$package->image_icon) }}" 
+                 alt="{{ $package->name }}" 
+                 class="w-32 h-32 object-cover rounded-full mb-4 hover:scale-105 transition-transform">
+        </a>
+    @else
+        <a href="#" class="block">
+            <div class="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-full mb-4 text-gray-500">
+                No Image
+            </div>
+        </a>
+    @endif
 
-            <!-- Package Image with Link -->
-            @if($package->image_icon)
-            <a href="{{ route('package.show', $package->id) }}" class="relative z-10 block">
-                <img src="{{ asset('storage/'.$package->image_icon) }}" 
-                     alt="{{ $package->name }}" 
-                     class="w-32 h-32 object-cover rounded-full mb-4 shadow-lg hover:scale-105 transition-transform">
-            </a>
-            @else
-            <a href="#" class="relative z-10 block">
-                <div class="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-full mb-4 text-gray-500 shadow-inner">
-                    No Image
-                </div>
-            </a>
-            @endif
+    <!-- Package Info -->
+    <h3 class="text-lg font-bold text-gray-800 mb-2 text-center">{{ $package->name }}</h3>
 
-            <!-- Package Info -->
-            <h3 class="text-lg font-bold text-gray-800 mb-2 z-10">{{ $package->name }}</h3>
+</div>
+@endforeach
 
-            <!-- Optional Action Button -->
-            <a href="{{ route('package.show', $package->id) }}" 
-               class="z-10 mt-2 px-5 py-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition">
-               View Package
-            </a>
 
-        </div>
-        @endforeach
 
         @if($packages->isEmpty())
-        <p class="col-span-3 text-center text-gray-500 mt-4 text-lg">No packages available.</p>
+        <p class="col-span-3 text-center text-gray-500">No packages available.</p>
         @endif
 
     </div>

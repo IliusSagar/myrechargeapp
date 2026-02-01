@@ -75,8 +75,8 @@
             </li>
 
             <!-- // Package Management -->
-            <li class="nav-item {{ request()->routeIs('admin.packages.*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('admin.packages.*','admin.subpackages.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.packages.*','admin.subpackages.*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-box-open text-info"></i>
                     <p>
                         Package Management
@@ -94,11 +94,17 @@
 
                         
 
-                    <li class="nav-item">
                         <a href="{{ route('admin.subpackages.list') }}"
                             class="nav-link {{ request()->routeIs('admin.subpackages.list') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Sub Package List</p>
+                        </a>
+
+                    
+                        <a href="{{ route('admin.package.orders') }}"
+                            class="nav-link {{ request()->routeIs('admin.package.orders') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Package Orders</p>
                         </a>
 
                 </ul>

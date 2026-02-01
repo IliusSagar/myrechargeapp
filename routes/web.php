@@ -39,6 +39,12 @@ Route::middleware(['auth', 'approved'])->group(function () {
     // Balance Add Routes
     Route::get('/balance/add', [App\Http\Controllers\BalanceController::class, 'showAddForm'])->name('balance.add.form');
     Route::post('/balance/add', [App\Http\Controllers\BalanceController::class, 'addBalance'])->name('balance.add');
+
+    // package show sub-packages route
+        Route::get('/packages/{package}/sub-packages', [SubPackageController::class, 'showSubPackages'])->name('package.show');
+    // payment store route
+    Route::post('/payment/store', [SubPackageController::class, 'payStore'])->name('payment.store');
+
 });
 
 // Admin Auth Routes
@@ -88,6 +94,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/sub-packages/{subPackage}/edit', [SubPackageController::class, 'edit'])->name('subpackages.edit');
         Route::put('/sub-packages/{subPackage}', [SubPackageController::class, 'update'])->name('subpackages.update');
         Route::delete('/sub-packages/{subPackage}', [SubPackageController::class, 'destroy'])->name('subpackages.destroy');
+
+        // Package Order List Route
+        Route::get('/package-orders', [SubPackageController::class, 'packageOrders'])->name('package.orders');
+        // status pending approved rejected route
+        Route::get('/package-orders/approve/{id}', [SubPackageController::class, 'approveOrder'])->name('package_orders.approve');
+        Route::get('/package-orders/reject/{id}', [SubPackageController::class, 'rejectOrder'])->name('package_orders.reject');
+
+        
 
         // status change route
         Route::get(
