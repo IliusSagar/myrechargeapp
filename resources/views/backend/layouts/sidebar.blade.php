@@ -110,6 +110,29 @@
                 </ul>
             </li>
 
+            <!-- // Recharge Management -->
+            <li class="nav-item {{ request()->routeIs('admin.recharges.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.recharges.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-mobile-alt text-primary"></i>
+                    <p>
+                        Recharge Management
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.recharges.pending') }}"
+                            class="nav-link {{ request()->routeIs('admin.recharges.pending') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>List Recharges</p>
+                        </a>
+
+                        
+
+                    </li>
+                </ul>
+
 
 
 

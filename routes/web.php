@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RechargeController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -44,6 +45,15 @@ Route::middleware(['auth', 'approved'])->group(function () {
         Route::get('/packages/{package}/sub-packages', [SubPackageController::class, 'showSubPackages'])->name('package.show');
     // payment store route
     Route::post('/payment/store', [SubPackageController::class, 'payStore'])->name('payment.store');
+
+    // Recharge Submit Route
+    Route::post('/recharge/submit', [RechargeController::class, 'submitRecharge'])->name('recharge.submit');
+
+    // Recharge History Route
+    Route::get('/recharge/history', [RechargeController::class, 'rechargeHistory'])->name('recharge.history');
+
+    // packag history 
+    Route::get('/package/history', [RechargeController::class, 'packageHistory'])->name('packages.history');
 
 });
 
@@ -100,6 +110,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // status pending approved rejected route
         Route::get('/package-orders/approve/{id}', [SubPackageController::class, 'approveOrder'])->name('package_orders.approve');
         Route::get('/package-orders/reject/{id}', [SubPackageController::class, 'rejectOrder'])->name('package_orders.reject');
+
+        // Recharge Management Routes
+        Route::get('/recharges', [RechargeController::class, 'index'])->name('recharges.pending');
+        Route::get('/recharges/approve/{id}', [RechargeController::class, 'approveRecharge'])->name('recharges.approved');
+        Route::get('/recharges/reject/{id}', [RechargeController::class, 'rejectRecharge'])->name('recharges.rejected');
 
         
 

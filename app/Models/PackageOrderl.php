@@ -8,6 +8,7 @@ class PackageOrderl extends Model
 {
     protected $fillable = [
         'package_id',
+        'account_id',
         'items',
         'number',
         'amount',

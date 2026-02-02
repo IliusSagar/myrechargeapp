@@ -7,6 +7,7 @@ use App\Models\Package;
 use App\Models\PackageDetail;
 use App\Models\PackageOrderl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SubPackageController extends Controller
 {
@@ -94,24 +95,29 @@ class SubPackageController extends Controller
     }
 
     // payStore 
-    public function payStore(Request $request)
-    {
-        $request->validate([
-            'mobile' => 'required|string',
-            'amount' => 'required|numeric',
-        ]);
+   public function payStore(Request $request)
+{
+    $request->validate([
+        'mobile' => 'required|string',
+        'amount' => 'required|numeric',
+        'package_id' => 'required|exists:packages,id', // optional validation
+    ]);
 
+    $authID = auth()->id();
+    $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
 
+    PackageOrderl::create([
+        'user_id' => $authID,          // store the authenticated user's ID
+        'account_id' => $accountID,    // store the account ID
+        'package_id' => $request->package_id,
+        'number' => $request->mobile,
+        'amount' => $request->amount,
+        'status' => 'pending',
+    ]);
 
-        PackageOrderl::create([
-            'package_id' => $request->package_id,
-            'number' => $request->mobile,
-            'amount' => $request->amount,
-            'status' => 'pending',
-        ]);
+    return redirect()->back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
+}
 
-        return redirect()->back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
-    }
 
     // package order list method
     public function packageOrders()

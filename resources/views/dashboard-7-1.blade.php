@@ -86,63 +86,13 @@
             <p class="text-gray-600 mb-4">Explore and purchase available packages.</p>
         </div>
 
-       <div class="flex gap-3">
-    <!-- View Packages Button -->
-    <a href="javascript:void(0)" 
-       onclick="showPackagesTable()" 
-       class="bg-blue-600 text-white text-sm px-3 py-1.5 rounded-lg font-semibold hover:bg-blue-700 transition">
-       View Packages
-    </a>
-
-    <!-- Package History Button -->
-    <a href="{{ route('packages.history') }}" 
-       class="bg-green-600 text-white text-sm px-3 py-1.5 rounded-lg font-semibold hover:bg-green-700 transition">
-       Package History
-    </a>
-</div>
-
+        <a href="javascript:void(0)"
+   onclick="showPackagesTable()"
+   class="self-start bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition">
+   View Packages
+</a>
 
     </div>
-
-   <!-- Recharge Card -->
-<div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative mt-6">
-
-    <!-- Icon -->
-    <div class="absolute -top-6 left-6 bg-purple-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 8c-1.1 0-2 .9-2 2m0 0c0 1.1.9 2 2 2s2-.9 2-2m-2-2v4m0 6v2" />
-        </svg>
-    </div>
-
-    <!-- Content -->
-    <div class="mt-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">Recharge</h2>
-        <p class="text-gray-600 mb-4">
-            Recharge your mobile using your account balance or external payment.
-        </p>
-    </div>
-
-    <!-- Action Buttons -->
-<div class="flex justify-between gap-4 mt-4">
-    <!-- Recharge Now (Left) -->
-    <button onclick="openRechargeModal()"
-        class="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition text-sm">
-        Recharge Now
-    </button>
-
-    <!-- Recharge History (Right) -->
-    <a href="{{ route('recharge.history') }}"
-        class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">
-        Recharge History
-    </a>
-</div>
-
-
-</div>
-
-
 
 </div>
 
@@ -373,49 +323,6 @@
 </div>
 
 
-<!-- Recharge Modal -->
-<div id="rechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
-
-        <!-- Close Button -->
-        <button onclick="closeRechargeModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
-
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Mobile Recharge</h2>
-
-        
-
-        <!-- Recharge Form -->
-        <form method="POST" action="{{ route('recharge.submit') }}">
-            @csrf
-
-            <!-- Mobile Number -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">Mobile Number</label>
-            <input type="text" name="mobile" required placeholder="01XXXXXXXXX"
-                class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-purple-500">
-
-            <!-- Recharge Amount -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">Amount</label>
-            <div class="flex items-center border rounded-lg overflow-hidden mb-5">
-                <span class="px-3 bg-gray-100 text-gray-600 font-semibold">MVR</span>
-                <input type="number" name="amount" required min="1" placeholder="Enter amount"
-                    class="w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
-            </div>
-
-            
-
-            <!-- Actions -->
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeRechargeModal()"
-                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">Cancel</button>
-
-                <button type="submit"
-                    class="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 font-semibold">Confirm Recharge</button>
-            </div>
-        </form>
-
-    </div>
-</div>
 
 
     <!-- jQuery -->
@@ -495,17 +402,6 @@ function backToDashboard() {
     document.getElementById('packagesTable').classList.add('hidden');
 }
 </script>
-
-<script>
-    function openRechargeModal() {
-        document.getElementById('rechargeModal').classList.remove('hidden');
-    }
-
-    function closeRechargeModal() {
-        document.getElementById('rechargeModal').classList.add('hidden');
-    }
-</script>
-
 
 
 
