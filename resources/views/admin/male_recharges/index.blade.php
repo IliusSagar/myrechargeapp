@@ -11,7 +11,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
 
-                    <h1><span class="text-danger" style="border-bottom: 1px dotted red;">BD Recharges List</span></h1>
+                    <h1><span class="text-danger" style="border-bottom: 1px dotted red;">Male Recharges List</span></h1>
 
                 </div>
 
@@ -69,9 +69,9 @@
                                             <td>
                                          
     @if ($recharge->status === 'pending')
-        <a href="{{ route('admin.recharges.approved', $recharge->id) }}" class="btn btn-sm btn-success">Approve</a>
+        <a href="{{ route('admin.male.recharges.approved', $recharge->id) }}" class="btn btn-sm btn-success">Approve</a>
         @elseif ($recharge->status == 'approved')
-        <a href="{{ route('admin.recharges.rejected', $recharge->id) }}" class="btn btn-sm btn-danger">Reject</a>
+        <a href="{{ route('admin.male.recharges.rejected', $recharge->id) }}" class="btn btn-sm btn-danger">Reject</a>
     @else
         <span class="text-muted">No actions</span>
     @endif

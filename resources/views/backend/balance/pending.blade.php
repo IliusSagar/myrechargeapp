@@ -11,7 +11,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
 
-                    <h1><span class="text-danger" style="border-bottom: 1px dotted red;">Pending Balance</span></h1>
+                    <h1><span class="text-danger" style="border-bottom: 1px dotted red;">List Balance</span></h1>
 
                 </div>
 
@@ -74,14 +74,15 @@
                                         </td>
 
                                         <td>
-                                            <form method="POST" action="{{ route('admin.balance.changeStatus', $transaction->id) }}">
-            @csrf
-            <select name="status" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm">
-                <option value="pending" {{ $transaction->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="approved" {{ $transaction->status == 'approved' ? 'selected' : '' }}>Approved</option>
-                <option value="rejected" {{ $transaction->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
-            </select>
-        </form>
+                                           
+
+            @if ($transaction->status === 'pending')
+        <a href="{{ route('admin.balance.approved', $transaction->id) }}" class="btn btn-sm btn-success">Approve</a>
+        @elseif ($transaction->status == 'approved')
+        <a href="{{ route('admin.balance.rejected', $transaction->id) }}" class="btn btn-sm btn-danger">Reject</a>
+    @else
+        <span class="text-muted">No actions</span>
+    @endif
                                         </td>
                                     </tr>
                                     @endforeach

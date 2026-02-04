@@ -130,29 +130,17 @@ class SubPackageController extends Controller
     // approve order method
     public function approveOrder($id)
     {
-        $order = PackageOrderl::with('account')->findOrFail($id);
+        $order = PackageOrderl::findOrFail($id);
         $order->status = 'approved';
         $order->save();
-
-        if ($order->account) {
-        $order->account->balance -= $order->amount;
-        $order->account->save();
-    }
-
         return redirect()->back()->with('success', 'Order approved successfully.');
     }
     // reject order method
     public function rejectOrder($id)
     {
-        $order = PackageOrderl::with('account')->findOrFail($id);
+        $order = PackageOrderl::findOrFail($id);
         $order->status = 'rejected';
         $order->save();
-
-         if ($order->account) {
-        $order->account->balance += $order->amount;
-        $order->account->save();
-    }
-
         return redirect()->back()->with('success', 'Order rejected successfully.');
     }
 }

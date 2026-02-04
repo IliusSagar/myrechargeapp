@@ -55,20 +55,10 @@
                         <a href="{{ route('admin.balance.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.balance.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Pending Balance</p>
+                            <p>List Balance</p>
                         </a>
 
-                        <a href="{{ route('admin.balance.approved') }}"
-                            class="nav-link {{ request()->routeIs('admin.balance.approved') ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Approved Balance</p>
-                        </a>
-
-                        <a href="{{ route('admin.balance.rejected') }}"
-                            class="nav-link {{ request()->routeIs('admin.balance.rejected') ? 'active' : '' }}">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Rejected Balance</p>
-                        </a>
+                     
 
                     </li>
                 </ul>
@@ -115,7 +105,7 @@
                 <a href="#" class="nav-link {{ request()->routeIs('admin.recharges.*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-mobile-alt text-primary"></i>
                     <p>
-                        Recharge Management
+                        BD Recharge Management
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
@@ -125,7 +115,30 @@
                         <a href="{{ route('admin.recharges.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.recharges.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>List Recharges</p>
+                            <p>List BD Recharges</p>
+                        </a>
+
+                        
+
+                    </li>
+                </ul>
+
+                <!-- // Male Recharge Management -->
+            <li class="nav-item {{ request()->routeIs('admin.male.recharges.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.male.recharges.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-mobile-alt text-primary"></i>
+                    <p>
+                        Male Recharge Management
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.male.recharges.pending') }}"
+                            class="nav-link {{ request()->routeIs('admin.male.recharges.pending') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>List Male Recharges</p>
                         </a>
 
                         

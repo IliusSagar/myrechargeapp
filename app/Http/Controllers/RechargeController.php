@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PackageOrderl;
 use App\Models\Recharge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,7 +28,7 @@ class RechargeController extends Controller
         ]);
 
         // Redirect back with a success message
-        return redirect()->route('dashboard')->with('success', 'Recharge request submitted successfully!');
+        return redirect()->route('dashboard')->with('success', 'BD Recharge request submitted successfully!');
     }
 
     public function rechargeHistory()
@@ -42,9 +43,11 @@ class RechargeController extends Controller
 
     public function packageHistory()
     {
-       
-
-        return view('frontend.package.history');
+       $authID = auth()->id();
+        $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+        // packageorderl data fetch
+        $packages = PackageOrderl::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
+        return view('frontend.package.history', compact('packages'));
     }
 
     // Admin Functions
@@ -70,7 +73,7 @@ class RechargeController extends Controller
     }
 
     return redirect()->route('admin.recharges.pending')
-                     ->with('success', 'Recharge approved successfully.');
+                     ->with('success', 'BD Recharge approved successfully.');
 }
 
 
@@ -85,6 +88,6 @@ class RechargeController extends Controller
         $recharge->account->save();
     }
 
-        return redirect()->route('admin.recharges.pending')->with('success', 'Recharge rejected successfully.');
+        return redirect()->route('admin.recharges.pending')->with('success', 'BD Recharge rejected successfully.');
     }
 }

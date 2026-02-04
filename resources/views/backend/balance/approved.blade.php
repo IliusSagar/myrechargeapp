@@ -69,7 +69,7 @@
                                             @endif
                                         </td>
 
-                                        <td class="badge bg-warning">{{ ucfirst($transaction->status) }}
+                                        <td class="badge bg-success">{{ ucfirst($transaction->status) }}
                                             
                                         </td>
 
@@ -77,8 +77,9 @@
                                             <form method="POST" action="{{ route('admin.balance.changeStatus', $transaction->id) }}">
             @csrf
             <select name="status" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm">
-                <option value="pending" {{ $transaction->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="approved" {{ $transaction->status == 'approved' ? 'selected' : '' }}>Approved</option>
+                <!-- <option value="pending" {{ $transaction->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                <option value="approved" {{ $transaction->status == 'approved' ? 'selected' : '' }}>Approved</option> -->
+                <option value="" selected disabled>-- Select Rejected --</option>
                 <option value="rejected" {{ $transaction->status == 'rejected' ? 'selected' : '' }}>Rejected</option>
             </select>
         </form>

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
+use App\Http\Controllers\MaleRechargeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RechargeController;
@@ -15,6 +16,17 @@ use App\Http\Controllers\RechargeController;
 Route::get('/', function () {
     return view('auth.login');
 });
+
+// Route::get('/storage-link', function () {
+//     $targetFolder = storage_path('app/public');
+//     $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+//     symlink($targetFolder, $linkFolder);
+// });
+
+Route::get('/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'Done';
+})->middleware('auth');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -48,12 +60,17 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
     // Recharge Submit Route
     Route::post('/recharge/submit', [RechargeController::class, 'submitRecharge'])->name('recharge.submit');
-
-    // Recharge History Route
     Route::get('/recharge/history', [RechargeController::class, 'rechargeHistory'])->name('recharge.history');
+
+    // MaleRecharge Submit Route
+    Route::post('/male/recharge/submit', [MaleRechargeController::class, 'submitRecharge'])->name('male.recharge.submit');
+    Route::get('/male/recharge/history', [MaleRechargeController::class, 'rechargeHistory'])->name('male.recharge.history');
 
     // packag history 
     Route::get('/package/history', [RechargeController::class, 'packageHistory'])->name('packages.history');
+    
+
+    
 
 });
 
@@ -75,9 +92,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Pending Balance Route
         Route::get('/balance/pending', [App\Http\Controllers\BalanceController::class, 'pendingBalance'])->name('balance.pending');
         // Approved Balance Route
-        Route::get('/balance/approved', [App\Http\Controllers\BalanceController::class, 'approvedBalance'])->name('balance.approved');
+        Route::get('/balance/approved/{id}', [App\Http\Controllers\BalanceController::class, 'approvedBalance'])->name('balance.approved');
         // Rejected Balance Route
-        Route::get('/balance/rejected', [App\Http\Controllers\BalanceController::class, 'rejectedBalance'])->name('balance.rejected');
+        Route::get('/balance/rejected/{id}', [App\Http\Controllers\BalanceController::class, 'rejectedBalance'])->name('balance.rejected');
         
 
 
@@ -115,6 +132,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/recharges', [RechargeController::class, 'index'])->name('recharges.pending');
         Route::get('/recharges/approve/{id}', [RechargeController::class, 'approveRecharge'])->name('recharges.approved');
         Route::get('/recharges/reject/{id}', [RechargeController::class, 'rejectRecharge'])->name('recharges.rejected');
+
+        // Male Recharge Management Routes
+        Route::get('/male/recharges', [MaleRechargeController::class, 'index'])->name('male.recharges.pending');
+        Route::get('/male/recharges/approve/{id}', [MaleRechargeController::class, 'approveRecharge'])->name('male.recharges.approved');
+        Route::get('/male/recharges/reject/{id}', [MaleRechargeController::class, 'rejectRecharge'])->name('male.recharges.rejected');
 
         
 

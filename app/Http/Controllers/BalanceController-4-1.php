@@ -38,9 +38,9 @@ class BalanceController extends Controller
 
             // Update balance
             $newBalance = $account->balance + $request->amount;
-            // $account->update([
-            //     'balance' => $newBalance,
-            // ]);
+            $account->update([
+                'balance' => $newBalance,
+            ]);
 
             // accounts table account_number need to be changed to id
 
@@ -65,48 +65,35 @@ class BalanceController extends Controller
     }
 
     // Pending Balance Data
-      public function pendingBalance()
+    public function pendingBalance()
 {
     // User name relation with transactions
     // Fetch pending transactions
     // $pendingTransactions = Transaction::where('status', 'pending')->get();
 
-    $pendingTransactions = Transaction::with('account.user')->orderBy('created_at', 'desc')
+    $pendingTransactions = Transaction::with('account.user')
+        ->where('status', 'pending')
         ->get();
 
     return view('backend.balance.pending', compact('pendingTransactions'));
 }
 
 // approved balance data
-public function approvedBalance($id)
+public function approvedBalance()
 {
-   $transaction = Transaction::with('account')->findOrFail($id);
-
-    // Update recharge status
-    $transaction->status = 'approved';
-    $transaction->save();
-
-    if ($transaction->account) {
-        $transaction->account->balance += $transaction->amount;
-        $transaction->account->save();
-    }
-
-    return redirect()->back()->with('success', 'Balance approved successfully.');
+    $approvedTransactions = Transaction::with('account.user')
+        ->where('status', 'approved')
+        ->get();
+    return view('backend.balance.approved', compact('approvedTransactions'));
 }
 
-
 // rejected balance data
-public function rejectedBalance($id)
+public function rejectedBalance()
 {
-    $transaction = Transaction::with('account')->findOrFail($id);
-        $transaction->status = 'rejected';
-        $transaction->save();
-
-        if ($transaction->account) {
-        $transaction->account->balance -= $transaction->amount;
-        $transaction->account->save();
-    }
-    return redirect()->back()->with('success', 'Balance rejected successfully.');
+    $rejectedTransactions = Transaction::with('account.user')
+        ->where('status', 'rejected')
+        ->get();
+    return view('backend.balance.rejected', compact('rejectedTransactions'));
 }
 
 public function downloadFile(Transaction $transaction)

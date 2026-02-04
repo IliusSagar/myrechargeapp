@@ -4,25 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PackageOrderl extends Model
+class MaleRecharge extends Model
 {
     protected $fillable = [
-        'package_id',
         'account_id',
-        'items',
-        'number',
+        'mobile',
         'amount',
         'status',
     ];
 
-    public function package()
-    {
-        return $this->belongsTo(PackageDetail::class);
-    }
-
-     public function account()
+    public function account()
     {
         return $this->belongsTo(Account::class);
     }
-    
 }

@@ -39,7 +39,7 @@
 </div>
 <!-- ================= MAIN CONTENT ================= -->
 <main class="max-w-7xl mx-auto p-6">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">BD Recharge History</h2>
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Male Recharge History</h2>
 
     <div class="bg-white shadow-md rounded-2xl border border-gray-100 overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">

@@ -32,44 +32,6 @@
 
     <!-- Main Content -->
     <main class="max-w-5xl mx-auto mt-10 px-4">
-
-      <!-- Optional Stats / Info -->
-       <!-- // need margin-bottom -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 mb-10">
-
-            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
-                <p class="text-gray-500">Current Balance</p>
-                <h3 class="text-2xl font-bold text-gray-800">
-                    <span class="text-sm font-semibold text-gray-500">MVR</span> {{ Auth::user()->account->balance ?? 0 }}
-                </h3>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
-                <p class="text-gray-500">Total Deposit</p>
-                <h3 class="text-2xl font-bold text-gray-800">
-                    @php
-    $authID = auth()->id();
-
-    $accountID = DB::table('accounts')
-        ->where('user_id', $authID)
-        ->value('id');
-
-    $totalDeposit = DB::table('transactions')
-        ->where('account_id', $accountID)
-        ->where('type', 'deposit')
-        ->where('status','approved')
-        ->sum('amount');
-@endphp
-
-<span class="text-sm font-semibold text-gray-500">MVR</span>
-{{ $totalDeposit ?? 0 }}
-
-                </h3>
-            </div>
-
-            
-        </div>
-
        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     <!-- Deposit Card -->
@@ -156,9 +118,9 @@
 
     <!-- Content -->
     <div class="mt-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">BD Recharge</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Recharge</h2>
         <p class="text-gray-600 mb-4">
-            BD Recharge your mobile using your account balance or external payment.
+            Recharge your mobile using your account balance or external payment.
         </p>
     </div>
 
@@ -181,48 +143,36 @@
 </div>
 
 
-<!-- Male Recharge Card -->
-<div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
-
-    <!-- Icon -->
-    <div class="absolute -top-6 left-6 bg-green-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-            viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M3 5h12M9 3v2m0 14v2m-6-6h12m-9-4h6m-6 8h6" />
-        </svg>
-    </div>
-
-    <!-- Content -->
-    <div class="mt-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-2">Male Recharge</h2>
-        <p class="text-gray-600 mb-4">
-            Male Recharge your mobile using your account balance or external payment.
-        </p>
-    </div>
-
-    <!-- Action Buttons -->
-    <div class="flex justify-between gap-4 mt-4">
-        <button onclick="openMaleRechargeModal()"
-            class="bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition text-sm">
-            Recharge Now
-        </button>
-
-        <a href="{{ route('male.recharge.history') }}"
-            class="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition text-sm">
-            Recharge History
-        </a>
-    </div>
 
 </div>
 
 
+        <!-- Optional Stats / Info -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <p class="text-gray-500">Current Balance</p>
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <span class="text-sm font-semibold text-gray-500">MVR</span> {{ Auth::user()->account->balance ?? 0 }}
+                </h3>
+            </div>
 
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <p class="text-gray-500">Total Deposit</p>
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <span class="text-sm font-semibold text-gray-500">MVR</span> {{ Auth::user()->account->balance ?? 0 }}
+                </h3>
+            </div>
 
-</div>
-
-
-      
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <p class="text-gray-500">Pending For Approval</p>
+                @php
+                    $pendingCount = \App\Models\Transaction::where('account_id', Auth::user()->account->id)
+                        ->where('status', 'pending')
+                        ->count();
+                @endphp
+                <h3 class="text-2xl font-bold text-gray-800">{{ $pendingCount }}</h3>
+            </div>
+        </div>
 
     </main>
 
@@ -431,7 +381,7 @@
         <button onclick="closeRechargeModal()"
             class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
 
-        <h2 class="text-xl font-bold text-gray-800 mb-4">BD Mobile Recharge</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Mobile Recharge</h2>
 
         
 
@@ -466,64 +416,6 @@
 
     </div>
 </div>
-
-
-<!-- Male Recharge Modal -->
-<div id="MalerechargeModal"
-     class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
-
-        <!-- Close Button -->
-        <button onclick="closeMaleRechargeModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
-
-        <h2 class="text-xl font-bold text-gray-800 mb-4">
-            Male Mobile Recharge
-        </h2>
-
-        <!-- Recharge Form -->
-        <form method="POST" action="{{ route('male.recharge.submit') }}">
-            @csrf
-
-            <!-- Mobile Number -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">
-                Mobile Number
-            </label>
-            <input type="text" name="mobile" required placeholder="01XXXXXXXXX"
-                class="w-full border rounded-lg px-3 py-2 mb-4
-                       focus:outline-none focus:ring-2 focus:ring-green-500">
-
-            <!-- Recharge Amount -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">
-                Amount
-            </label>
-            <div class="flex items-center border rounded-lg overflow-hidden mb-5">
-                <span class="px-3 bg-gray-100 text-gray-600 font-semibold">MVR</span>
-                <input type="number" name="amount" required min="1"
-                    placeholder="Enter amount"
-                    class="w-full px-3 py-2
-                           focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-
-            <!-- Actions -->
-            <div class="flex justify-end gap-3">
-                <button type="button"
-                    onclick="closeMaleRechargeModal()"
-                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
-                    Cancel
-                </button>
-
-                <button type="submit"
-                    class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 font-semibold">
-                    Confirm Recharge
-                </button>
-            </div>
-        </form>
-
-    </div>
-</div>
-
 
 
     <!-- jQuery -->
@@ -614,15 +506,6 @@ function backToDashboard() {
     }
 </script>
 
-<script>
-function openMaleRechargeModal() {
-    document.getElementById('MalerechargeModal').classList.remove('hidden');
-}
-
-function closeMaleRechargeModal() {
-    document.getElementById('MalerechargeModal').classList.add('hidden');
-}
-</script>
 
 
 
