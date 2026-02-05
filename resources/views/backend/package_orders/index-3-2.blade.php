@@ -11,7 +11,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
 
-                    <h1><span class="text-danger" style="border-bottom: 1px dotted red;">Sub Packages List</span></h1>
+                    <h1><span class="text-danger" style="border-bottom: 1px dotted red;">Packages Order</span></h1>
 
                 </div>
 
@@ -53,7 +53,7 @@
 
                     {{-- Optional: Button --}}
                     <a href="{{ url('admin/package/orders/' . $package->id) }}" class="btn btn-primary btn-sm">
-    View 
+    View Orders
 </a>
 
                 </div>

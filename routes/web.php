@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AppSetupController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
 use App\Http\Controllers\MaleRechargeController;
@@ -54,7 +55,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
     Route::post('/balance/add', [App\Http\Controllers\BalanceController::class, 'addBalance'])->name('balance.add');
 
     // package show sub-packages route
-        Route::get('/packages/{package}/sub-packages', [SubPackageController::class, 'showSubPackages'])->name('package.show');
+    Route::get('/packages/{package}/sub-packages', [SubPackageController::class, 'showSubPackages'])->name('package.show');
     // payment store route
     Route::post('/payment/store', [SubPackageController::class, 'payStore'])->name('payment.store');
 
@@ -68,10 +69,6 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
     // packag history 
     Route::get('/package/history', [RechargeController::class, 'packageHistory'])->name('packages.history');
-    
-
-    
-
 });
 
 // Admin Auth Routes
@@ -95,7 +92,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/balance/approved/{id}', [App\Http\Controllers\BalanceController::class, 'approvedBalance'])->name('balance.approved');
         // Rejected Balance Route
         Route::get('/balance/rejected/{id}', [App\Http\Controllers\BalanceController::class, 'rejectedBalance'])->name('balance.rejected');
-        
+
 
 
         Route::get('/download/{transaction}', [App\Http\Controllers\BalanceController::class, 'downloadFile'])->name('transaction.download');
@@ -128,6 +125,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/package-orders/approve/{id}', [SubPackageController::class, 'approveOrder'])->name('package_orders.approve');
         Route::get('/package-orders/reject/{id}', [SubPackageController::class, 'rejectOrder'])->name('package_orders.reject');
 
+         Route::get('/package/orders/{id}', [SubPackageController::class, 'orders'])
+      ->name('admin.package.orders');
+
+
         // Recharge Management Routes
         Route::get('/recharges', [RechargeController::class, 'index'])->name('recharges.pending');
         Route::get('/recharges/approve/{id}', [RechargeController::class, 'approveRecharge'])->name('recharges.approved');
@@ -138,7 +139,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/male/recharges/approve/{id}', [MaleRechargeController::class, 'approveRecharge'])->name('male.recharges.approved');
         Route::get('/male/recharges/reject/{id}', [MaleRechargeController::class, 'rejectRecharge'])->name('male.recharges.rejected');
 
-        
+        // Admin Setup Content
+        Route::get('/app-setup/content', [AppSetupController::class, 'content'])
+            ->name('setup.content');
+        Route::post('/app-setup/content', [AppSetupController::class, 'update'])
+            ->name('setup.content.update');
 
         // status change route
         Route::get(

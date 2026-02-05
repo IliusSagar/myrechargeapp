@@ -14,8 +14,8 @@ class SubPackageController extends Controller
     public function index()
     {
         // Logic to list all sub-packages
-        $packages = Package::all();
-        return view('backend.subpackages.index', compact('packages'));
+        $subpackages = PackageDetail::all();
+        return view('backend.subpackages.index', compact('subpackages'));
     }
 
     public function create()
@@ -128,16 +128,23 @@ class SubPackageController extends Controller
         return view('backend.package_orders.index', compact('packages'));
     }
 
-     public function orders($id)
+    public function orders($id)
 {
-    // Fetch package
-    $package = Package::findOrFail($id);
+    // Fetch package detail
+    $packageDetail = DB::table('package_details')->where('id', $id)->firstOrFail();
 
-    // Fetch related orders
-    $subpackages = PackageDetail::where('package_id', $id)->latest()->get();
+    // Fetch parent package
+    $package = DB::table('packages')->where('id', $packageDetail->package_id)->firstOrFail();
 
-    return view('backend.package_orders.orders', compact('package', 'subpackages'));
+    // Fetch orders related to this package
+    $orders = DB::table('package_orderls')
+                ->where('package_id', $package->id)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+    return view('backend.package_orders.orders', compact('package', 'orders'));
 }
+
 
 
     // approve order method

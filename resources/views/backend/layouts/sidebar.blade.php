@@ -126,7 +126,7 @@
                 <!-- // Male Recharge Management -->
             <li class="nav-item {{ request()->routeIs('admin.male.recharges.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.male.recharges.*') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-mobile-alt text-primary"></i>
+                    <i class="nav-icon fas fa-mobile-alt text-warning"></i>
                     <p>
                         Male Recharge Management
                         <i class="fas fa-angle-left right"></i>
@@ -146,7 +146,34 @@
                     </li>
                 </ul>
 
+    <!-- App Setup Management -->
+            <li class="nav-item {{ request()->routeIs('admin.setup.content.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.setup.content.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-cogs text-info"></i>
 
+                    <p>
+                        App Setup mnagement
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                   @php
+    $appSetupExists = DB::table('app_setups')->where('id', 1)->exists();
+@endphp
+
+@if($appSetupExists)
+<li class="nav-item">
+    <a href="{{ route('admin.setup.content') }}"
+       class="nav-link {{ request()->routeIs('admin.setup.content') ? 'active' : '' }}">
+        <i class="fas fa-edit nav-icon text-info"></i>
+        <p>Content Change</p>
+    </a>
+</li>
+@endif
+
+
+                </ul>
 
 
 

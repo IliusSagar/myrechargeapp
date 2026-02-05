@@ -297,38 +297,11 @@
 
         <h2 class="text-xl font-bold text-gray-800 mb-4">Add Balance</h2>
 
-        <!-- Payment Methods -->
-        <div class="bg-gray-50 rounded-lg p-4 mb-4 border-l-4 border-indigo-500">
-            <h3 class="font-semibold text-gray-800 mb-2">Mobile Financial Services (MFS)</h3>
-            <ul class="list-disc list-inside text-gray-700">
-                <li>bKash account no: 01756351556 (Send money only)</li>
-                <li>Nagad account no: 01756351556 (Send money only)</li>
-                <li>Rocket account no: 01756351556 (Send money only)</li>
-                <li>Upay account no: Off now</li>
-            </ul>
-        </div>
+        @php
+        $appSetup = DB::table('app_setups')->first();
+        @endphp
 
-        <!-- Bank Account Details -->
-        <div class="bg-gray-50 rounded-lg p-4 mb-4 border-l-4 border-green-500">
-            <h3 class="font-semibold text-gray-800 mb-2">Bank Account Details</h3>
-            <ul class="list-disc list-inside text-gray-700 space-y-1">
-                <li>DBBL Account Number: 2381100010503</li>
-                <li>Account Name: Digital Flexiload</li>
-                <li>Branch: Alenga, Kalihati, Tangail</li>
-                <li>Brac Bank Account Number: 1053681080001</li>
-                <li>Account Name: HASEBUL HASAN</li>
-                <li>Branch: Bashundhara Branch, Dhaka</li>
-                <li>Cellfin number: 01705080902</li>
-            </ul>
-        </div>
-
-        <!-- Important Note -->
-        <div class="bg-yellow-100 text-yellow-800 rounded-lg p-4 mb-4 border-l-4 border-yellow-500">
-            <h3 class="font-semibold text-gray-800 mb-1">Important Note (বিঃদ্রঃ)</h3>
-            <p class="text-sm text-gray-800">
-                বাংলা: মেইন ব্যালেন্সটাই শুধু আপনারা ব্যবহার করবেন। মেইন ব্যালেন্স দিয়েই ড্রাইভসহ সকল কিছু ব্যবহার করতে পারবেন।
-            </p>
-        </div>
+         {!! $appSetup->add_balance_content !!}
 
         <!-- Add Balance Form -->
         <form method="POST" action="{{ route('balance.add') }}" enctype="multipart/form-data">
