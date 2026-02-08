@@ -130,4 +130,10 @@ public function changeStatus(Request $request, Transaction $transaction)
     return back()->with('success', 'Transaction status updated successfully!');
 }
 
+ public function balanceHistory()
+    {
+      
+        return view('frontend.balance.history');
+    }
+
 }

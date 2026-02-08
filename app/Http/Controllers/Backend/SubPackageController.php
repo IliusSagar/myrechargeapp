@@ -123,9 +123,8 @@ class SubPackageController extends Controller
     public function packageOrders()
     {
         
-        // $packageOrders = PackageOrderl::with('package')->orderBy('created_at', 'desc')->get();
-        $packages = Package::orderBy('created_at', 'desc')->get();
-        return view('backend.package_orders.index', compact('packages'));
+        $packageOrders = PackageOrderl::with('package')->orderBy('created_at', 'desc')->get();
+        return view('backend.package_orders.index', compact('packageOrders'));
     }
 
      public function orders($id)

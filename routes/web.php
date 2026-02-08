@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AppSetupController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\MaleRechargeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,10 @@ Route::get('/storage-link', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::post('/change-password', [ProfileController::class, 'changePassword'])
+    ->name('password.change')
+    ->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -69,6 +74,9 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
     // packag history 
     Route::get('/package/history', [RechargeController::class, 'packageHistory'])->name('packages.history');
+
+    // balance history 
+    Route::get('/balance/history', [BalanceController::class, 'balanceHistory'])->name('balance.history');
 });
 
 // Admin Auth Routes

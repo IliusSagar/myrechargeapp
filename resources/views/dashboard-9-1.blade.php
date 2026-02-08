@@ -14,19 +14,10 @@
 <body class="bg-gray-100 min-h-screen">
 
     <!-- Navbar -->
-   <nav class="bg-indigo-600 text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-
-        <h1 class="text-xl font-bold">
-            Welcome, {{ Auth::user()->name }}
-        </h1>
-
-        <div class="flex gap-3">
-            <!-- Change Password -->
-            <button onclick="openPasswordModal()"
-                class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-lg font-semibold transition">
-                Change Password
-            </button>
+    <nav class="bg-indigo-600 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <!-- User Welcome -->
+            <h1 class="text-xl font-bold">Welcome, {{ Auth::user()->name }}</h1>
 
             <!-- Logout -->
             <form method="POST" action="{{ route('logout') }}">
@@ -37,69 +28,7 @@
                 </button>
             </form>
         </div>
-
-    </div>
-</nav>
-
-<div id="passwordModal"
-     class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
-
-        <!-- Close -->
-        <button onclick="closePasswordModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">
-            ✕
-        </button>
-
-        <h2 class="text-xl font-bold text-gray-800 mb-4">
-            Change Password
-        </h2>
-
-        <form method="POST" action="{{ route('password.change') }}">
-            @csrf
-
-            <!-- Current Password -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">
-                Current Password
-            </label>
-            <input type="password" name="current_password" required
-                class="w-full border rounded-lg px-3 py-2 mb-4
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-            <!-- New Password -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">
-                New Password
-            </label>
-            <input type="password" name="password" required
-                class="w-full border rounded-lg px-3 py-2 mb-4
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-            <!-- Confirm Password -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">
-                Confirm Password
-            </label>
-            <input type="password" name="password_confirmation" required
-                class="w-full border rounded-lg px-3 py-2 mb-5
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-            <!-- Actions -->
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closePasswordModal()"
-                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
-                    Cancel
-                </button>
-
-                <button type="submit"
-                    class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">
-                    Update Password
-                </button>
-            </div>
-        </form>
-
-    </div>
-</div>
-
+    </nav>
 
     <!-- Main Content -->
     <main class="max-w-5xl mx-auto mt-10 px-4">
@@ -108,42 +37,17 @@
        <!-- // need margin-bottom -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 mb-10">
 
-            <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center gap-4">
-    <!-- Icon -->
-    <div class="bg-indigo-100 text-indigo-600 p-3 rounded-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2m-2-2v4m0 6v2" />
-        </svg>
-    </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <p class="text-gray-500">Current Balance</p>
+                <h3 class="text-2xl font-bold text-gray-800">
+                    <span class="text-sm font-semibold text-gray-500">MVR</span> {{ Auth::user()->account->balance ?? 0 }}
+                </h3>
+            </div>
 
-    <!-- Content -->
-    <div>
-        <p class="text-gray-500 text-sm">Current Balance</p>
-        <h3 class="text-2xl font-bold text-gray-800">
-            <span class="text-sm font-semibold text-gray-500">MVR</span>
-            {{ Auth::user()->account->balance ?? 0 }}
-        </h3>
-    </div>
-</div>
-
-
-        <div class="bg-white rounded-2xl shadow-lg p-6 flex items-center gap-4">
-    <!-- Icon -->
-    <div class="bg-green-100 text-green-600 p-3 rounded-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M12 4v16m8-8H4" />
-        </svg>
-    </div>
-
-    <!-- Content -->
-    <div>
-        <p class="text-gray-500 text-sm">Total Deposit</p>
-        <h3 class="text-2xl font-bold text-gray-800">
-             @php
+            <div class="bg-white rounded-2xl shadow-lg p-6 text-center">
+                <p class="text-gray-500">Total Deposit</p>
+                <h3 class="text-2xl font-bold text-gray-800">
+                    @php
     $authID = auth()->id();
 
     $accountID = DB::table('accounts')
@@ -156,12 +60,12 @@
         ->where('status','approved')
         ->sum('amount');
 @endphp
-            <span class="text-sm font-semibold text-gray-500">MVR</span>
-            {{ $totalDeposit ?? 0 }}
-        </h3>
-    </div>
-</div>
 
+<span class="text-sm font-semibold text-gray-500">MVR</span>
+{{ $totalDeposit ?? 0 }}
+
+                </h3>
+            </div>
 
             
         </div>
@@ -169,7 +73,23 @@
        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
     <!-- Deposit Card -->
-  
+    <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
+        <!-- Icon Circle -->
+        <div class="absolute -top-6 left-6 bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.1 0-2 .9-2 2m0 0c0 1.1.9 2 2 2s2-.9 2-2m-2-2v4m0 6v2m0 0h4m-4 0H8"/>
+            </svg>
+        </div>
+
+        <div class="mt-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Deposit</h2>
+            <p class="text-gray-600 mb-4">Check your deposits and manage your funds.</p>
+        </div>
+        <button onclick="showDepositTable()"
+            class="self-start bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition cursor-pointer">
+            View Deposit
+        </button>
+    </div>
 
     <!-- Add Balance Card -->
     <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
@@ -184,20 +104,10 @@
             <h2 class="text-xl font-bold text-gray-800 mb-2">Add Balance</h2>
             <p class="text-gray-600 mb-4">Add funds to your account quickly and securely.</p>
         </div>
-        
-
-        <div class="flex gap-3">
-    <a onclick="openBalanceModal()"
-            class="bg-green-600 text-white text-sm px-3 py-1.5 rounded-lg font-semibold hover:bg-green-700 transition cursor-pointer">
+        <button onclick="openBalanceModal()"
+            class="self-start bg-green-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition cursor-pointer">
             Add Balance
-</a>
-
-    <!-- Package History Button -->
-    <a href="{{ route('balance.history') }}" 
-       class="bg-emerald-600 text-white text-sm px-3 py-1.5 rounded-lg font-semibold hover:bg-green-700 transition">
-       Deposit History
-    </a>
-</div>
+        </button>
     </div>
 
     <!-- Packages Card -->
@@ -256,7 +166,7 @@
 <div class="flex justify-between gap-4 mt-4">
     <!-- Recharge Now (Left) -->
     <button onclick="openRechargeModal()"
-        class="bg-purple-600 text-white  px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition text-sm">
+        class="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition text-sm">
         Recharge Now
     </button>
 
@@ -686,17 +596,6 @@ function closeMaleRechargeModal() {
     document.getElementById('MalerechargeModal').classList.add('hidden');
 }
 </script>
-
-<script>
-function openPasswordModal() {
-    document.getElementById('passwordModal').classList.remove('hidden');
-}
-
-function closePasswordModal() {
-    document.getElementById('passwordModal').classList.add('hidden');
-}
-</script>
-
 
 
 
