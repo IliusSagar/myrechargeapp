@@ -88,7 +88,7 @@
             <!-- Action Button -->
             <div class="px-5 pb-5">
                 <button type="button"
-                        onclick="openPaymentModal('{{ $subpackage->title }}', {{ $subpackage->offer_price }}, {{ $subpackage->id }})"
+                        onclick="openPaymentModal('{{ $subpackage->title }}', {{ $subpackage->offer_price }}, {{ $subpackage->id  }})"
                         class="w-full py-2.5 rounded-xl text-sm font-semibold text-white
                                bg-gradient-to-r from-indigo-500 to-purple-600
                                hover:from-indigo-600 hover:to-purple-700
@@ -117,8 +117,8 @@
         <!-- Form -->
         <form id="paymentForm" method="POST" action="{{ route('payment.store') }}" class="space-y-4">
             @csrf
-            <input type="hidden" name="package_id" id="modalPackageId">
-            <input type="hidden" name="package_title" id="modalPackageTitle">
+            <input type="text" name="package_id" id="modalPackageId">
+            <input type="text" name="package_title" id="modalPackageTitle">
 
             <label class="block text-sm font-medium text-gray-600 mb-1">Mobile Number</label>
             <input type="tel" name="mobile" placeholder="Enter your mobile number"

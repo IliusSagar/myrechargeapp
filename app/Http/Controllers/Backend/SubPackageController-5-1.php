@@ -95,38 +95,28 @@ class SubPackageController extends Controller
     }
 
     // payStore 
-  public function payStore(Request $request)
+   public function payStore(Request $request)
 {
     $request->validate([
-        'mobile'     => 'required|digits:11',
-        'package_id' => 'required|exists:package_details,id',
+        'mobile' => 'required|string',
+        'amount' => 'required|numeric',
+        'package_id' => 'required|exists:packages,id', // optional validation
     ]);
 
-    $userId = auth()->id();
+    $authID = auth()->id();
+    $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
 
-    // Check account
-    $accountId = DB::table('accounts')->where('user_id', $userId)->value('id');
-    if (!$accountId) {
-        return back()->with('error', 'No account found for this user.');
-    }
-
-
-
-
-    // Create order
     PackageOrderl::create([
-        'user_id'    => $userId,
-        'account_id' => $accountId,
-       'package_id' => $request->package_id, 
-        'number'     => $request->mobile,
-        'amount'     => $request->amount, 
-        'status'     => 'pending',
+        'user_id' => $authID,          // store the authenticated user's ID
+        'account_id' => $accountID,    // store the account ID
+        'package_id' => $request->package_id,
+        'number' => $request->mobile,
+        'amount' => $request->amount,
+        'status' => 'pending',
     ]);
 
-    return back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
+    return redirect()->back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
 }
-
-
 
 
     // package order list method

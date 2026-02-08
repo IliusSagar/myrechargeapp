@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('package_orderls', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('account_id')->constrained()->cascadeOnDelete();
             $table->foreignId('package_id')->constrained()->cascadeOnDelete();
             $table->integer('items')->default(1);
             $table->string('number'); 
