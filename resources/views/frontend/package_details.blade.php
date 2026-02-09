@@ -68,19 +68,19 @@
                 <div class="flex justify-between">
                     <span class="text-gray-500">Amount</span>
                     <span class="font-semibold text-gray-800">
-                        ৳ {{ number_format($subpackage->amount, 2) }}
+                        MVR {{ number_format($subpackage->amount, 2) }}
                     </span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-500">Commission</span>
                     <span class="font-semibold text-indigo-600">
-                        ৳ {{ number_format($subpackage->commission, 2) }}
+                        MVR {{ number_format($subpackage->commission, 2) }}
                     </span>
                 </div>
                 <div class="flex justify-between">
                     <span class="text-gray-500">Offer Price</span>
                     <span class="font-bold text-green-600">
-                        ৳ {{ number_format($subpackage->offer_price, 2) }}
+                        MVR {{ number_format($subpackage->offer_price, 2) }}
                     </span>
                 </div>
             </div>

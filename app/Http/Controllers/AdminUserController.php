@@ -22,10 +22,19 @@ class AdminUserController extends Controller
         return back()->with('success', 'User Approved');
     }
 
+     public function reject($id)
+    {
+        $user = User::findOrFail($id);
+        $user->status = 'rejected';
+        $user->save();
+
+        return back()->with('success', 'User Rejected');
+    }
+
     public function userList()
     {
         // $users = User::where('is_admin', false)->get();
-        $users = User::with('account')->where('is_admin', false)->get();
+        $users = User::with('account')->where('is_admin', false)->latest()->get();
         return view('backend.user.list', compact('users'));
     }
 

@@ -44,7 +44,6 @@
                     <th>Email</th>
                     <th>Balance</th>
                     <th>Status</th>
-                    <th>Action</th>
           
                   
                   </tr>
@@ -67,50 +66,12 @@
                         @if($user->status == 'approved')
                         <span class="badge badge-success">Approved</span>
                         @else($user->status == 'pending')
-                        <span class="badge badge-warning">Pending</span>
+                        <!-- <span class="badge badge-warning">Pending</span> -->
+                        <form method="POST" action="{{ route('admin.users.approve', $user->id) }}" style="display:inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-sm btn-warning" onclick="return confirm('Are you sure you want to approve this user?')">Wait For Approved</button>
+                        </form>
                         @endif
-
-                    </td>
-                      
-                    <td>
-
-              @if ($user->status === 'pending')
-
-    {{-- Approve --}}
-    <form method="POST" action="{{ route('admin.users.approve', $user->id) }}" style="display:inline;">
-        @csrf
-        <button type="submit"
-                class="btn btn-sm btn-success"
-                onclick="return confirm('Are you sure you want to approve this user?')">
-            Approve
-        </button>
-    </form>
-
-    {{-- Reject --}}
-    <form method="POST" action="{{ route('admin.users.reject', $user->id) }}" style="display:inline;">
-        @csrf
-        <button type="submit"
-                class="btn btn-sm btn-danger"
-                onclick="return confirm('Are you sure you want to reject this user?')">
-            Reject
-        </button>
-    </form>
-
-@elseif ($user->status === 'approved')
-
-    {{-- Reject approved user --}}
-    <form method="POST" action="{{ route('admin.users.reject', $user->id) }}" style="display:inline;">
-        @csrf
-        <button type="submit"
-                class="btn btn-sm btn-danger"
-                onclick="return confirm('Are you sure you want to reject this user?')">
-            Reject
-        </button>
-    </form>
-
-@else
-    <span class="badge bg-secondary">No Action</span>
-@endif
 
                     </td>
 

@@ -93,6 +93,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // admin.users.list route is already defined above
         Route::get('/users', [AdminUserController::class, 'userList'])->name('users.list');
         Route::post('/users/{id}/approve', [AdminUserController::class, 'approve'])->name('users.approve');
+        Route::post('/users/{id}/reject', [AdminUserController::class, 'reject'])->name('users.reject');
 
         // Pending Balance Route
         Route::get('/balance/pending', [App\Http\Controllers\BalanceController::class, 'pendingBalance'])->name('balance.pending');
