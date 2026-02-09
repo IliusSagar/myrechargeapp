@@ -117,8 +117,8 @@
         <!-- Form -->
         <form id="paymentForm" method="POST" action="{{ route('payment.store') }}" class="space-y-4">
             @csrf
-            <input type="text" name="package_id" id="modalPackageId">
-            <input type="text" name="package_title" id="modalPackageTitle">
+            <input type="hidden" name="package_id" id="modalPackageId">
+            <input type="hidden" name="package_title" id="modalPackageTitle">
 
             <label class="block text-sm font-medium text-gray-600 mb-1">Mobile Number</label>
             <input type="tel" name="mobile" placeholder="Enter your mobile number"

@@ -95,45 +95,33 @@ class SubPackageController extends Controller
     }
 
     // payStore 
- public function payStore(Request $request)
+  public function payStore(Request $request)
 {
     $request->validate([
         'mobile'     => 'required|digits:11',
         'package_id' => 'required|exists:package_details,id',
-        'amount'     => 'required|numeric|min:1',
     ]);
 
     $userId = auth()->id();
 
-    // Get account
-    $account = DB::table('accounts')->where('user_id', $userId)->first();
-
-    if (! $account) {
+    // Check account
+    $accountId = DB::table('accounts')->where('user_id', $userId)->value('id');
+    if (!$accountId) {
         return back()->with('error', 'No account found for this user.');
     }
 
-    // Balance check
-    if ($account->balance < $request->amount) {
-        return back()->with('error', 'Insufficient balance.');
-    }
 
-    DB::transaction(function () use ($request, $userId, $account) {
 
-        // Create order (IMPORTANT: store the created model)
-        $order = PackageOrderl::create([
-            'user_id'    => $userId,
-            'account_id' => $account->id,
-            'package_id' => $request->package_id,
-            'number'     => $request->mobile,
-            'amount'     => $request->amount,
-            'status'     => 'approved',
-        ]);
 
-        // Deduct balance
-        DB::table('accounts')
-            ->where('id', $account->id)
-            ->decrement('balance', $order->amount);
-    });
+    // Create order
+    PackageOrderl::create([
+        'user_id'    => $userId,
+        'account_id' => $accountId,
+       'package_id' => $request->package_id, 
+        'number'     => $request->mobile,
+        'amount'     => $request->amount, 
+        'status'     => 'pending',
+    ]);
 
     return back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
 }

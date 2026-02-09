@@ -16,35 +16,16 @@ class MaleRechargeController extends Controller
             'amount' => 'required|numeric|min:1',
         ]);
 
-       $userId = auth()->id();
-        $account = DB::table('accounts')
-        ->where('user_id', $userId)
-        ->lockForUpdate()
-        ->first();
-
-    if (! $account) {
-        return back()->with('error', 'No account found.');
-    }
-
-    // ✅ Balance check
-    if ($account->balance < $request->amount) {
-        return back()->with('error', 'Insufficient balance.');
-    }
+       $authID = auth()->id();
+       $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
         
-         DB::transaction(function () use ($request, $account) {
-
         MaleRecharge::create([
-            'account_id' => $account->id,
-            'mobile'     => $request->mobile,
-            'amount'     => $request->amount,
-            'status'     => 'approved',
+            'account_id' => $accountID,
+            'mobile' => $request->input('mobile'),
+            'amount' => $request->input('amount'),
+            'status' => 'pending', // or any other status logic
         ]);
 
-        // ✅ DEDUCT balance
-        DB::table('accounts')
-            ->where('id', $account->id)
-            ->decrement('balance', $request->amount);
-    });
         // Redirect back with a success message
         return redirect()->route('dashboard')->with('success', 'Male Recharge request submitted successfully!');
     }
