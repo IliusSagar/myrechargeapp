@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PackageSuccessfulMail;
 use App\Models\Package;
 use App\Models\PackageDetail;
 use App\Models\PackageOrderl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class SubPackageController extends Controller
 {
@@ -126,14 +128,19 @@ class SubPackageController extends Controller
             'package_id' => $request->package_id,
             'number'     => $request->mobile,
             'amount'     => $request->amount,
-            'status'     => 'approved',
+            'status'     => 'pending',
         ]);
 
         // Deduct balance
         DB::table('accounts')
             ->where('id', $account->id)
             ->decrement('balance', $order->amount);
-    });
+    
+              Mail::to('iliussagar@gmail.com')->send(
+            new PackageSuccessfulMail($request->mobile, $request->amount)
+        );
+
+            });
 
     return back()->with('success', 'Payment initiated successfully. We will process your order shortly.');
 }
@@ -168,10 +175,7 @@ class SubPackageController extends Controller
         $order->status = 'approved';
         $order->save();
 
-        if ($order->account) {
-        $order->account->balance -= $order->amount;
-        $order->account->save();
-    }
+       
 
         return redirect()->back()->with('success', 'Order approved successfully.');
     }

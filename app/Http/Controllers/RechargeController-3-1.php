@@ -6,8 +6,6 @@ use App\Models\PackageOrderl;
 use App\Models\Recharge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\RechargeSuccessfulMail;
 
 class RechargeController extends Controller
 {
@@ -40,17 +38,13 @@ class RechargeController extends Controller
             'account_id' => $account->id,
             'mobile'     => $request->mobile,
             'amount'     => $request->amount,
-            'status'     => 'pending',
+            'status'     => 'approved',
         ]);
 
         // ✅ DEDUCT balance
         DB::table('accounts')
             ->where('id', $account->id)
             ->decrement('balance', $request->amount);
-
-             Mail::to('iliussagar@gmail.com')->send(
-            new RechargeSuccessfulMail($request->mobile, $request->amount)
-        );
     });
 
     return redirect()
@@ -95,7 +89,11 @@ class RechargeController extends Controller
     $recharge->status = 'approved';
     $recharge->save();
 
-   
+    // Update account balance
+    if ($recharge->account) {
+        $recharge->account->balance -= $recharge->amount;
+        $recharge->account->save();
+    }
 
     return redirect()->route('admin.recharges.pending')
                      ->with('success', 'BD Recharge approved successfully.');

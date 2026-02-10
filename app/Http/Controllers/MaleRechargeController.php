@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MaleRechargeSuccessfulMail;
 use App\Models\MaleRecharge;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RechargeSuccessfulMail;
+
 
 class MaleRechargeController extends Controller
 {
@@ -37,14 +41,18 @@ class MaleRechargeController extends Controller
             'account_id' => $account->id,
             'mobile'     => $request->mobile,
             'amount'     => $request->amount,
-            'status'     => 'approved',
+            'status'     => 'pending',
         ]);
 
         // ✅ DEDUCT balance
         DB::table('accounts')
             ->where('id', $account->id)
             ->decrement('balance', $request->amount);
-    });
+
+            Mail::to('iliussagar@gmail.com')->send(
+            new MaleRechargeSuccessfulMail($request->mobile, $request->amount)
+        );
+            });
         // Redirect back with a success message
         return redirect()->route('dashboard')->with('success', 'Male Recharge request submitted successfully!');
     }
@@ -74,11 +82,7 @@ class MaleRechargeController extends Controller
     $recharge->status = 'approved';
     $recharge->save();
 
-    // Update account balance
-    if ($recharge->account) {
-        $recharge->account->balance -= $recharge->amount;
-        $recharge->account->save();
-    }
+   
 
     return redirect()->route('admin.male.recharges.pending')
                      ->with('success', 'Male Recharge approved successfully.');

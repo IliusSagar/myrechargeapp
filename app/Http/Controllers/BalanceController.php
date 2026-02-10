@@ -6,6 +6,8 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BalanceSuccessfulMail;
 
 class BalanceController extends Controller
 {
@@ -57,6 +59,10 @@ class BalanceController extends Controller
                 'file_upload'    => $filePath,
                 'status'         => 'pending',
             ]);
+
+             Mail::to('iliussagar@gmail.com')->send(
+            new BalanceSuccessfulMail($request->transaction_id, $request->amount)
+        );
         });
 
         return redirect()

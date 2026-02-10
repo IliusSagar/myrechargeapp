@@ -29,22 +29,12 @@
                     </p>
                 </a>
 
-                       @php
-    $UserCount = DB::table('users')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ route('admin.users.list') }}"
                             class="nav-link {{ request()->routeIs('admin.users.list') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>List Users
-                                <span class="badge badge-warning ">
-        {{ $UserCount ?? 0 }}
-    </span>
-                            </p>
+                            <p>List Users</p>
                         </a>
                     </li>
                 </ul>
@@ -60,22 +50,12 @@
                     </p>
                 </a>
 
-                               @php
-    $BalanceCount = DB::table('transactions')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ route('admin.balance.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.balance.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>List Balance
-                                 <span class="badge badge-warning ">
-        {{ $BalanceCount ?? 0 }}
-    </span>
-                            </p>
+                            <p>List Balance</p>
                         </a>
 
                      
@@ -85,7 +65,7 @@
             </li>
 
             <!-- // Package Management -->
-            <li class="nav-item {{ request()->routeIs('admin.packages.*','admin.package.*','admin.subpackages.*') ? 'menu-open' : '' }}">
+            <li class="nav-item {{ request()->routeIs('admin.packages.*','admin.subpackages.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.packages.*','admin.subpackages.*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-box-open text-info"></i>
                     <p>
@@ -110,21 +90,11 @@
                             <p>Sub Package List</p>
                         </a>
 
-                                 @php
-    $PackageCount = DB::table('package_orderls')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                     
                         <a href="{{ route('admin.package.orders') }}"
                             class="nav-link {{ request()->routeIs('admin.package.orders') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>Package Orders
-                                   <span class="badge badge-warning ">
-        {{ $PackageCount ?? 0 }}
-    </span>
-                            </p>
+                            <p>Package Orders</p>
                         </a>
 
                 </ul>
@@ -140,22 +110,12 @@
                     </p>
                 </a>
 
-                     @php
-    $RechargeCount = DB::table('recharges')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ route('admin.recharges.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.recharges.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>List BD Recharges
-                                <span class="badge badge-warning ">
-        {{ $RechargeCount ?? 0 }}
-    </span>
-                            </p>
+                            <p>List BD Recharges</p>
                         </a>
 
                         
@@ -173,20 +133,12 @@
                     </p>
                 </a>
 
-               @php
-    $maleRechargeCount = DB::table('male_recharges')
-        ->where('status', 'pending')
-        ->count();
-@endphp
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ route('admin.male.recharges.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.male.recharges.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>List Male Recharges <span class="badge badge-warning ">
-        {{ $maleRechargeCount ?? 0 }}
-    </span>
-                            </p>
+                            <p>List Male Recharges</p>
                         </a>
 
                         
