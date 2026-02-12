@@ -668,7 +668,7 @@
 
 
             <!-- Action Button -->
-            <button onclick="openMobileBankingModal({{ $banking->id }}, {{ $banking->rate }})"
+            <button onclick="openMobileBankingModal({{ $banking->id }}, {{ $banking->charge }})"
                 class="z-10 mt-2 px-5 py-2 bg-orange-600 text-white font-semibold rounded-xl hover:bg-orange-700 transition">
                 Use Service
             </button>
@@ -705,17 +705,7 @@
             action="{{ route('mobile.banking.store') }}">
             @csrf
 
-             <!-- Total Amount Display -->
-            <p class="text-gray-700 mb-4 flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 shadow-sm">
-    <span class="font-medium">BDT Converted:</span>
-    <span id="totalAmount" class="font-bold text-orange-600 text-lg">0</span>
-</p>
-
-            <!-- Hidden Banking ID -->
             <input type="hidden" name="mobile_banking_id" id="mobile_banking_id">
-            <input type="hidden" name="rate_calculation" id="rateCalculationInput">
-
-            
 
             <!-- Mobile Number -->
             <label class="block text-sm font-medium mb-1">
@@ -730,17 +720,15 @@
 
             <!-- Amount -->
             <label class="block text-sm font-medium mb-1">
-                Amount (MVR)
+                Amount
             </label>
             <input type="number"
                 name="amount"
                 id="amountInput"
                 required
                 min="1"
-                class="w-full border rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-orange-500"
+                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-500"
                 placeholder="Enter amount">
-
-           
 
             <!-- Money Status Radio -->
             <label class="block text-sm font-medium mb-2">
@@ -784,7 +772,6 @@
         </form>
     </div>
 </div>
-
 
 
 
@@ -899,8 +886,6 @@ function closePasswordModal() {
 </script>
 
 <script>
-let currentRate = 0; // global rate
-
 function showMobileBankingTable() {
     document.querySelector('main').classList.add('hidden');
     document.getElementById('depositTable').classList.add('hidden');
@@ -914,51 +899,25 @@ function backToDashboard() {
     document.getElementById('packagesTable').classList.add('hidden');
     document.getElementById('mobileBankingTable').classList.add('hidden');
 }
+</script>
 
-function openMobileBankingModal(id, rate) {
-    document.getElementById('mobile_banking_id').value = id;
-    currentRate = rate;
+<script>
+    function closeMobileBankingModal() {
+        document.getElementById('mobileBankingModal').classList.add('hidden');
+    }
 
-    document.getElementById('mobileBankingModal').classList.remove('hidden');
-    document.getElementById('mobileBankingModal').classList.add('flex');
+    function openMobileBankingModal(id) {
+        document.getElementById('mobile_banking_id').value = id;
+        document.getElementById('mobileBankingModal').classList.remove('hidden');
+        document.getElementById('mobileBankingModal').classList.add('flex');
+    }
 
-    // Reset inputs
-    document.getElementById('amountInput').value = '';
-    document.getElementById('totalAmount').innerText = '0';
-}
-
-function closeMobileBankingModal() {
-    let modal = document.getElementById('mobileBankingModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
-
-// Live total calculation
-document.getElementById('amountInput').addEventListener('input', function() {
-    let amount = parseFloat(this.value) || 0;
-    let total = amount * currentRate;
-    document.getElementById('totalAmount').innerText = total.toFixed(2);
-});
-
-// Loading state on submit
-document.getElementById('mobileBankingForm').addEventListener('submit', function () {
-    let btn = document.getElementById('submitBtn');
-    btn.innerText = 'Processing...';
-    btn.disabled = true;
-});
-
-// Live total calculation
-document.getElementById('amountInput').addEventListener('input', function() {
-    let amount = parseFloat(this.value) || 0;
-    let total = amount * currentRate;
-
-    // Show in modal
-    document.getElementById('totalAmount').innerText = total.toFixed(2);
-
-    // Update hidden input for backend
-    document.getElementById('rateCalculationInput').value = total.toFixed(2);
-});
-
+    // Loading state on submit
+    document.getElementById('mobileBankingForm').addEventListener('submit', function () {
+        let btn = document.getElementById('submitBtn');
+        btn.innerText = 'Processing...';
+        btn.disabled = true;
+    });
 </script>
 
 

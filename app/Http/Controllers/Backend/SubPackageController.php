@@ -136,7 +136,7 @@ class SubPackageController extends Controller
             ->where('id', $account->id)
             ->decrement('balance', $order->amount);
     
-              Mail::to('iliussagar@gmail.com')->send(
+              Mail::to('easyxpres9@gmail.com')->send(
             new PackageSuccessfulMail($request->mobile, $request->amount)
         );
 

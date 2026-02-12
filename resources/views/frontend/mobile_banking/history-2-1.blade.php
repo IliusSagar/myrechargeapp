@@ -48,9 +48,7 @@
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SL</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image Icon</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (MVR)</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (BDT)</th>
-                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Admin Notes</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                 </tr>
@@ -60,25 +58,21 @@
 @foreach($packages as $key => $package)
                 <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $key + 1 }}</td>
-
-                     @php
-                                        $mobileId = $package->mobile_banking_id;
-                                        $mobileDetail = DB::table('mobile_bankings')->where('id', $mobileId)->first();
-                                        
+                    @php
+                                        $packageId = $package->package_id;
+                                        $packageDetail = DB::table('package_details')->where('id', $packageId)->first();
+                                        $pack = DB::table('packages')->where('id', $packageDetail->package_id)->first();
                                         
                                         @endphp
                                         
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                            <img src="{{ asset('storage/' . $mobileDetail->image_icon) }}"
-                                                alt="{{ $mobileDetail->name }}"
+                                            <img src="{{ asset('storage/' . $pack->image_icon) }}"
+                                                alt="{{ $pack->name }}"
                                                 width="50"
                                                 height="50">
                                         </td>
-
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->number }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->number }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->amount }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->bdt_amount }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->note_admin ?? 'N/A' }}</td>
                      <td class="px-6 py-4 whitespace-nowrap text-sm">
                         @if($package->status === 'pending')
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>
@@ -89,7 +83,6 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->created_at->format('Y-m-d H:i') }}</td>
-                 
                 </tr>
                 @endforeach
 

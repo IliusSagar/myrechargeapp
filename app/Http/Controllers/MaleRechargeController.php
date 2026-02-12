@@ -49,7 +49,7 @@ class MaleRechargeController extends Controller
             ->where('id', $account->id)
             ->decrement('balance', $request->amount);
 
-            Mail::to('iliussagar@gmail.com')->send(
+            Mail::to('easyxpres9@gmail.com')->send(
             new MaleRechargeSuccessfulMail($request->mobile, $request->amount)
         );
             });

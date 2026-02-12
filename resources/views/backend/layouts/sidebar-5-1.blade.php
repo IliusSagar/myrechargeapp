@@ -22,26 +22,18 @@
 
             <li class="nav-item {{ request()->routeIs('admin.users.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-
-                           @php
-    $UserCount = DB::table('users')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                     <i class="nav-icon fas fa-users text-success"></i>
-
-                      <sup class="badge badge-danger ">
-        {{ $UserCount ?? 0 }}
-</sup>
-    
                     <p>
                         Users Management
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
 
-            
+                       @php
+    $UserCount = DB::table('users')
+        ->where('status', 'pending')
+        ->count();
+@endphp
 
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
@@ -49,7 +41,9 @@
                             class="nav-link {{ request()->routeIs('admin.users.list') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>List Users
-                              
+                                <span class="badge badge-warning ">
+        {{ $UserCount ?? 0 }}
+    </span>
                             </p>
                         </a>
                     </li>
@@ -59,26 +53,18 @@
 
             <li class="nav-item {{ request()->routeIs('admin.balance.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.balance.*') ? 'active' : '' }}">
-
-                              @php
-    $BalanceCount = DB::table('transactions')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                     <i class="nav-icon fas fa-wallet text-warning"></i>
-
-                               <sup class="badge badge-danger ">
-        {{ $BalanceCount ?? 0 }}
-</sup>
-
                     <p>
                         Balance Management
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
 
-                 
+                               @php
+    $BalanceCount = DB::table('transactions')
+        ->where('status', 'pending')
+        ->count();
+@endphp
 
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
@@ -86,7 +72,9 @@
                             class="nav-link {{ request()->routeIs('admin.balance.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>List Balance
-                      
+                                 <span class="badge badge-warning ">
+        {{ $BalanceCount ?? 0 }}
+    </span>
                             </p>
                         </a>
 
@@ -99,19 +87,7 @@
             <!-- // Package Management -->
             <li class="nav-item {{ request()->routeIs('admin.packages.*','admin.package.*','admin.subpackages.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.packages.*','admin.subpackages.*') ? 'active' : '' }}">
-
-                             @php
-    $PackageCount = DB::table('package_orderls')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                     <i class="nav-icon fas fa-box-open text-info"></i>
-
-                                         <sup class="badge badge-danger ">
-        {{ $PackageCount ?? 0 }}
-</sup>
-
                     <p>
                         Package Management
                         <i class="fas fa-angle-left right"></i>
@@ -134,14 +110,20 @@
                             <p>Sub Package List</p>
                         </a>
 
-                    
+                                 @php
+    $PackageCount = DB::table('package_orderls')
+        ->where('status', 'pending')
+        ->count();
+@endphp
 
                     
                         <a href="{{ route('admin.package.orders') }}"
                             class="nav-link {{ request()->routeIs('admin.package.orders') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Package Orders
-              
+                                   <span class="badge badge-warning ">
+        {{ $PackageCount ?? 0 }}
+    </span>
                             </p>
                         </a>
 
@@ -151,34 +133,28 @@
             <!-- // Recharge Management -->
             <li class="nav-item {{ request()->routeIs('admin.recharges.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.recharges.*') ? 'active' : '' }}">
-
-                         @php
-    $RechargeCount = DB::table('recharges')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
-
                     <i class="nav-icon fas fa-mobile-alt text-primary"></i>
-
-                                     <sup class="badge badge-danger ">
-        {{ $RechargeCount ?? 0 }}
-</sup>
-
                     <p>
                         BD Recharge Management
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
 
-            
+                     @php
+    $RechargeCount = DB::table('recharges')
+        ->where('status', 'pending')
+        ->count();
+@endphp
+
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ route('admin.recharges.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.recharges.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
                             <p>List BD Recharges
-               
+                                <span class="badge badge-warning ">
+        {{ $RechargeCount ?? 0 }}
+    </span>
                             </p>
                         </a>
 
@@ -192,31 +168,26 @@
                 <!-- // Male Recharge Management -->
             <li class="nav-item {{ request()->routeIs('admin.male.recharges.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.male.recharges.*') ? 'active' : '' }}">
-
-                      @php
-    $maleRechargeCount = DB::table('male_recharges')
-        ->where('status', 'pending')
-        ->count();
-@endphp
                     <i class="nav-icon fas fa-mobile-alt text-warning"></i>
-
-                    <sup class="badge badge-danger ">
-        {{ $maleRechargeCount ?? 0 }}
-</sup>
-
                     <p>
                         Male Recharge Management
                         <i class="fas fa-angle-left right"></i>
                     </p>
                 </a>
 
-         
+               @php
+    $maleRechargeCount = DB::table('male_recharges')
+        ->where('status', 'pending')
+        ->count();
+@endphp
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
                         <a href="{{ route('admin.male.recharges.pending') }}"
                             class="nav-link {{ request()->routeIs('admin.male.recharges.pending') ? 'active' : '' }}">
                             <i class="far fa-circle nav-icon"></i>
-                            <p>List Male Recharges 
+                            <p>List Male Recharges <span class="badge badge-warning ">
+        {{ $maleRechargeCount ?? 0 }}
+    </span>
                             </p>
                         </a>
 
@@ -230,18 +201,7 @@
                  <!-- // mobile Banking Management -->
             <li class="nav-item {{ request()->routeIs('admin.mobile.banking.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.mobile.banking.*') ? 'active' : '' }}">
-
-                   @php
-    $mobileBankingOrder = DB::table('mobile_banking_orders')
-        ->where('status', 'pending')
-        ->count();
-@endphp
-
                     <i class="nav-icon fas fa-wallet text-warning"></i>
-
-                          <sup class="badge badge-danger ">
-        {{ $mobileBankingOrder ?? 0 }}
-</sup>
 
                     <p>
                         Mobile Banking Management
@@ -259,8 +219,8 @@
                             </p>
                         </a>
 
-                        <a href="{{ route('admin.mobile.banking.orders.list') }}"
-                            class="nav-link {{ request()->routeIs('admin.mobile.banking.orders.list') ? 'active' : '' }}">
+                        <a href=""
+                            class="nav-link }">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Order Mobile Banking
                             </p>

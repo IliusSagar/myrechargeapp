@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\SubPackageController;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\MaleRechargeController;
 use App\Http\Controllers\MobileBankingController;
+use App\Http\Controllers\MobileBankingOrderController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RechargeController;
@@ -78,6 +79,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
      // Mobile Banking Order history 
     Route::get('/mobile/banking/history', [MobileBankingController::class, 'mobileBankingHistory'])->name('mobile.banking.history');
+     Route::post('/mobile/banking/store', [MobileBankingController::class, 'payStore'])->name('mobile.banking.store');
 
     // balance history 
     Route::get('/balance/history', [BalanceController::class, 'balanceHistory'])->name('balance.history');
@@ -122,6 +124,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
             'admin/mobile/banking/status/{id}',
             [MobileBankingController::class, 'changeStatus']
         )->name('mobile.banking.changeStatus');
+
+        // Mobile Banking order Routes
+         Route::get('/mobile/banking/orders/list', [MobileBankingOrderController::class, 'index'])->name('mobile.banking.orders.list');
+         Route::get('/mobile/banking-orders/approve/{id}', [MobileBankingOrderController::class, 'approveOrder'])->name('mobile_banking_orders.approve');
+        Route::get('/mobile/banking-orders/reject/{id}', [MobileBankingOrderController::class, 'rejectOrder'])->name('mobile_banking_orders.reject');
+        Route::put('/admin/mobile-banking-orders/{id}/update-note',
+    [MobileBankingOrderController::class, 'updateNote'])
+    ->name('mobile_banking_orders.update_note');
+
 
         // Package Routes
         Route::get('/packages', [PackageController::class, 'index'])->name('packages.list');

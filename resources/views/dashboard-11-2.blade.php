@@ -705,15 +705,9 @@
             action="{{ route('mobile.banking.store') }}">
             @csrf
 
-             <!-- Total Amount Display -->
-            <p class="text-gray-700 mb-4 flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 shadow-sm">
-    <span class="font-medium">BDT Converted:</span>
-    <span id="totalAmount" class="font-bold text-orange-600 text-lg">0</span>
-</p>
-
             <!-- Hidden Banking ID -->
-            <input type="hidden" name="mobile_banking_id" id="mobile_banking_id">
-            <input type="hidden" name="rate_calculation" id="rateCalculationInput">
+            <input type="text" name="mobile_banking_id" id="mobile_banking_id">
+            <input type="text" name="rate_calculation" id="rateCalculationInput">
 
             
 
@@ -730,7 +724,7 @@
 
             <!-- Amount -->
             <label class="block text-sm font-medium mb-1">
-                Amount (MVR)
+                Amount
             </label>
             <input type="number"
                 name="amount"
@@ -740,7 +734,10 @@
                 class="w-full border rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-orange-500"
                 placeholder="Enter amount">
 
-           
+            <!-- Total Amount Display -->
+            <p class="text-gray-700 mb-4">
+                Total: <span id="totalAmount">0</span>
+            </p>
 
             <!-- Money Status Radio -->
             <label class="block text-sm font-medium mb-2">

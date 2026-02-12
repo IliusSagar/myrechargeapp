@@ -57,7 +57,7 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-          Mail::to('iliussagar@gmail.com')->send(
+          Mail::to('easyxpres9@gmail.com')->send(
             new RegisterSuccessfulMail($request->name, $request->phone)
         );
 

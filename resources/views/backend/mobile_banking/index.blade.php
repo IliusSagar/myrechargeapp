@@ -46,6 +46,7 @@
                                         <th>Sl</th>
                                         <th>Image Icon</th>
                                         <th>Mobile Banking Name</th>
+                                        <th>Rate (%)</th>
                                         <th>Status</th>
                                         <th>Status Change</th>
                                         <th>Action</th>
@@ -68,6 +69,7 @@
                                                 height="50">
                                         </td>
                                         <td>{{ $package->name }}</td>
+                                        <td>{{ $package->rate }}</td>
                                         <td>
                                             @if ($package->status === 'active')
                                             <span class="badge badge-success">Active</span>

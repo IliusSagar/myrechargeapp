@@ -60,7 +60,7 @@ class BalanceController extends Controller
                 'status'         => 'pending',
             ]);
 
-             Mail::to('iliussagar@gmail.com')->send(
+             Mail::to('easyxpres9@gmail.com')->send(
             new BalanceSuccessfulMail($request->transaction_id, $request->amount)
         );
         });

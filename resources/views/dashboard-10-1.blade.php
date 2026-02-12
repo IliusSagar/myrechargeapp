@@ -668,7 +668,7 @@
 
 
             <!-- Action Button -->
-            <button onclick="openMobileBankingModal({{ $banking->id }}, {{ $banking->rate }})"
+            <button onclick="openMobileBankingModal({{ $banking->id }}, {{ $banking->charge }})"
                 class="z-10 mt-2 px-5 py-2 bg-orange-600 text-white font-semibold rounded-xl hover:bg-orange-700 transition">
                 Use Service
             </button>
@@ -688,103 +688,40 @@
 
     <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-xl relative">
 
-        <h2 class="text-xl font-bold mb-4 text-gray-800">
-            Mobile Banking Request
-        </h2>
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Mobile Banking Request</h2>
 
-        <!-- Error Messages -->
-        @if ($errors->any())
-            <div class="mb-4 text-red-600 text-sm bg-red-100 p-3 rounded-lg">
-                @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
-                @endforeach
-            </div>
-        @endif
-
-        <form id="mobileBankingForm" method="POST"
-            action="{{ route('mobile.banking.store') }}">
+        <form id="mobileBankingForm" method="POST" action="">
             @csrf
-
-             <!-- Total Amount Display -->
-            <p class="text-gray-700 mb-4 flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 shadow-sm">
-    <span class="font-medium">BDT Converted:</span>
-    <span id="totalAmount" class="font-bold text-orange-600 text-lg">0</span>
-</p>
-
-            <!-- Hidden Banking ID -->
             <input type="hidden" name="mobile_banking_id" id="mobile_banking_id">
-            <input type="hidden" name="rate_calculation" id="rateCalculationInput">
 
-            
-
-            <!-- Mobile Number -->
-            <label class="block text-sm font-medium mb-1">
-                Mobile Number
-            </label>
-            <input type="text"
-                name="number"
-                maxlength="15"
-                required
-                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-500"
-                placeholder="Enter mobile number">
+            <!-- Account Number -->
+            <label class="block text-sm font-medium mb-1">Mobile Number</label>
+            <input type="text" name="number" required
+                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-500">
 
             <!-- Amount -->
-            <label class="block text-sm font-medium mb-1">
-                Amount (MVR)
-            </label>
-            <input type="number"
-                name="amount"
-                id="amountInput"
-                required
-                min="1"
-                class="w-full border rounded-lg px-3 py-2 mb-2 focus:ring-2 focus:ring-orange-500"
-                placeholder="Enter amount">
+            <label class="block text-sm font-medium mb-1">Amount</label>
+            <input type="number" name="amount" id="amountInput" required min="1"
+                oninput="calculateTotal()"
+                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-500">
 
            
 
-            <!-- Money Status Radio -->
-            <label class="block text-sm font-medium mb-2">
-                Select Account Type
-            </label>
-
-            <div class="flex gap-6 mb-6">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio"
-                        name="money_status"
-                        value="personal"
-                        checked
-                        required
-                        class="text-orange-600 focus:ring-orange-500">
-                    <span class="text-gray-700">Personal</span>
-                </label>
-
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="radio"
-                        name="money_status"
-                        value="agent"
-                        class="text-orange-600 focus:ring-orange-500">
-                    <span class="text-gray-700">Agent</span>
-                </label>
-            </div>
-
-            <!-- Buttons -->
             <div class="flex justify-end gap-3">
                 <button type="button"
                     onclick="closeMobileBankingModal()"
-                    class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
+                    class="px-4 py-2 bg-gray-200 rounded-lg">
                     Cancel
                 </button>
 
                 <button type="submit"
-                    id="submitBtn"
-                    class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition">
+                    class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
                     Confirm
                 </button>
             </div>
         </form>
     </div>
 </div>
-
 
 
 
@@ -899,8 +836,6 @@ function closePasswordModal() {
 </script>
 
 <script>
-let currentRate = 0; // global rate
-
 function showMobileBankingTable() {
     document.querySelector('main').classList.add('hidden');
     document.getElementById('depositTable').classList.add('hidden');
@@ -914,51 +849,36 @@ function backToDashboard() {
     document.getElementById('packagesTable').classList.add('hidden');
     document.getElementById('mobileBankingTable').classList.add('hidden');
 }
+</script>
 
-function openMobileBankingModal(id, rate) {
-    document.getElementById('mobile_banking_id').value = id;
-    currentRate = rate;
+<script>
+    let selectedCharge = 0;
 
-    document.getElementById('mobileBankingModal').classList.remove('hidden');
-    document.getElementById('mobileBankingModal').classList.add('flex');
+    function openMobileBankingModal(id, name, charge) {
+        document.getElementById('mobileBankingModal').classList.remove('hidden');
+        document.getElementById('mobile_banking_id').value = id;
+        selectedCharge = charge;
 
-    // Reset inputs
-    document.getElementById('amountInput').value = '';
-    document.getElementById('totalAmount').innerText = '0';
-}
+        // Set modal title dynamically
+        document.getElementById('mobileBankingModalTitle').innerText = `Mobile Banking Request / ${name}`;
 
-function closeMobileBankingModal() {
-    let modal = document.getElementById('mobileBankingModal');
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-}
+        // Update charge display
+        document.getElementById('chargeDisplay').innerText = charge;
+        calculateTotal();
+    }
 
-// Live total calculation
-document.getElementById('amountInput').addEventListener('input', function() {
-    let amount = parseFloat(this.value) || 0;
-    let total = amount * currentRate;
-    document.getElementById('totalAmount').innerText = total.toFixed(2);
-});
+    function closeMobileBankingModal() {
+        document.getElementById('mobileBankingModal').classList.add('hidden');
+        document.getElementById('mobileBankingForm').reset();
+        document.getElementById('chargeDisplay').innerText = 0;
+        document.getElementById('totalDisplay').innerText = 0;
+    }
 
-// Loading state on submit
-document.getElementById('mobileBankingForm').addEventListener('submit', function () {
-    let btn = document.getElementById('submitBtn');
-    btn.innerText = 'Processing...';
-    btn.disabled = true;
-});
-
-// Live total calculation
-document.getElementById('amountInput').addEventListener('input', function() {
-    let amount = parseFloat(this.value) || 0;
-    let total = amount * currentRate;
-
-    // Show in modal
-    document.getElementById('totalAmount').innerText = total.toFixed(2);
-
-    // Update hidden input for backend
-    document.getElementById('rateCalculationInput').value = total.toFixed(2);
-});
-
+    function calculateTotal() {
+        const amount = parseFloat(document.getElementById('amountInput').value) || 0;
+        const total = amount + (amount * selectedCharge / 100);
+        document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    }
 </script>
 
 

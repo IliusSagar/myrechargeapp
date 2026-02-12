@@ -35,6 +35,12 @@
                                     <label for="name">Mobile Banking Name</label>
                                     <input type="text" name="name" id="name" class="form-control" value="{{ $package->name }}" required>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="rate">Rate (%)</label>
+                                    <input type="text" name="rate" id="rate" class="form-control" value="{{ $package->rate }}" required>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="image_icon">Image</label>
                                     <input type="file" name="image_icon" id="image_icon" class="form-control">
