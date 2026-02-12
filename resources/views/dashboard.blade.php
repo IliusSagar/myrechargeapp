@@ -306,6 +306,45 @@
 
 </div>
 
+<!-- Mobile Banking Card -->
+<div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
+
+    <!-- Icon -->
+    <div class="absolute -top-6 left-6 bg-orange-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 10l9-7 9 7v10a1 1 0 01-1 1h-6v-6H10v6H4a1 1 0 01-1-1V10z" />
+        </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="mt-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">Mobile Banking</h2>
+        <p class="text-gray-600 mb-4">
+            Pay bills, transfer money, and manage your mobile banking services.
+        </p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-between gap-4 mt-4">
+       <a href="javascript:void(0)" 
+   onclick="showMobileBankingTable()" 
+   class="bg-orange-600 text-white text-sm px-3 py-1.5 rounded-lg font-semibold hover:bg-orange-700 transition">
+   View Mobile Banking
+</a>
+
+        <a href="{{ route('mobile.banking.history') }}"
+            class="bg-amber-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-amber-700 transition text-sm">
+            Banking History
+        </a>
+
+        
+    </div>
+
+</div>
+
+
 
 
 
@@ -587,6 +626,106 @@
     </div>
 </div>
 
+<!-- Mobile Banking Table -->
+<!-- Mobile Banking Table -->
+<div id="mobileBankingTable" class="hidden mt-10 max-w-6xl mx-auto">
+
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-xl font-bold text-gray-800">Mobile Banking Services</h2>
+       
+        <button onclick="backToDashboard()"
+            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-xl font-semibold transition">
+            Back
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        @php
+        $mobileBankings = \App\Models\MobileBanking::where('status', 'active')->get();
+        @endphp
+
+        @forelse($mobileBankings as $banking)
+        <div class="relative bg-white rounded-3xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl hover:-translate-y-1 transition transform">
+
+            <!-- Glow Effect -->
+            <div class="absolute -top-10 w-40 h-40 rounded-full bg-gradient-to-tr from-orange-400 via-amber-400 to-yellow-400 blur-2xl opacity-30"></div>
+
+            <!-- Banking Logo -->
+            @if($banking->image_icon)
+            <div class="relative z-10">
+                <img src="{{ asset('storage/'.$banking->image_icon) }}" 
+                     alt="{{ $banking->name }}" 
+                     class="w-28 h-28 object-cover rounded-full mb-4 shadow-lg">
+            </div>
+            @else
+            <div class="relative z-10 w-28 h-28 bg-gray-200 flex items-center justify-center rounded-full mb-4 text-gray-500 shadow-inner">
+                No Logo
+            </div>
+            @endif
+
+            <!-- Info -->
+            <h3 class="text-lg font-bold text-gray-800 mb-2 z-10">{{ $banking->name }}</h3>
+
+
+            <!-- Action Button -->
+            <button onclick="openMobileBankingModal({{ $banking->id }}, {{ $banking->charge }})"
+                class="z-10 mt-2 px-5 py-2 bg-orange-600 text-white font-semibold rounded-xl hover:bg-orange-700 transition">
+                Use Service
+            </button>
+        </div>
+        @empty
+        <p class="col-span-3 text-center text-gray-500 mt-4 text-lg">
+            No mobile banking services available.
+        </p>
+        @endforelse
+
+    </div>
+</div>
+
+<!-- Mobile Banking Modal -->
+<div id="mobileBankingModal"
+    class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
+
+    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-xl relative">
+
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Mobile Banking Request</h2>
+
+        <form id="mobileBankingForm" method="POST" action="">
+            @csrf
+            <input type="hidden" name="mobile_banking_id" id="mobile_banking_id">
+
+            <!-- Account Number -->
+            <label class="block text-sm font-medium mb-1">Mobile Number</label>
+            <input type="text" name="number" required
+                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-500">
+
+            <!-- Amount -->
+            <label class="block text-sm font-medium mb-1">Amount</label>
+            <input type="number" name="amount" id="amountInput" required min="1"
+                oninput="calculateTotal()"
+                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-orange-500">
+
+           
+
+            <div class="flex justify-end gap-3">
+                <button type="button"
+                    onclick="closeMobileBankingModal()"
+                    class="px-4 py-2 bg-gray-200 rounded-lg">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                    class="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
+                    Confirm
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
 
 
     <!-- jQuery -->
@@ -696,6 +835,53 @@ function closePasswordModal() {
     document.getElementById('passwordModal').classList.add('hidden');
 }
 </script>
+
+<script>
+function showMobileBankingTable() {
+    document.querySelector('main').classList.add('hidden');
+    document.getElementById('depositTable').classList.add('hidden');
+    document.getElementById('packagesTable').classList.add('hidden');
+    document.getElementById('mobileBankingTable').classList.remove('hidden');
+}
+
+function backToDashboard() {
+    document.querySelector('main').classList.remove('hidden');
+    document.getElementById('depositTable').classList.add('hidden');
+    document.getElementById('packagesTable').classList.add('hidden');
+    document.getElementById('mobileBankingTable').classList.add('hidden');
+}
+</script>
+
+<script>
+    let selectedCharge = 0;
+
+    function openMobileBankingModal(id, name, charge) {
+        document.getElementById('mobileBankingModal').classList.remove('hidden');
+        document.getElementById('mobile_banking_id').value = id;
+        selectedCharge = charge;
+
+        // Set modal title dynamically
+        document.getElementById('mobileBankingModalTitle').innerText = `Mobile Banking Request / ${name}`;
+
+        // Update charge display
+        document.getElementById('chargeDisplay').innerText = charge;
+        calculateTotal();
+    }
+
+    function closeMobileBankingModal() {
+        document.getElementById('mobileBankingModal').classList.add('hidden');
+        document.getElementById('mobileBankingForm').reset();
+        document.getElementById('chargeDisplay').innerText = 0;
+        document.getElementById('totalDisplay').innerText = 0;
+    }
+
+    function calculateTotal() {
+        const amount = parseFloat(document.getElementById('amountInput').value) || 0;
+        const total = amount + (amount * selectedCharge / 100);
+        document.getElementById('totalDisplay').innerText = total.toFixed(2);
+    }
+</script>
+
 
 
 

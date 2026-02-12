@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\MaleRechargeController;
+use App\Http\Controllers\MobileBankingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RechargeController;
@@ -75,6 +76,9 @@ Route::middleware(['auth', 'approved'])->group(function () {
     // packag history 
     Route::get('/package/history', [RechargeController::class, 'packageHistory'])->name('packages.history');
 
+     // Mobile Banking Order history 
+    Route::get('/mobile/banking/history', [MobileBankingController::class, 'mobileBankingHistory'])->name('mobile.banking.history');
+
     // balance history 
     Route::get('/balance/history', [BalanceController::class, 'balanceHistory'])->name('balance.history');
 });
@@ -106,6 +110,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('/download/{transaction}', [App\Http\Controllers\BalanceController::class, 'downloadFile'])->name('transaction.download');
         Route::post('/balance/status/{transaction}', [App\Http\Controllers\BalanceController::class, 'changeStatus'])->name('balance.changeStatus');
+
+        // Mobile Banking Routes
+        Route::get('/mobile/banking', [MobileBankingController::class, 'index'])->name('mobile.banking.list');
+        Route::get('/mobile/banking/create', [MobileBankingController::class, 'create'])->name('mobile.banking.create');
+         Route::post('/mobile/banking/packages', [MobileBankingController::class, 'store'])->name('mobile.banking.store');
+          Route::get('/mobile/banking/{package}/edit', [MobileBankingController::class, 'edit'])->name('mobile.banking.edit');
+           Route::put('/mobile/banking/{package}', [MobileBankingController::class, 'update'])->name('mobile.banking.update');
+         Route::delete('/mobile/banking/{package}', [MobileBankingController::class, 'destroy'])->name('mobile.banking.destroy');
+          Route::get(
+            'admin/mobile/banking/status/{id}',
+            [MobileBankingController::class, 'changeStatus']
+        )->name('mobile.banking.changeStatus');
 
         // Package Routes
         Route::get('/packages', [PackageController::class, 'index'])->name('packages.list');

@@ -163,6 +163,8 @@
                     </li>
                 </ul>
 
+                </li>
+
                 <!-- // Male Recharge Management -->
             <li class="nav-item {{ request()->routeIs('admin.male.recharges.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.male.recharges.*') ? 'active' : '' }}">
@@ -194,6 +196,41 @@
                     </li>
                 </ul>
 
+                </li>
+
+                 <!-- // mobile Banking Management -->
+            <li class="nav-item {{ request()->routeIs('admin.mobile.banking.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.mobile.banking.*') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-wallet text-warning"></i>
+
+                    <p>
+                        Mobile Banking Management
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+
+             
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.mobile.banking.list') }}"
+                            class="nav-link {{ request()->routeIs('admin.mobile.banking.list') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>List Mobile Banking
+                            </p>
+                        </a>
+
+                        <a href=""
+                            class="nav-link }">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Order Mobile Banking
+                            </p>
+                        </a>
+
+                    </li>
+                </ul>
+
+                </li>
+
     <!-- App Setup Management -->
             <li class="nav-item {{ request()->routeIs('admin.setup.content.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.setup.content.*') ? 'active' : '' }}">
@@ -222,6 +259,8 @@
 
 
                 </ul>
+
+                </li>
 
 
 
