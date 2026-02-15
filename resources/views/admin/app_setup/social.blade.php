@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <h1>
                 <span class="text-danger" style="border-bottom:1px dotted red;">
-                    Content Update
+                    Social Link Update
                 </span>
             </h1>
         </div>
@@ -33,20 +33,26 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form action="{{ route('admin.setup.content.update') }}" method="POST">
+                    <form action="{{ route('admin.setup.social.update') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
-                            <label class="form-label">Add Balance Content</label>
-                            <textarea name="add_balance_content"
-                                      id="add_balance_content"
-                                      class="form-control">
-                                {{ old('add_balance_content', $appSetup->add_balance_content ?? '') }}
-                            </textarea>
+                            <label class="form-label">Facebook</label>
+                               <input type="text" name="facebook" id="facebook" class="form-control" value="{{ $appSetup->facebook }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Youtube</label>
+                               <input type="text" name="youtube" id="youtube" class="form-control" value="{{ $appSetup->youtube }}" required>
+                        </div>
+
+                         <div class="mb-3">
+                            <label class="form-label">Telegram</label>
+                               <input type="text" name="telegram" id="telegram" class="form-control" value="{{ $appSetup->telegram }}" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary">
-                            Update Content
+                            Update Social
                         </button>
                     </form>
 

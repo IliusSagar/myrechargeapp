@@ -181,6 +181,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/app-setup/content', [AppSetupController::class, 'update'])
             ->name('setup.content.update');
 
+            // Admin Setup Social
+        Route::get('/app-setup/social', [AppSetupController::class, 'social'])
+            ->name('setup.social');
+        Route::post('/app-setup/social', [AppSetupController::class, 'updateSocial'])
+            ->name('setup.social.update');
+
         // status change route
         Route::get(
             'admin/sub-packages/status/{id}',

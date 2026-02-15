@@ -23,7 +23,7 @@ class BalanceController extends Controller
         $request->validate([
             'amount' => 'required|numeric|min:1',
             'transaction_id' => 'required|string|unique:transactions,transaction_id',
-            'file_upload' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // max 2MB
+            'file_upload' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // max 2MB
         ]);
 
         $user = auth()->user();

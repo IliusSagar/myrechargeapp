@@ -450,7 +450,7 @@
                 class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500">
 
             <!-- File Upload -->
-            <label class="block text-sm font-medium text-gray-600 mb-1">Payment Proof (Screenshot / PDF)</label>
+            <label class="block text-sm font-medium text-gray-600 mb-1">Payment Proof (Screenshot)</label>
             <input type="file" name="file_upload" required accept="image/*,.pdf"
                 class="w-full border rounded-lg px-3 py-2 mb-5 file:bg-green-600 file:text-white file:px-4 file:py-2 file:rounded-lg file:border-0 file:cursor-pointer">
 

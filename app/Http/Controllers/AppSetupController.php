@@ -29,4 +29,29 @@ class AppSetupController extends Controller
             ->route('admin.setup.content')
             ->with('success', 'App content updated successfully.');
     }
+
+      public function social()
+    {
+        $appSetup = DB::table('app_setups')->where('id', 1)->first();
+
+        return view('admin.app_setup.social', compact('appSetup'));
+    }
+
+     public function updateSocial(Request $request)
+    {
+       
+
+        DB::table('app_setups')->updateOrInsert(
+            ['id' => 1],
+            [
+                'facebook'        => $request->facebook,
+                'youtube'        => $request->youtube,
+                'telegram'        => $request->telegram
+            ]
+        );
+
+        return redirect()
+            ->route('admin.setup.social')
+            ->with('success', 'App Social updated successfully.');
+    }
 }

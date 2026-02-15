@@ -272,8 +272,8 @@
                 </li>
 
     <!-- App Setup Management -->
-            <li class="nav-item {{ request()->routeIs('admin.setup.content.*') ? 'menu-open' : '' }}">
-                <a href="#" class="nav-link {{ request()->routeIs('admin.setup.content.*') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('admin.setup.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.setup.*') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cogs text-info"></i>
 
                     <p>
@@ -293,6 +293,14 @@
        class="nav-link {{ request()->routeIs('admin.setup.content') ? 'active' : '' }}">
         <i class="fas fa-edit nav-icon text-info"></i>
         <p>Content Change</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.setup.social') }}"
+       class="nav-link {{ request()->routeIs('admin.setup.social') ? 'active' : '' }}">
+        <i class="fas fa-edit nav-icon text-info"></i>
+        <p>Social Link Update</p>
     </a>
 </li>
 @endif

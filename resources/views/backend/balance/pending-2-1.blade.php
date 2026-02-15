@@ -42,7 +42,7 @@
                                         <th>Account Number</th>
                                         <th>Amount</th>
                                         <th>Transaction ID</th>
-                                        <th>Screenshot View</th>
+                                        <th>File Upload</th>
                                         <th>Status</th>
                                         <th>Action</th>
 
@@ -59,37 +59,15 @@
                                         <td>{{ $transaction->account->account_number ?? 'N/A' }}</td>
                                         <td>{{ $transaction->amount }}</td>
                                         <td>{{ $transaction->transaction_id }}</td>
-                             <td>
-@if($transaction->file_upload)
-    <!-- Button to Open Modal -->
-    <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#screenshotModal{{ $transaction->id }}">
-        View
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="screenshotModal{{ $transaction->id }}" tabindex="-1" role="dialog" aria-labelledby="screenshotModalLabel{{ $transaction->id }}" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="screenshotModalLabel{{ $transaction->id }}">Transaction Screenshot</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body text-center">
-            <img src="{{ asset('storage/' . $transaction->file_upload) }}" class="img-fluid rounded" alt="Screenshot">
-          </div>
-        </div>
-      </div>
-    </div>
-@else
-    <span class="text-muted">No Image</span>
-@endif
-</td>
-
-
-
-                            
+                                        <td>
+                                            @if($transaction->file_upload)
+                                            <a href="{{ route('admin.transaction.download', $transaction->id) }}" class="text-blue-600 hover:underline">
+                                                Download File
+                                            </a>
+                                            @else
+                                            N/A
+                                            @endif
+                                        </td>
 
                                         <td class="badge bg-warning">{{ ucfirst($transaction->status) }}
                                             
