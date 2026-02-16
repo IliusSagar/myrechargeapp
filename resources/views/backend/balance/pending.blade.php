@@ -100,6 +100,7 @@
 
             @if ($transaction->status === 'pending')
         <a href="{{ route('admin.balance.approved', $transaction->id) }}" class="btn btn-sm btn-success">Approve</a>
+        <a href="{{ route('admin.balance.rejected', $transaction->id) }}" class="btn btn-sm btn-danger">Reject</a>
         @elseif ($transaction->status == 'approved')
         <a href="{{ route('admin.balance.rejected', $transaction->id) }}" class="btn btn-sm btn-danger">Reject</a>
     @else

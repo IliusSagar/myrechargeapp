@@ -47,6 +47,7 @@
                 <tr>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">SL</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image Icon</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Money Status</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (MVR)</th>
                   <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (BDT)</th>
@@ -75,6 +76,7 @@
                                                 height="50">
                                         </td>
 
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->money_status }}</td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->number }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->amount }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->bdt_amount }}</td>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AppSetupController;
+use App\Http\Controllers\Backend\BankNameController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
 use App\Http\Controllers\BalanceController;
@@ -124,6 +125,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
             'admin/mobile/banking/status/{id}',
             [MobileBankingController::class, 'changeStatus']
         )->name('mobile.banking.changeStatus');
+
+        // Bank Name Routes
+        Route::get('/bank/name', [BankNameController::class, 'index'])->name('ibanking.list');
+        Route::get('/bank/name/create', [BankNameController::class, 'create'])->name('ibanking.create');
+        Route::post('/bank/name/store', [BankNameController::class, 'store'])->name('ibanking.store');
+        Route::delete('/bank/name/{package}', [BankNameController::class, 'destroy'])->name('iBanking.destroy');
+        Route::get('/bank/name/{package}/edit', [BankNameController::class, 'edit'])->name('ibanking.edit');
+         Route::put('/bank/name/{package}', [BankNameController::class, 'update'])->name('ibanking.update');
+         Route::get(
+            'admin/bank/name/status/{id}',
+            [BankNameController::class, 'changeStatus']
+        )->name('iBanking.changeStatus');
 
         // Mobile Banking order Routes
          Route::get('/mobile/banking/orders/list', [MobileBankingOrderController::class, 'index'])->name('mobile.banking.orders.list');

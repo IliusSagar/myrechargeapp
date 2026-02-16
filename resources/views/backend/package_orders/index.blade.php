@@ -103,6 +103,7 @@
                                         <td>
                                             @if($order->status == 'pending')
                                                 <a href="{{ route('admin.package_orders.approve', $order->id) }}" class="btn btn-success btn-sm">Approve</a>
+                                                <a href="{{ route('admin.package_orders.reject', $order->id) }}" class="btn btn-danger btn-sm">Reject</a>
                                             @elseif($order->status == 'approved')
                                                 <a href="{{ route('admin.package_orders.reject', $order->id) }}" class="btn btn-danger btn-sm">Reject</a>
                                             @else

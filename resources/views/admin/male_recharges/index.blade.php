@@ -70,6 +70,7 @@
                                          
     @if ($recharge->status === 'pending')
         <a href="{{ route('admin.male.recharges.approved', $recharge->id) }}" class="btn btn-sm btn-success">Approve</a>
+        <a href="{{ route('admin.male.recharges.rejected', $recharge->id) }}" class="btn btn-sm btn-danger">Reject</a>
         @elseif ($recharge->status == 'approved')
         <a href="{{ route('admin.male.recharges.rejected', $recharge->id) }}" class="btn btn-sm btn-danger">Reject</a>
     @else

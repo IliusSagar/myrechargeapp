@@ -42,6 +42,7 @@
                                         <th>Icon</th>
                                         <th>User</th>
                                         <th>Mobile Banking</th>
+                                        <th>Money Status</th>
                                         <th>Mobile Number</th>
                                         <th>Amount (MVR)</th>
                                         <th>Amount (BDT)</th>
@@ -86,6 +87,7 @@
 <td>{{ $user->name ?? 'N/A' }}</td>
 
                                         <td>{{ $order->mobile->name }}</td>
+                                        <td>{{ $order->money_status }}</td>
 
                                             <td>{{ $order->number }}</td>
                                         <td>{{ $order->amount }}</td>
@@ -164,6 +166,7 @@
                                         <td>
                                             @if($order->status == 'pending')
                                                 <a href="{{ route('admin.mobile_banking_orders.approve', $order->id) }}" class="btn btn-success btn-sm">Approve</a>
+                                                <a href="{{ route('admin.mobile_banking_orders.reject', $order->id) }}" class="btn btn-danger btn-sm">Reject</a>
                                             @elseif($order->status == 'approved')
                                                 <a href="{{ route('admin.mobile_banking_orders.reject', $order->id) }}" class="btn btn-danger btn-sm">Reject</a>
                                             @else

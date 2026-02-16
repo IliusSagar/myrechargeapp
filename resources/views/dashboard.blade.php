@@ -345,6 +345,45 @@
 </div>
 
 
+<!-- iBanking Card -->
+<div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col justify-between hover:shadow-xl transition relative">
+
+    <!-- Icon -->
+    <div class="absolute -top-6 left-6 bg-indigo-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 10l9-7 9 7v10a1 1 0 01-1 1h-6v-6H10v6H4a1 1 0 01-1-1V10z" />
+        </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="mt-6">
+        <h2 class="text-xl font-bold text-gray-800 mb-2">iBanking</h2>
+        <p class="text-gray-600 mb-4">
+            Secure online banking services and transactions.
+        </p>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-between gap-4 mt-4">
+        <button onclick="openIBankingModal()"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition text-sm">
+            View iBanking
+        </button>
+
+        <a href=""
+            class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition text-sm">
+            iBanking History
+        </a>
+    </div>
+
+</div>
+
+@include('frontend.popup.iBanking')
+
+
+
 
 
 
@@ -784,7 +823,6 @@
         </form>
     </div>
 </div>
-
 
 
 

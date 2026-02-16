@@ -271,6 +271,42 @@
 
                 </li>
 
+                 <!-- // iBanking Management -->
+            <li class="nav-item {{ request()->routeIs('admin.ibanking.*') ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ request()->routeIs('admin.ibanking.*') ? 'active' : '' }}">
+
+               
+                  <i class="nav-icon fas fa-university text-success"></i>
+
+
+                    <p>
+                        iBanking Management
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+
+             
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.ibanking.list') }}"
+                            class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>List Bank
+                            </p>
+                        </a>
+
+                        <a href=""
+                            class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Order iBanking
+                            </p>
+                        </a>
+
+                    </li>
+                </ul>
+
+                </li>
+
     <!-- App Setup Management -->
             <li class="nav-item {{ request()->routeIs('admin.setup.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.setup.*') ? 'active' : '' }}">
