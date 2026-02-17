@@ -14,7 +14,7 @@
             iBanking Service
         </h2>
 
-        <form method="POST" action="{{ route('ibanking.add') }}">
+        <form method="POST" action="">
             @csrf
 
              @php
@@ -56,6 +56,7 @@
             </label>
             <input type="number"
                 name="amount"
+                id="amountInput1"
                 required
                 min="1"
                 class="w-full border rounded-lg px-3 py-2 mb-6 focus:ring-2 focus:ring-indigo-500"

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MobileBankingSuccessfulMail;
 use App\Models\MobileBanking;
 use App\Models\MobileBankingOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class MobileBankingController extends Controller
 {
@@ -150,7 +152,9 @@ class MobileBankingController extends Controller
             ->where('id', $account->id)
             ->decrement('balance', $order->amount);
     
-          
+              Mail::to('easyxpres9@gmail.com')->send(
+            new MobileBankingSuccessfulMail($request->number, $request->amount)
+        );
 
             });
 

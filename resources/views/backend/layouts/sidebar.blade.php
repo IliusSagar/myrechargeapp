@@ -275,8 +275,17 @@
             <li class="nav-item {{ request()->routeIs('admin.ibanking.*') ? 'menu-open' : '' }}">
                 <a href="#" class="nav-link {{ request()->routeIs('admin.ibanking.*') ? 'active' : '' }}">
 
-               
+                  @php
+    $iBank = DB::table('ibanking_orders')
+        ->where('status', 'pending')
+        ->count();
+@endphp
+
                   <i class="nav-icon fas fa-university text-success"></i>
+
+                              <sup class="badge badge-danger ">
+        {{ $iBank ?? 0 }}
+</sup>
 
 
                     <p>
@@ -295,7 +304,7 @@
                             </p>
                         </a>
 
-                        <a href=""
+                        <a href="{{ route('admin.ibanking.orders.list') }}"
                             class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Order iBanking

@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\BankNameController;
 use App\Http\Controllers\Backend\PackageController;
 use App\Http\Controllers\Backend\SubPackageController;
 use App\Http\Controllers\BalanceController;
+use App\Http\Controllers\Frontend\IbankingOrderController;
 use App\Http\Controllers\MaleRechargeController;
 use App\Http\Controllers\MobileBankingController;
 use App\Http\Controllers\MobileBankingOrderController;
@@ -61,6 +62,10 @@ Route::middleware(['auth', 'approved'])->group(function () {
     // Balance Add Routes
     Route::get('/balance/add', [App\Http\Controllers\BalanceController::class, 'showAddForm'])->name('balance.add.form');
     Route::post('/balance/add', [App\Http\Controllers\BalanceController::class, 'addBalance'])->name('balance.add');
+
+    // iBanking Order Routes
+    Route::post('/ibanking/add', [IbankingOrderController::class, 'addiBanking'])->name('ibanking.add');
+    Route::get('/ibanking/history', [IbankingOrderController::class, 'iBankingHistory'])->name('ibanking.history');
 
     // package show sub-packages route
     Route::get('/packages/{package}/sub-packages', [SubPackageController::class, 'showSubPackages'])->name('package.show');
@@ -138,6 +143,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             [BankNameController::class, 'changeStatus']
         )->name('iBanking.changeStatus');
 
+        // iBanking Order Routes
+         Route::get('/ibanking/orders/list', [IbankingOrderController::class, 'iBankingOrder'])->name('ibanking.orders.list');
+          Route::get('/ibanking-orders/approve/{id}', [IbankingOrderController::class, 'approveOrder'])->name('ibanking_orders.approve');
+        Route::get('/ibanking-orders/reject/{id}', [IbankingOrderController::class, 'rejectOrder'])->name('ibanking_orders.reject');
+          Route::put('/ibanking-orders/{id}/upload-slip', 
+        [IbankingOrderController::class, 'uploadSlip']
+    )->name('ibanking_orders.upload_slip');
+
         // Mobile Banking order Routes
          Route::get('/mobile/banking/orders/list', [MobileBankingOrderController::class, 'index'])->name('mobile.banking.orders.list');
          Route::get('/mobile/banking-orders/approve/{id}', [MobileBankingOrderController::class, 'approveOrder'])->name('mobile_banking_orders.approve');
@@ -145,6 +158,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/admin/mobile-banking-orders/{id}/update-note',
     [MobileBankingOrderController::class, 'updateNote'])
     ->name('mobile_banking_orders.update_note');
+  
 
 
         // Package Routes

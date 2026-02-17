@@ -372,7 +372,7 @@
             View iBanking
         </button>
 
-        <a href="{{ route('ibanking.history') }}"
+        <a href=""
             class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700 transition text-sm">
             iBanking History
         </a>

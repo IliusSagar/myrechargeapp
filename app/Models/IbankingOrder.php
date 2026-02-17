@@ -15,4 +15,15 @@ class IbankingOrder extends Model
     'bdt_amount',
     'status',
 ];
+
+ public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(BankName::class, 'bank_name_id');
+    }
+    
 }
