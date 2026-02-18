@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Models\BankName;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BankNameController extends Controller
 {
@@ -85,5 +86,29 @@ class BankNameController extends Controller
         return redirect()
             ->route('admin.ibanking.list')
             ->with('success', 'Bank Name deleted successfully');
+    }
+
+    // iBanking Rate
+     public function rate()
+    {
+        $appSetup = DB::table('ibanking_rates')->where('id', 1)->first();
+
+        return view('backend.ibanking.rate', compact('appSetup'));
+    }
+
+      public function updateRate(Request $request)
+    {
+       
+
+        DB::table('ibanking_rates')->updateOrInsert(
+            ['id' => 1],
+            [
+                'rate'        => $request->rate
+            ]
+        );
+
+        return redirect()
+            ->route('admin.ibanking.rate')
+            ->with('success', 'iBanking Rate updated successfully.');
     }
 }

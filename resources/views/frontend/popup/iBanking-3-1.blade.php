@@ -17,25 +17,11 @@
         <form method="POST" action="{{ route('ibanking.add') }}">
             @csrf
 
-            @php
-            $rateValue = DB::table('ibanking_rates')
-                            ->where('status', 'active')
-                            ->value('rate') ?? 0;
+             @php
+              $bankNames = DB::table('bank_names')->get();
+                @endphp
 
-            $bankNames = DB::table('bank_names')->get();
-            @endphp
-
-            <!-- Converted Amount Show -->
-            <p class="text-gray-700 mb-4 flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 shadow-sm">
-                <!-- <span class="font-medium">BDT Converted (Rate: {{ $rateValue }}):</span> -->
-                <span class="font-medium">BDT Converted :</span>
-                <span id="convertAmount" class="font-bold text-orange-600 text-lg">0</span>
-            </p>
-
-            <!-- Hidden BDT Field -->
-            <input type="hidden" name="bdt_amount" id="bdt_amount">
-
-            <!-- Bank Name -->
+                 <!-- Bank Name -->
             <label class="block text-sm font-medium mb-1">
                 Select Bank
             </label>
@@ -60,16 +46,18 @@
                 class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-indigo-500"
                 placeholder="Enter account number">
 
+                
+
+            
+
             <!-- Amount -->
             <label class="block text-sm font-medium mb-1">
                 Amount (MVR)
             </label>
             <input type="number"
                 name="amount"
-                id="amount"
                 required
                 min="1"
-                step="0.01"
                 class="w-full border rounded-lg px-3 py-2 mb-6 focus:ring-2 focus:ring-indigo-500"
                 placeholder="Enter amount">
 
@@ -93,28 +81,23 @@
 </div>
 
 
+
 <script>
-    const rateValue = {{ $rateValue }};
-
-    document.getElementById('amount').addEventListener('input', function () {
-
-        let amount = parseFloat(this.value) || 0;
-
-        let converted = amount * rateValue;
-
-        document.getElementById('convertAmount').innerText = converted.toFixed(2);
-
-        document.getElementById('bdt_amount').value = converted.toFixed(2);
-    });
-
     function openIBankingModal() {
-        document.getElementById('iBankingModal').classList.remove('hidden');
-        document.getElementById('iBankingModal').classList.add('flex');
-    }
+    document.getElementById('iBankingModal').classList.remove('hidden');
+    document.getElementById('iBankingModal').classList.add('flex');
+}
 
-    function closeIBankingModal() {
-        let modal = document.getElementById('iBankingModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
+function closeIBankingModal() {
+    let modal = document.getElementById('iBankingModal');
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+}
+
 </script>
+
+
+
+
+
+

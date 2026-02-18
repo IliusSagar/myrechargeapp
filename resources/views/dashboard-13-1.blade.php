@@ -144,12 +144,10 @@
             <!-- Marquee Container -->
             <div class="relative w-full overflow-hidden">
 
-                @php
-                $appNote = DB::table('app_setups')->where('id', 1)->first();
-                @endphp
-
                 <div class="whitespace-nowrap animate-marquee text-white font-semibold text-sm md:text-base hover:[animation-play-state:paused]">
-                    {!! $appNote->marquee !!}
+                    🚀 Welcome to your dashboard! Enjoy seamless transactions & fast services. |
+                    💰 Instant deposits & withdrawals available. |
+                    📦 Check out our latest packages now!
                 </div>
 
             </div>

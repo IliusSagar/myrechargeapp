@@ -41,6 +41,7 @@ class IbankingOrderController extends Controller
             'bank_name_id'     => $request->bank_name_id,
             'account_no'     => $request->account_no,
             'amount'     => $request->amount,
+            'bdt_amount'     => $request->bdt_amount,
             'status'     => 'pending',
         ]);
 

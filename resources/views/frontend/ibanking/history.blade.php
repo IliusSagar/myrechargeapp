@@ -50,6 +50,7 @@
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Bank Name</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account Number</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (MVR)</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount (BDT)</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">View Slip</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
@@ -67,6 +68,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $bankName->bank_name ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->account_no }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->amount }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $package->bdt_amount ?? 0 }}</td>
 
                         <!-- View Slip -->
                         <td class="px-6 py-4 whitespace-nowrap text-sm">

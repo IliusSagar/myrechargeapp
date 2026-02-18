@@ -10,6 +10,7 @@ class appSetup extends Model
         'add_balance_content',
         'facebook',
         'youtube',
-        'telegram'
+        'telegram',
+        'marquee'
     ];
 }

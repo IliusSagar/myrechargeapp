@@ -143,6 +143,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
             [BankNameController::class, 'changeStatus']
         )->name('iBanking.changeStatus');
 
+        // iBanking Rate Routes
+         Route::get('/ibanking/rate', [BankNameController::class, 'rate'])
+            ->name('ibanking.rate');
+        Route::post('/ibanking/rate/store', [BankNameController::class, 'updateRate'])
+            ->name('ibanking.update');
+
         // iBanking Order Routes
          Route::get('/ibanking/orders/list', [IbankingOrderController::class, 'iBankingOrder'])->name('ibanking.orders.list');
           Route::get('/ibanking-orders/approve/{id}', [IbankingOrderController::class, 'approveOrder'])->name('ibanking_orders.approve');
@@ -207,6 +213,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('setup.content');
         Route::post('/app-setup/content', [AppSetupController::class, 'update'])
             ->name('setup.content.update');
+        Route::get('/app-setup/notification', [AppSetupController::class, 'notification'])
+            ->name('notification.message');
+        Route::post('/app-setup/notification/update', [AppSetupController::class, 'updateNotification'])
+            ->name('setup.notification.update');
+
+        // change password
+        Route::get('/app-setup/change/password', [AppSetupController::class, 'changePassword'])
+            ->name('change.password');
 
             // Admin Setup Social
         Route::get('/app-setup/social', [AppSetupController::class, 'social'])

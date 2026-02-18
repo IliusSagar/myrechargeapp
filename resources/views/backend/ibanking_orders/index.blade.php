@@ -43,6 +43,7 @@
                                         <th>Bank Name</th>
                                         <th>Account Number</th>
                                         <th>Amount (MVR)</th>
+                                        <th>Amount (BDT)</th>
                                         <th>Screenshot Upload</th>
                                         <th>Status</th>
                                         <th>Ordered At</th>
@@ -70,6 +71,7 @@
 
                                         <td>{{ $order->account_no }}</td>
                                         <td>{{ $order->amount }}</td>
+                                        <td>{{ $order->bdt_amount ?? 0 }}</td>
 
                                         <td>
 

@@ -14,6 +14,20 @@ class AppSetupController extends Controller
         return view('admin.app_setup.content', compact('appSetup'));
     }
 
+      public function notification()
+    {
+        $appSetup = DB::table('app_setups')->where('id', 1)->first();
+
+        return view('admin.app_setup.notification', compact('appSetup'));
+    }
+
+     public function changePassword()
+    {
+        $appSetup = DB::table('admins')->where('id', 1)->first();
+
+        return view('admin.app_setup.change_password', compact('appSetup'));
+    }
+
      public function update(Request $request)
     {
        
@@ -28,6 +42,22 @@ class AppSetupController extends Controller
         return redirect()
             ->route('admin.setup.content')
             ->with('success', 'App content updated successfully.');
+    }
+
+      public function updateNotification(Request $request)
+    {
+       
+
+        DB::table('app_setups')->updateOrInsert(
+            ['id' => 1],
+            [
+                'marquee'        => $request->marquee
+            ]
+        );
+
+        return redirect()
+            ->route('admin.notification.message')
+            ->with('success', 'App Notification updated successfully.');
     }
 
       public function social()

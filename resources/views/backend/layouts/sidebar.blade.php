@@ -296,6 +296,15 @@
 
              
                 <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+    <a href="{{ route('admin.ibanking.rate') }}"
+       class="nav-link {{ request()->routeIs('admin.ibanking.rate') ? 'active' : '' }}">
+          <i class="far fa-circle nav-icon"></i>
+        <p>Update Rate</p>
+    </a>
+</li>
+
                     <li class="nav-item">
                         <a href="{{ route('admin.ibanking.list') }}"
                             class="nav-link">
@@ -346,6 +355,22 @@
        class="nav-link {{ request()->routeIs('admin.setup.social') ? 'active' : '' }}">
         <i class="fas fa-edit nav-icon text-info"></i>
         <p>Social Link Update</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.notification.message') }}"
+       class="nav-link {{ request()->routeIs('admin.notification.message') ? 'active' : '' }}">
+        <i class="fas fa-edit nav-icon text-info"></i>
+        <p>Notification Message Update</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.change.password') }}"
+       class="nav-link {{ request()->routeIs('admin.change.password') ? 'active' : '' }}">
+        <i class="fas fa-edit nav-icon text-info"></i>
+        <p>Change Password</p>
     </a>
 </li>
 @endif
