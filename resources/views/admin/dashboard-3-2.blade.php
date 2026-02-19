@@ -248,122 +248,64 @@
 
       
 
-      <!-- Start New Design Packages -->
+      <!-- Start New Design  -->
 <div class="row mt-4">
 
-  @php
-  $packages = DB::table('packages')
-        ->leftJoin('package_details', 'packages.id', '=', 'package_details.package_id')
-        ->leftJoin('package_orderls', function ($join) {
-            $join->on('package_details.id', '=', 'package_orderls.package_id')
-                 ->where('package_orderls.status', '=', 'approved');
-        })
-        ->where('packages.status', 'active')
-        ->select(
-            'packages.id',
-            'packages.name',
-            'packages.image_icon',
-            DB::raw('COALESCE(SUM(package_orderls.amount),0) as total_amount')
-        )
-        ->groupBy('packages.id', 'packages.name', 'packages.image_icon')
-        ->get();
-  @endphp
-
-   @foreach($packages as $package)
-<div class="col-lg-3 col-md-6 col-12">
-    <div class="card shadow-sm border-0 rounded-lg">
-        <div class="card-body text-center">
-            <img src="{{ asset('storage/' . $package->image_icon) }}" 
-                 alt="{{ $package->name }}" 
-                 class="img-fluid mb-2" 
-                 style="max-height: 50px;">
-
-            <h3 class="font-weight-bold text-success">
-                {{ number_format($package->total_amount, 2) }}
-            </h3>
-
-            <small class="text-muted">MVR</small>
+    <!-- Card 1 -->
+    <div class="col-lg-3 col-md-6 col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="text-muted">Total Income</h5>
+                <h3 class="font-weight-bold text-success">
+                    {{ number_format($totalTransactions ?? 0, 2) }}
+                </h3>
+                <small class="text-muted">MVR</small>
+            </div>
         </div>
     </div>
-</div>
-@endforeach
 
-
-</div>
-
- <!-- End New Design Packages -->
-
- <!-- Start New Design Mobile Banking -->
-<div class="row mt-4">
-
-  @php
-  $mobileBanking = DB::table('mobile_bankings')->get();
-  @endphp
-
-   @foreach($mobileBanking as $mobile)
-   @php
-  $totalMobileBankingOrder = DB::table('mobile_banking_orders')
-        ->where('mobile_banking_id', $mobile->id)
-        ->where('status', 'approved')
-        ->sum('amount');
-   @endphp
-<div class="col-lg-3 col-md-6 col-12">
-    <div class="card shadow-sm border-0 rounded-lg">
-        <div class="card-body text-center">
-            <img src="{{ asset('storage/' . $mobile->image_icon) }}" 
-                 alt="{{ $mobile->name }}" 
-                 class="img-fluid mb-2" 
-                 style="max-height: 50px;">
-
-            <h3 class="font-weight-bold text-success">
-                {{ number_format($totalMobileBankingOrder, 2) }}
-            </h3>
-
-            <small class="text-muted">MVR</small>
+    <!-- Card 2 -->
+    <div class="col-lg-3 col-md-6 col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="text-muted">Total Recharge</h5>
+                <h3 class="font-weight-bold text-primary">
+                    {{ number_format($totalDBRecharges ?? 0, 2) }}
+                </h3>
+                <small class="text-muted">BDT</small>
+            </div>
         </div>
     </div>
-</div>
-@endforeach
 
-
-</div>
-
- <!-- End New Design Mobile Banking -->
-
-  <!-- Start New Design iBanking -->
-<div class="row mt-4">
-
-  @php
-  $bankName = DB::table('bank_names')->get();
-  @endphp
-
-   @foreach($bankName as $bank)
-   @php
-  $totalBankOrder = DB::table('ibanking_orders')
-        ->where('bank_name_id', $bank->id)
-        ->where('status', 'approved')
-        ->sum('amount');
-   @endphp
-<div class="col-lg-3 col-md-6 col-12">
-    <div class="card shadow-sm border-0 rounded-lg">
-        <div class="card-body text-center">
-           <!-- Name  -->
-           <h5 class="font-weight-bold text-dark">{{ $bank->bank_name }}</h5>
-
-            <h3 class="font-weight-bold text-success">
-                {{ number_format($totalBankOrder, 2) }}
-            </h3>
-
-            <small class="text-muted">MVR</small>
+    <!-- Card 3 -->
+    <div class="col-lg-3 col-md-6 col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="text-muted">Mobile Banking</h5>
+                <h3 class="font-weight-bold text-warning">
+                    {{ number_format($totalMobileBankingOrder ?? 0, 2) }}
+                </h3>
+                <small class="text-muted">MVR</small>
+            </div>
         </div>
     </div>
+
+    <!-- Card 4 -->
+    <div class="col-lg-3 col-md-6 col-12">
+        <div class="card shadow-sm border-0">
+            <div class="card-body text-center">
+                <h5 class="text-muted">iBanking</h5>
+                <h3 class="font-weight-bold text-danger">
+                    {{ number_format($totaliBankingOrder ?? 0, 2) }}
+                </h3>
+                <small class="text-muted">MVR</small>
+            </div>
+        </div>
+    </div>
+
 </div>
-@endforeach
 
-
-</div>
-
- <!-- End New Design iBanking -->
+ <!-- End New Design  -->
 
 
      

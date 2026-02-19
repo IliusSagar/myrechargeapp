@@ -28,6 +28,23 @@ class AppSetupController extends Controller
         return view('admin.app_setup.change_password', compact('appSetup'));
     }
 
+    public function updatePassword(REquest $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
+
+        DB::table('admins')->where('id', 1)->update([
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        return redirect()
+            ->route('admin.change.password')
+            ->with('success', 'Password and Email updated successfully.');
+    }
+
      public function update(Request $request)
     {
        

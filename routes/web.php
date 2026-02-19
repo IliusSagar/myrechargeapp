@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminForgotPasswordController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AppSetupController;
@@ -96,6 +97,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    // Forget Password Routes
+    Route::get('admin-forgot-password', [AdminForgotPasswordController::class, 'showForm'])->name('forgot');
+    Route::post('admin-send-otp', [AdminForgotPasswordController::class, 'sendOtp'])->name('send.otp');
+    Route::get('admin-verify-otp', [AdminForgotPasswordController::class, 'verifyForm'])->name('verify.form');
+    Route::post('admin-verify-otp', [AdminForgotPasswordController::class, 'verifyOtp'])->name('verify.otp');
+    Route::get('admin-reset-password', [AdminForgotPasswordController::class, 'resetForm'])->name('reset.form');
+    Route::post('admin-reset-password', [AdminForgotPasswordController::class, 'resetPassword'])->name('reset.password');
+
+
+
+
+
 
     Route::middleware('admin.auth')->group(function () {
         Route::get('/dashboard', function () {
@@ -221,6 +235,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // change password
         Route::get('/app-setup/change/password', [AppSetupController::class, 'changePassword'])
             ->name('change.password');
+        Route::post('/app-setup/change/password/update', [AppSetupController::class, 'updatePassword'])
+            ->name('setup.password.update');
 
             // Admin Setup Social
         Route::get('/app-setup/social', [AppSetupController::class, 'social'])

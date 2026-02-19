@@ -23,13 +23,6 @@
             </div>
         @endif
 
-        <!-- Success -->
-        @if(session('success'))
-            <div class="mb-4 bg-green-100 text-green-700 px-4 py-2 rounded-lg text-sm">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Form -->
         <form method="POST" action="{{ route('admin.login.submit') }}" class="space-y-5">
             @csrf
@@ -54,14 +47,6 @@
                     placeholder="••••••••"
                     class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
                 >
-            </div>
-
-            <!-- Forgot Password -->
-            <div class="flex justify-end">
-                <a href="{{ route('admin.forgot') }}" 
-                   class="text-sm text-indigo-600 hover:text-indigo-800 hover:underline transition duration-200">
-                    Forgot Password?
-                </a>
             </div>
 
             <button 
