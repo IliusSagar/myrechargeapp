@@ -121,6 +121,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/users/{id}/approve', [AdminUserController::class, 'approve'])->name('users.approve');
         Route::post('/users/{id}/reject', [AdminUserController::class, 'reject'])->name('users.reject');
 
+        Route::post('/admin/users/balance/update', [AdminUserController::class, 'updateBalance'])
+    ->name('users.balance.update');
+
         // Pending Balance Route
         Route::get('/balance/pending', [App\Http\Controllers\BalanceController::class, 'pendingBalance'])->name('balance.pending');
         // Approved Balance Route

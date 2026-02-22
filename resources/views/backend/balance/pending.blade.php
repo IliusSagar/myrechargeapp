@@ -43,6 +43,7 @@
                                         <th>Amount</th>
                                         <th>Transaction ID</th>
                                         <th>Screenshot View</th>
+                                        <th>Note</th>
                                         <th>Status</th>
                                         <th>Action</th>
 
@@ -85,6 +86,10 @@
 @else
     <span class="text-muted">No Image</span>
 @endif
+</td>
+
+<td>
+{{ $transaction->note ?? 'N/A' }}
 </td>
 
 

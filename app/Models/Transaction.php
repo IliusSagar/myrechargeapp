@@ -14,6 +14,7 @@ class Transaction extends Model
         'balance_after',
         'note',
         'file_upload',
+        'status',
     ];
 
     public function account()
