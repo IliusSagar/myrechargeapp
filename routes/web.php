@@ -39,6 +39,10 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/app', function () {
+    return view('app_dashboard');
+})->middleware(['auth', 'verified'])->name('app_dashboard');
+
 Route::post('/change-password', [ProfileController::class, 'changePassword'])
     ->name('password.change')
     ->middleware('auth');
