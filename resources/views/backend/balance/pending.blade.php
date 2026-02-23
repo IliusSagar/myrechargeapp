@@ -39,7 +39,7 @@
 
                                         <th>Sl</th>
                                         <th>User Name</th>
-                                        <th>Account Number</th>
+                                        <th>User ID</th>
                                         <th>Amount</th>
                                         <th>Transaction ID</th>
                                         <th>Screenshot View</th>

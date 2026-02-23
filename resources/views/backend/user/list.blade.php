@@ -43,7 +43,7 @@
                         <thead>
                             <tr>
                                 <th>Sl</th>
-                                <th>Account Number</th>
+                                <th>User ID</th>
                                 <th>Name</th>
                                 <th>Phone</th>
                                 <th>Email</th>
@@ -123,8 +123,8 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label>Account Number</label>
-                        <input type="text" name="account_number" id="account_id" class="form-control" placeholder="Enter Account Number" required>
+                        <label>User ID</label>
+                        <input type="text" name="account_number" id="account_id" class="form-control" placeholder="Enter User ID" required>
                     </div>
 
                     <div class="form-group">

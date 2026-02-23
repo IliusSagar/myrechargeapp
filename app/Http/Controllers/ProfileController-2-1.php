@@ -62,11 +62,18 @@ class ProfileController extends Controller
 
      public function changePassword(Request $request)
     {
-       
+        $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'confirmed', 'min:4'],
+        ]);
 
         $user = auth()->user();
 
-        
+        // Check current password
+        if (!Hash::check($request->current_password, $user->password)) {
+            return back()->with('error', 'Current password is incorrect.');
+        }
+
         // name, email, phone update
         $user->name = $request->name;
         $user->email = $request->email;

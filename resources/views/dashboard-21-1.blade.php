@@ -77,57 +77,33 @@
         </button>
 
         <h2 class="text-xl font-bold text-gray-800 mb-4">
-            Change Account
+            Change Password
         </h2>
 
         <form method="POST" action="{{ route('password.change') }}">
             @csrf
 
-             <!-- Name -->
-    <label class="block text-sm font-medium text-gray-600 mb-1">
-        Name
-    </label>
-    <input type="text" 
-           name="name" 
-           value="{{ Auth::user()->name }}" 
-           required
-           class="w-full border rounded-lg px-3 py-2 mb-4
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <!-- Current Password -->
+            <label class="block text-sm font-medium text-gray-600 mb-1">
+                Current Password
+            </label>
+            <input type="password" name="current_password" required
+                class="w-full border rounded-lg px-3 py-2 mb-4
+                       focus:outline-none focus:ring-2 focus:ring-indigo-500">
 
-    <!-- Phone -->
-    <label class="block text-sm font-medium text-gray-600 mb-1">
-        Phone
-    </label>
-    <input type="text" 
-           name="phone" 
-           value="{{ Auth::user()->phone }}" 
-           required
-           class="w-full border rounded-lg px-3 py-2 mb-4
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-    <!-- Email -->
-    <label class="block text-sm font-medium text-gray-600 mb-1">
-        Email
-    </label>
-    <input type="email" 
-           name="email" 
-           value="{{ Auth::user()->email }}" 
-           required
-           class="w-full border rounded-lg px-3 py-2 mb-4
-                  focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-    <!-- Divider -->
-    <hr class="my-4">
-
-           
-
-        
+            <!-- New Password -->
+            <label class="block text-sm font-medium text-gray-600 mb-1">
+                New Password
+            </label>
+            <input type="password" name="password" required
+                class="w-full border rounded-lg px-3 py-2 mb-4
+                       focus:outline-none focus:ring-2 focus:ring-indigo-500">
 
             <!-- Confirm Password -->
             <label class="block text-sm font-medium text-gray-600 mb-1">
-                Change Password
+                Confirm Password
             </label>
-            <input type="password" name="password" 
+            <input type="password" name="password_confirmation" required
                 class="w-full border rounded-lg px-3 py-2 mb-5
                        focus:outline-none focus:ring-2 focus:ring-indigo-500">
 
