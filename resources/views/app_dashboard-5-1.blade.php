@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>easyxpres</title>
+<title>Digital Flexiload UI</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -88,7 +88,7 @@
                 <div class="relative">
                     <button onclick="toggleBalance()" 
                         class="flex items-center gap-2 border-2 border-blue-600 rounded-full px-4 py-1 text-indigo-900 font-bold text-sm">
-                        <span class="bg-blue-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">M</span>
+                        <span class="bg-blue-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">৳</span>
                         My Balance
                     </button>
 
@@ -133,30 +133,6 @@
                     </div>
                     <p class="text-[11px] font-bold text-indigo-900 mt-2">Add Balance</p>
                 </div>
-
-                <!-- Deposit History Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.balance.history') }}" class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-emerald-600 text-white rounded-full shadow hover:bg-green-700 transition">
-            <i class="fas fa-history text-2xl"></i>
-        </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">Deposit History</p>
-    </a>
-</div>
-
-<!-- View Packages Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.package.history') }}" 
-       class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transition">
-            <i class="fas fa-box-open text-2xl"></i>
-        </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">View Packages</p>
-    </a>
-</div>
-
-
-
                 <div class="group cursor-pointer">
                     <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
                         <i class="fas fa-paper-plane text-3xl"></i>
@@ -346,8 +322,6 @@
     toastr.success("User ID copied!");
 }
 </script>
-
-
 
 </body>
 </html>

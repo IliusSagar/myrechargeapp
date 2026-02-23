@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>easyxpres</title>
+<title>Digital Flexiload UI</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -51,7 +51,7 @@
                 class="hidden absolute right-0 mt-2 w-48 bg-gradient-to-b from-blue-50 to-blue-100 border border-blue-300 rounded-lg shadow-lg z-50">
                 <button onclick="openPasswordModal()"
                     class="w-full text-left px-4 py-2 text-blue-800 font-semibold hover:bg-yellow-300 rounded-t-lg transition">
-                    <i class="fas fa-user-circle mr-2"></i> My Account
+                    <i class="fas fa-key mr-2"></i> Change Password
                 </button>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
@@ -88,7 +88,7 @@
                 <div class="relative">
                     <button onclick="toggleBalance()" 
                         class="flex items-center gap-2 border-2 border-blue-600 rounded-full px-4 py-1 text-indigo-900 font-bold text-sm">
-                        <span class="bg-blue-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">M</span>
+                        <span class="bg-blue-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">৳</span>
                         My Balance
                     </button>
 
@@ -133,30 +133,6 @@
                     </div>
                     <p class="text-[11px] font-bold text-indigo-900 mt-2">Add Balance</p>
                 </div>
-
-                <!-- Deposit History Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.balance.history') }}" class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-emerald-600 text-white rounded-full shadow hover:bg-green-700 transition">
-            <i class="fas fa-history text-2xl"></i>
-        </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">Deposit History</p>
-    </a>
-</div>
-
-<!-- View Packages Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.package.history') }}" 
-       class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transition">
-            <i class="fas fa-box-open text-2xl"></i>
-        </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">View Packages</p>
-    </a>
-</div>
-
-
-
                 <div class="group cursor-pointer">
                     <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
                         <i class="fas fa-paper-plane text-3xl"></i>
@@ -233,27 +209,18 @@
 <div id="passwordModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
         <button onclick="closePasswordModal()" class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Change Account</h2>
+        <h2 class="text-xl font-bold text-gray-800 mb-4">Change Password</h2>
         <form method="POST" action="{{ route('password.change') }}">
             @csrf
-
-
-            <label class="block text-sm font-medium text-gray-600 mb-1">Name</label>
-            <input type="text" name="name" value="{{ Auth::user()->name ?? '' }}"  class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-      
-            <label class="block text-sm font-medium text-gray-600 mb-1">Phone</label>
-            <input type="text" name="phone" value="{{ Auth::user()->phone ?? '' }}"  class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-     
-            <label class="block text-sm font-medium text-gray-600 mb-1">Email</label>
-            <input type="email" name="email" value="{{ Auth::user()->email ?? '' }}"  class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-
-            <label class="block text-sm font-medium text-gray-600 mb-1">Change Password</label>
-            <input type="password" name="password"  class="w-full border rounded-lg px-3 py-2 mb-5 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <label class="block text-sm font-medium text-gray-600 mb-1">Current Password</label>
+            <input type="password" name="current_password" required class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <label class="block text-sm font-medium text-gray-600 mb-1">New Password</label>
+            <input type="password" name="password" required class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <label class="block text-sm font-medium text-gray-600 mb-1">Confirm Password</label>
+            <input type="password" name="password_confirmation" required class="w-full border rounded-lg px-3 py-2 mb-5 focus:outline-none focus:ring-2 focus:ring-indigo-500">
             <div class="flex justify-end gap-3">
                 <button type="button" onclick="closePasswordModal()" class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">Cancel</button>
-                <button type="submit" class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">Update Account</button>
+                <button type="submit" class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">Update Password</button>
             </div>
         </form>
     </div>
@@ -346,8 +313,6 @@
     toastr.success("User ID copied!");
 }
 </script>
-
-
 
 </body>
 </html>

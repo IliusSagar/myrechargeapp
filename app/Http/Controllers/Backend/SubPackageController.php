@@ -96,6 +96,14 @@ class SubPackageController extends Controller
         return view('frontend.package_details', compact('package', 'subpackages'));
     }
 
+    public function appShowSubPackages($packageId)
+    {
+
+        $package = Package::findOrFail($packageId);
+        $subpackages = PackageDetail::where('package_id', $packageId)->where('status', 'active')->get();
+        return view('frontend.app_package_details', compact('package', 'subpackages'));
+    }
+
     // payStore 
  public function payStore(Request $request)
 {
@@ -192,5 +200,11 @@ class SubPackageController extends Controller
     }
 
         return redirect()->back()->with('success', 'Order rejected successfully.');
+    }
+
+     public function appPackageHistory()
+    {
+      
+        return view('frontend.package.app_history');
     }
 }

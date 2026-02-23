@@ -74,6 +74,10 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
     // package show sub-packages route
     Route::get('/packages/{package}/sub-packages', [SubPackageController::class, 'showSubPackages'])->name('package.show');
+    Route::get('/app/packages/{package}/sub-packages', [SubPackageController::class, 'appShowSubPackages'])->name('app.package.show');
+
+      Route::get('/app/package/history', [SubPackageController::class, 'appPackageHistory'])->name('app.package.history');
+
     // payment store route
     Route::post('/payment/store', [SubPackageController::class, 'payStore'])->name('payment.store');
 
@@ -94,6 +98,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
     // balance history 
     Route::get('/balance/history', [BalanceController::class, 'balanceHistory'])->name('balance.history');
+    Route::get('/app/balance/history', [BalanceController::class, 'appBalanceHistory'])->name('app.balance.history');
 });
 
 // Admin Auth Routes

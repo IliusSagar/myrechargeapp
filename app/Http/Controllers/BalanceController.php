@@ -142,4 +142,10 @@ public function changeStatus(Request $request, Transaction $transaction)
         return view('frontend.balance.history');
     }
 
+    public function appBalanceHistory()
+    {
+      
+        return view('frontend.balance.app_history');
+    }
+
 }

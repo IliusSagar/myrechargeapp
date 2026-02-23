@@ -140,7 +140,7 @@
 
                 <button type="submit"
                     class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 font-semibold">
-                    Update Password
+                    Update Account
                 </button>
             </div>
         </form>
