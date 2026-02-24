@@ -60,6 +60,54 @@ class IbankingOrderController extends Controller
         ->with('success', 'iBanking successful. Balance deducted.');
 }
 
+ public function appAddiBanking(Request $request)
+{
+    $request->validate([
+        'amount' => 'required|numeric|min:1',
+    ]);
+
+    $userId = auth()->id();
+
+    $account = DB::table('accounts')
+        ->where('user_id', $userId)
+        ->lockForUpdate()
+        ->first();
+
+    if (! $account) {
+        return back()->with('error', 'No account found.');
+    }
+
+    // ✅ Balance check
+    if ($account->balance < $request->amount) {
+        return back()->with('error', 'Insufficient balance.');
+    }
+
+    DB::transaction(function () use ($request, $account) {
+
+        IbankingOrder::create([
+            'account_id' => $account->id,
+            'bank_name_id'     => $request->bank_name_id,
+            'account_no'     => $request->account_no,
+            'amount'     => $request->amount,
+            'bdt_amount'     => $request->bdt_amount,
+            'status'     => 'pending',
+        ]);
+
+        // ✅ DEDUCT balance
+        DB::table('accounts')
+            ->where('id', $account->id)
+            ->decrement('balance', $request->amount);
+
+               Mail::to('easyxpres9@gmail.com')->send(
+            new iBankingSuccessfulMail($request->account_no, $request->amount)
+        );
+    });
+
+    return redirect()
+        ->route('app_dashboard')
+        ->with('success', 'iBanking successful. Balance deducted.');
+}
+
  public function iBankingHistory()
     {
         $authID = auth()->id();
@@ -67,6 +115,15 @@ class IbankingOrderController extends Controller
         // packageorderl data fetch
         $packages = IbankingOrder::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
         return view('frontend.ibanking.history', compact('packages'));
+    }
+
+     public function appiBankingHistory()
+    {
+        $authID = auth()->id();
+        $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+        // packageorderl data fetch
+        $packages = IbankingOrder::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
+        return view('frontend.ibanking.app_history', compact('packages'));
     }
 
      public function iBankingOrder()

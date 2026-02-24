@@ -424,7 +424,7 @@
 
         <a href="{{ route('mobile.banking.history') }}"
             class="bg-amber-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-amber-700 transition text-sm">
-            Banking History
+            Mobile Banking History
         </a>
 
         

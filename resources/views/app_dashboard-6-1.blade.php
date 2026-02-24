@@ -6,13 +6,7 @@
 <title>easyxpres</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
 </head>
 <body class="bg-blue-50">
 
@@ -188,271 +182,34 @@
             </div>
 
             <div class="grid grid-cols-4 gap-y-10 gap-x-2 text-center">
-               
-
-             <div class="group cursor-pointer" onclick="openRechargeModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                        <i class="fas fa-bolt text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">BD Recharge Now</p>
+                <div class="cursor-pointer">
+                    <i class="fas fa-university text-3xl text-blue-500"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight">B banking</p>
                 </div>
-
-
-                <div id="rechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
-
-        <!-- Close Button -->
-        <button onclick="closeRechargeModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
-
-        <h2 class="text-xl font-bold text-gray-800 mb-4">BD Mobile Recharge</h2>
-
-        
-
-        <!-- Recharge Form -->
-       <form method="POST" action="{{ route('app.recharge.submit') }}">
-    @csrf
-
-
-           <!-- Mobile Number -->
-<label class="block text-sm font-medium text-gray-600 mb-1 text-left">Mobile Number</label>
-<input type="text" name="mobile" required placeholder="01XXXXXXXXX"
-    class="w-full border rounded-lg px-3 py-2 mb-4 text-left focus:outline-none focus:ring-2 focus:ring-purple-500">
-
-    
-            <!-- Recharge Amount -->
-<label class="block text-sm font-medium text-gray-600 mb-1 text-left">Amount</label>
-<div class="flex items-stretch border rounded-lg overflow-hidden mb-5">
-    <span class="flex items-center px-3 bg-gray-100 text-gray-600 font-semibold text-left">
-        MVR
-    </span>
-    <input type="number" name="amount" required min="1" placeholder="Enter amount"
-        class="flex-1 px-3 py-2 text-left focus:outline-none focus:ring-2 focus:ring-purple-500">
-</div>
-
-    <!-- Actions -->
-    <div class="flex justify-end gap-3 mt-3">
-        <button type="button" onclick="closeRechargeModal()"
-            class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
-            Cancel
-        </button>
-
-        <button type="submit"
-            class="px-4 py-2 rounded-lg bg-purple-600 text-white hover:bg-purple-700 font-semibold">
-            Confirm Recharge
-        </button>
-    </div>
-</form>
-
-    </div>
-</div>
-
-
-  <!-- Recharge History Button -->
-    <div class="group">
-        <a href="{{ route('app.recharge.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-                <i class="fas fa-history text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2">BD Recharge History</p>
-        </a>
-    </div>
-
-    <div class="group cursor-pointer" onclick="openMaleRechargeModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                       <i class="fas fa-wallet text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">Male Recharge Now</p>
+                <div class="cursor-pointer">
+                    <i class="fas fa-clock-rotate-left text-3xl text-blue-500"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight">History</p>
                 </div>
-
-
-                              <div id="maleRechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
-
-        <!-- Close Button -->
-        <button onclick="closeMaleRechargeModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
-
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Male Mobile Recharge</h2>
-
-        
-
-        <!-- Male Recharge Form -->
-       <form method="POST" action="{{ route('app.male.recharge.submit') }}">
-            @csrf
-
-            <!-- Mobile Number -->
-            <label class="block text-sm font-medium text-gray-600 mb-1 text-left">
-                Mobile Number
-            </label>
-            <input type="text" name="mobile" required placeholder="01XXXXXXXXX"
-                class="w-full border rounded-lg px-3 py-2 mb-4
-                       focus:outline-none focus:ring-2 focus:ring-green-500">
-
-            <!-- Recharge Amount -->
-            <label class="block text-sm font-medium text-gray-600 mb-1 text-left">
-                Amount
-            </label>
-            <div class="flex items-center border rounded-lg overflow-hidden mb-5">
-                <span class="px-3 bg-gray-100 text-gray-600 font-semibold">MVR</span>
-                <input type="number" name="amount" required min="1"
-                    placeholder="Enter amount"
-                    class="w-full px-3 py-2
-                           focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-
-            <!-- Actions -->
-            <div class="flex justify-end gap-3">
-                <button type="button"
-                    onclick="closeMaleRechargeModal()"
-                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">
-                    Cancel
-                </button>
-
-                <button type="submit"
-                    class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 font-semibold">
-                    Confirm Recharge
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-
- <div class="group">
-        <a href="{{ route('app.male.recharge.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-               <i class="fas fa-file-invoice text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2">Male Recharge History</p>
-        </a>
-    </div>
-
-
-     <div class="group">
-        <a href="{{ route('app.mobile.banking.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-               <i class="fas fa-wallet text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2"> Mobile Banking History</p>
-        </a>
-    </div>
-
-     <div class="group cursor-pointer" onclick="openIBankingModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                       <i class="fas fa-mobile-screen-button text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">View iBanking</p>
+                <div class="cursor-pointer">
+                    <i class="fas fa-layer-group text-3xl text-blue-500"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight">Regular pack</p>
                 </div>
-
-
-                <!-- iBanking Modal -->
-<div id="iBankingModal"
-    class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-
-    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-xl relative">
-
-        <!-- Close -->
-        <button onclick="closeIBankingModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">
-            ✕
-        </button>
-
-        <h2 class="text-xl font-bold text-gray-800 mb-4">
-            iBanking Service
-        </h2>
-
-        <form method="POST" action="{{ route('app.ibanking.add') }}">
-            @csrf
-
-            @php
-            $rateValue = DB::table('ibanking_rates')
-                            ->where('status', 'active')
-                            ->value('rate') ?? 0;
-
-            $bankNames = DB::table('bank_names')->get();
-            @endphp
-
-            <!-- Converted Amount Show -->
-            <p class="text-gray-700 mb-4 flex items-center justify-between bg-orange-50 border border-orange-200 rounded-lg px-4 py-2 shadow-sm">
-                <!-- <span class="font-medium">BDT Converted (Rate: {{ $rateValue }}):</span> -->
-                <span class="font-medium">BDT Converted :</span>
-                <span id="convertAmount" class="font-bold text-orange-600 text-lg">0</span>
-            </p>
-
-            <!-- Hidden BDT Field -->
-            <input type="hidden" name="bdt_amount" id="bdt_amount">
-
-            <!-- Bank Name -->
-            <label class="block text-sm font-medium mb-1 text-left">
-                Select Bank
-            </label>
-            <select name="bank_name_id"
-                required
-                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-indigo-500">
-                <option value="">Select Bank</option>
-                @foreach($bankNames as $bank)
-                    <option value="{{ $bank->id }}">
-                        {{ $bank->bank_name }}
-                    </option>
-                @endforeach
-            </select>
-
-            <!-- Account Number -->
-            <label class="block text-sm font-medium mb-1 text-left">
-                Account Number
-            </label>
-            <input type="text"
-                name="account_no"
-                required
-                class="w-full border rounded-lg px-3 py-2 mb-4 focus:ring-2 focus:ring-indigo-500"
-                placeholder="Enter account number">
-
-            <!-- Amount -->
-            <label class="block text-sm font-medium mb-1 text-left">
-                Amount (MVR)
-            </label>
-            <input type="number"
-                name="amount"
-                id="amount"
-                required
-                min="1"
-                step="0.01"
-                class="w-full border rounded-lg px-3 py-2 mb-6 focus:ring-2 focus:ring-indigo-500"
-                placeholder="Enter amount">
-
-            <!-- Buttons -->
-            <div class="flex justify-end gap-3">
-                <button type="button"
-                    onclick="closeIBankingModal()"
-                    class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
-                    Cancel
-                </button>
-
-                <button type="submit"
-                    class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
-                    Confirm
-                </button>
-            </div>
-
-        </form>
-
-    </div>
-</div>
-
- <div class="group">
-        <a href="{{ route('app.ibanking.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-               <i class="fas fa-list-alt text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2">iBanking History</p>
-        </a>
-    </div>
-              
+                <div class="cursor-pointer">
+                    <i class="fas fa-mobile-screen text-3xl text-blue-500"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight">Flexiload</p>
+                </div>
+                <div class="cursor-pointer">
+                    <i class="fas fa-database text-3xl text-blue-500"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight">Drive pack</p>
+                </div>
+                <div class="cursor-pointer">
+                    <i class="fas fa-lightbulb text-3xl text-blue-500"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight">Pay Bill</p>
+                </div>
+                <div class="cursor-pointer">
+                    <i class="fas fa-paper-plane text-3xl text-blue-500 -rotate-12"></i>
+                    <p class="text-[11px] font-bold text-indigo-900 mt-2 leading-tight uppercase">Rocket</p>
+                </div>
             </div>
         </section>
 
@@ -460,7 +217,9 @@
 
     <!-- Footer -->
     <footer class="p-4 flex justify-center gap-12 bg-gray-50 border-t">
-        
+        <div class="w-4 h-4 bg-gray-400 rounded-sm"></div>
+        <div class="w-4 h-4 border-2 border-gray-400 rounded-full"></div>
+        <div class="w-0 h-0 border-y-[8px] border-y-transparent border-r-[12px] border-r-gray-400"></div>
     </footer>
 </main>
 
@@ -504,7 +263,7 @@
             $appSetup = DB::table('app_setups')->first();
         @endphp
         {!! $appSetup->add_balance_content !!}
-        <form method="POST" action="{{ route('app.balance.add') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('balance.add') }}" enctype="multipart/form-data">
             @csrf
             <label class="block text-sm font-medium text-gray-600 mb-1">Amount (MVR)</label>
             <div class="flex items-center border rounded-lg overflow-hidden mb-4">
@@ -571,8 +330,6 @@
         @endforeach
         openBalanceModal();
     @endif
-
-    
 </script>
 
 <!-- user ID Design JS  -->
@@ -583,57 +340,6 @@
     toastr.success("User ID copied!");
 }
 </script>
-
-<!-- BD Recharge JS  -->
-<script>
-    function openRechargeModal() {
-        document.getElementById('rechargeModal').classList.remove('hidden');
-    }
-
-    function closeRechargeModal() {
-        document.getElementById('rechargeModal').classList.add('hidden');
-    }
-</script>
-
-
-<!-- Male Recharge JS  -->
-<script>
-    function openMaleRechargeModal() {
-        document.getElementById('maleRechargeModal').classList.remove('hidden');
-    }
-
-    function closeMaleRechargeModal() {
-        document.getElementById('maleRechargeModal').classList.add('hidden');
-    }
-</script>
-
-<!-- iBanking JS  -->
- <script>
-    const rateValue = {{ $rateValue }};
-
-    document.getElementById('amount').addEventListener('input', function () {
-
-        let amount = parseFloat(this.value) || 0;
-
-        let converted = amount * rateValue;
-
-        document.getElementById('convertAmount').innerText = converted.toFixed(2);
-
-        document.getElementById('bdt_amount').value = converted.toFixed(2);
-    });
-
-    function openIBankingModal() {
-        document.getElementById('iBankingModal').classList.remove('hidden');
-        document.getElementById('iBankingModal').classList.add('flex');
-    }
-
-    function closeIBankingModal() {
-        let modal = document.getElementById('iBankingModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-</script>
-
 
 
 

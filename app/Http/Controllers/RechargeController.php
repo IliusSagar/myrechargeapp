@@ -58,6 +58,52 @@ class RechargeController extends Controller
         ->with('success', 'Recharge successful. Balance deducted.');
 }
 
+ public function appSubmitRecharge(Request $request)
+{
+    $request->validate([
+        'mobile' => 'required|string|max:15',
+        'amount' => 'required|numeric|min:1',
+    ]);
+
+    $userId = auth()->id();
+
+    $account = DB::table('accounts')
+        ->where('user_id', $userId)
+        ->lockForUpdate()
+        ->first();
+
+    if (! $account) {
+        return back()->with('error', 'No account found.');
+    }
+
+    // ✅ Balance check
+    if ($account->balance < $request->amount) {
+        return back()->with('error', 'Insufficient balance.');
+    }
+
+    DB::transaction(function () use ($request, $account) {
+
+        Recharge::create([
+            'account_id' => $account->id,
+            'mobile'     => $request->mobile,
+            'amount'     => $request->amount,
+            'status'     => 'pending',
+        ]);
+
+        // ✅ DEDUCT balance
+        DB::table('accounts')
+            ->where('id', $account->id)
+            ->decrement('balance', $request->amount);
+
+             Mail::to('easyxpres9@gmail.com')->send(
+            new RechargeSuccessfulMail($request->mobile, $request->amount)
+        );
+    });
+
+    return redirect()
+        ->route('app_dashboard')
+        ->with('success', 'Recharge successful. Balance deducted.');
+}
 
 
     public function rechargeHistory()
@@ -70,6 +116,16 @@ class RechargeController extends Controller
         return view('frontend.recharge.history', compact('recharges'));
     }
 
+     public function appRechargeHistory()
+    {
+        $authID = auth()->id();
+        $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+
+        $recharges = Recharge::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
+
+        return view('frontend.recharge.app_history', compact('recharges'));
+    }
+
     public function packageHistory()
     {
        $authID = auth()->id();
@@ -77,6 +133,15 @@ class RechargeController extends Controller
         // packageorderl data fetch
         $packages = PackageOrderl::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
         return view('frontend.package.history', compact('packages'));
+    }
+
+    public function appRechargePackageHistory()
+    {
+       $authID = auth()->id();
+        $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+        // packageorderl data fetch
+        $packages = PackageOrderl::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
+        return view('frontend.package.app_recharge_history', compact('packages'));
     }
 
     // Admin Functions

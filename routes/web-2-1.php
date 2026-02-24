@@ -35,9 +35,13 @@ Route::get('/storage-link', function () {
     return 'Done';
 })->middleware('auth');
 
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
 Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+    return view('app_dashboard');
+})->middleware(['auth', 'verified'])->name('app_dashboard');
 
 Route::get('/app', function () {
     return view('app_dashboard');

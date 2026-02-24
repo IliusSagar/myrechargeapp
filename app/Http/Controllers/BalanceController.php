@@ -70,6 +70,59 @@ class BalanceController extends Controller
             ->with('success', 'Balance added successfully!');
     }
 
+
+     public function appAddBalance(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'transaction_id' => 'required|string|unique:transactions,transaction_id',
+            'file_upload' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // max 2MB
+        ]);
+
+        $user = auth()->user();
+        $account = $user->account;
+
+
+        DB::transaction(function () use ($request, $account) {
+
+            // Optional file upload
+            $filePath = null;
+            if ($request->hasFile('file_upload')) {
+                $filePath = $request->file('file_upload')->store('transactions', 'public');
+            }
+
+            // Update balance
+            $newBalance = $account->balance + $request->amount;
+            // $account->update([
+            //     'balance' => $newBalance,
+            // ]);
+
+            // accounts table account_number need to be changed to id
+
+
+            // Create transaction
+            Transaction::create([
+
+                'account_id' => $account->id,
+                'transaction_id' => $request->transaction_id,
+                'type'           => 'deposit',
+                'amount'         => $request->amount,
+                'balance_after'  => $newBalance,
+                'note'           => 'Balance added by user',
+                'file_upload'    => $filePath,
+                'status'         => 'pending',
+            ]);
+
+             Mail::to('easyxpres9@gmail.com')->send(
+            new BalanceSuccessfulMail($request->transaction_id, $request->amount)
+        );
+        });
+
+        return redirect()
+            ->route('app_dashboard')
+            ->with('success', 'Balance added successfully!');
+    }
+
     // Pending Balance Data
       public function pendingBalance()
 {

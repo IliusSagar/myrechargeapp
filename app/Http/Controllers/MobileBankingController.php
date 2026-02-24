@@ -110,6 +110,15 @@ class MobileBankingController extends Controller
         return view('frontend.mobile_banking.history', compact('packages'));
     }
 
+     public function appMobileBankingHistory()
+    {
+        $authID = auth()->id();
+        $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+        // packageorderl data fetch
+        $packages = MobileBankingOrder::where('account_id', $accountID)->orderBy('created_at', 'desc')->get();
+        return view('frontend.mobile_banking.app_history', compact('packages'));
+    }
+
     public function payStore(Request $request)
     {
         // dd($request->all());
