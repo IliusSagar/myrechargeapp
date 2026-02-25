@@ -102,6 +102,7 @@ Route::middleware(['auth', 'approved'])->group(function () {
 
      // Mobile Banking Order history 
     Route::get('/mobile/banking/history', [MobileBankingController::class, 'mobileBankingHistory'])->name('mobile.banking.history');
+     Route::get('/app/mobile/banking/view', [MobileBankingController::class, 'appMobileBankingView'])->name('app.mobile.banking.view');
     Route::get('/app/mobile/banking/history', [MobileBankingController::class, 'appMobileBankingHistory'])->name('app.mobile.banking.history');
      Route::post('/mobile/banking/store', [MobileBankingController::class, 'payStore'])->name('mobile.banking.store');
 

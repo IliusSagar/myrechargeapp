@@ -173,7 +173,7 @@ class MobileBankingController extends Controller
 
             });
 
-    return redirect()->route('app.mobile.banking.history')->with('success', 'Mobile Banking initiated successfully. We will process your order shortly.');
+    return back()->with('success', 'Mobile Banking initiated successfully. We will process your order shortly.');
         
     }
 }

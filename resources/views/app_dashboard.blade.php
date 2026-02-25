@@ -116,10 +116,7 @@
                             <span class="text-gray-600 font-medium">Current Balance :</span>
                             <span class="text-blue-600 font-bold">{{ Auth::user()->account->balance ?? 0 }}</span>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600 font-medium">Total Deposit:</span>
-                            <span class="text-green-600 font-bold">{{ $totalDeposit ?? 0 }}</span>
-                        </div>
+                      
                         <hr class="my-1 border-gray-200">
                         <p class="text-xs text-gray-500">Updated: {{ now()->format('d M Y H:i') }}</p>
                     </div>
@@ -330,16 +327,29 @@
         </a>
     </div>
 
+   <div class="group">
+    <a href="{{ route('app.mobile.banking.view') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
+           <i class="fas fa-building-columns text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-indigo-900 mt-2">
+            View Mobile Banking
+        </p>
+    </a>
+</div>
 
-     <div class="group">
-        <a href="{{ route('app.mobile.banking.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-               <i class="fas fa-wallet text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2"> Mobile Banking History</p>
-        </a>
-    </div>
+<div class="group">
+    <a href="{{ route('app.mobile.banking.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
+           <i class="fas fa-clock-rotate-left text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-indigo-900 mt-2">
+            Mobile Banking History
+        </p>
+    </a>
+</div>
 
      <div class="group cursor-pointer" onclick="openIBankingModal()">
                     <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
