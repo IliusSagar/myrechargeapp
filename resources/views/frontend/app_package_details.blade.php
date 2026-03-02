@@ -10,16 +10,36 @@
 
 <!-- Toastr CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<style>
+/* Orange Toastr Overrides */
+.toast-success {
+    background-color: #f97316 !important; /* Tailwind orange-500 */
+    color: white !important;
+}
+.toast-error {
+    background-color: #f97316 !important; /* Same orange for error */
+    color: white !important;
+}
+.toast-info {
+    background-color: #fb923c !important; /* lighter orange */
+    color: white !important;
+}
+.toast-warning {
+    background-color: #f59e0b !important; /* yellow-orange */
+    color: white !important;
+}
+</style>
 </head>
-<body class="bg-blue-50 min-h-screen font-sans">
+<body class="bg-orange-50 min-h-screen font-sans">
 
 <!-- ================= NAVBAR ================= -->
-<nav class="bg-indigo-600 text-white shadow-lg sticky top-0 z-10">
+<nav class="bg-orange-600 text-white shadow-lg sticky top-0 z-10">
     <div class="max-w-md mx-auto px-4 py-4 flex justify-between items-center">
         <h1 class="text-lg font-bold">Package Details</h1>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg font-semibold transition shadow">
+            <button class="bg-orange-500 hover:bg-orange-700 px-3 py-1.5 rounded-lg font-semibold transition shadow">
                 Logout
             </button>
         </form>
@@ -29,7 +49,7 @@
 <!-- ================= BACK BUTTON ================= -->
 <div class="max-w-md mx-auto px-4 mt-4">
     <a href="{{ route('app_dashboard') }}"
-       class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 px-3 py-2 rounded-xl font-semibold shadow transition">
+       class="inline-flex items-center gap-2 bg-white hover:bg-orange-100 px-3 py-2 rounded-xl font-semibold shadow transition text-orange-600">
         <i class="fas fa-arrow-left"></i> Back to Dashboard
     </a>
 </div>
@@ -38,17 +58,17 @@
 <main class="max-w-md mx-auto mt-6 space-y-4 pb-8">
 
     @foreach($subpackages as $subpackage)
-    <div class="bg-white shadow-xl rounded-3xl border border-gray-100 transition transform hover:-translate-y-1 hover:shadow-2xl">
+    <div class="bg-white shadow-xl rounded-3xl border border-orange-100 transition transform hover:-translate-y-1 hover:shadow-2xl">
 
         <!-- Header -->
-        <div class="flex items-center gap-4 p-5 border-b">
+        <div class="flex items-center gap-4 p-5 border-b border-orange-200">
             @if($subpackage->package?->image_icon)
-            <div class="w-14 h-14 bg-indigo-50 rounded-xl flex items-center justify-center shadow-inner">
+            <div class="w-14 h-14 bg-orange-50 rounded-xl flex items-center justify-center shadow-inner">
                 <img src="{{ asset('storage/'.$subpackage->package->image_icon) }}" class="w-10 h-10 object-contain" alt="Package Icon">
             </div>
             @endif
             <div>
-                <h4 class="text-lg font-bold text-gray-800">
+                <h4 class="text-lg font-bold text-orange-900">
                     {{ $subpackage->title }}
                 </h4>
             </div>
@@ -57,16 +77,16 @@
         <!-- Body -->
         <div class="p-5 space-y-3 text-sm">
             <div class="flex justify-between">
-                <span class="text-gray-500">Amount</span>
-                <span class="font-semibold text-gray-800">MVR {{ number_format($subpackage->amount, 2) }}</span>
+                <span class="text-orange-500">Amount</span>
+                <span class="font-semibold text-orange-800">MVR {{ number_format($subpackage->amount, 2) }}</span>
             </div>
             <div class="flex justify-between">
-                <span class="text-gray-500">Commission</span>
-                <span class="font-semibold text-indigo-600">MVR {{ number_format($subpackage->commission, 2) }}</span>
+                <span class="text-orange-500">Commission</span>
+                <span class="font-semibold text-orange-700">MVR {{ number_format($subpackage->commission, 2) }}</span>
             </div>
             <div class="flex justify-between">
-                <span class="text-gray-500">Offer Price</span>
-                <span class="font-bold text-green-600">MVR {{ number_format($subpackage->offer_price, 2) }}</span>
+                <span class="text-orange-500">Offer Price</span>
+                <span class="font-bold text-orange-900">MVR {{ number_format($subpackage->offer_price, 2) }}</span>
             </div>
         </div>
 
@@ -75,8 +95,8 @@
             <button type="button"
                     onclick="openPaymentModal('{{ $subpackage->title }}', {{ $subpackage->offer_price }}, {{ $subpackage->id  }})"
                     class="w-full py-2.5 rounded-2xl text-sm font-semibold text-white
-                           bg-gradient-to-r from-indigo-500 to-purple-600
-                           hover:from-indigo-600 hover:to-purple-700
+                           bg-gradient-to-r from-orange-500 to-orange-700
+                           hover:from-orange-600 hover:to-orange-800
                            shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
                 <i class="fas fa-arrow-right"></i> Enter
             </button>
@@ -96,7 +116,7 @@
                 class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold">✕</button>
 
         <!-- Modal Title -->
-        <h2 id="modalPackageSubtitle" class="text-2xl font-bold text-gray-800 mb-2 text-center"></h2>
+        <h2 id="modalPackageSubtitle" class="text-2xl font-bold text-orange-900 mb-2 text-center"></h2>
 
         <!-- Form -->
         <form id="paymentForm" method="POST" action="{{ route('payment.store') }}" class="space-y-4">
@@ -104,18 +124,18 @@
             <input type="hidden" name="package_id" id="modalPackageId">
             <input type="hidden" name="package_title" id="modalPackageTitle">
 
-            <label class="block text-sm font-medium text-gray-600 mb-1">Mobile Number</label>
+            <label class="block text-sm font-medium text-orange-600 mb-1">Mobile Number</label>
             <input type="tel" name="mobile" placeholder="Enter your mobile number"
-                   class="w-full border rounded-2xl px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                   class="w-full border rounded-2xl px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500" required>
 
-            <label class="block text-sm font-medium text-gray-600 mb-1">Amount</label>
+            <label class="block text-sm font-medium text-orange-600 mb-1">Amount</label>
             <input type="number" name="amount" id="modalAmount" readonly
-                   class="w-full border rounded-2xl px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                   class="w-full border rounded-2xl px-4 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-500" required>
 
             <button type="submit"
                     class="w-full py-2.5 rounded-2xl text-sm font-semibold text-white
-                           bg-gradient-to-r from-indigo-500 to-purple-600
-                           hover:from-indigo-600 hover:to-purple-700
+                           bg-gradient-to-r from-orange-500 to-orange-700
+                           hover:from-orange-600 hover:to-orange-800
                            shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
                 <i class="fas fa-check-circle"></i> Submit Payment
             </button>
@@ -131,8 +151,14 @@
 <script>
     // Toastr setup
     toastr.options = {closeButton:true, progressBar:true, positionClass:"toast-top-right", timeOut:4000};
-    @if(session('success')) toastr.success("{{ session('success') }}"); @endif
-    @if(session('error')) toastr.error("{{ session('error') }}"); @endif
+
+    @if(session('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+
+    @if(session('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
 
     // Open modal with dynamic data
     function openPaymentModal(title, amount, packageId) {

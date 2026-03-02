@@ -13,93 +13,138 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/js/all.min.js"></script>
 </head>
 
-<body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 relative">
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-orange-400 via-orange-500 to-orange-600">
 
-    <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
+    <!-- Center Content -->
+    <div class="flex-grow flex items-center justify-center px-4">
 
-        <!-- Header -->
-        <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Welcome Back</h1>
-            <p class="text-sm text-gray-500">Sign in to your account</p>
-        </div>
+        <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 mt-10">
 
-        <!-- Login Form -->
-        <form method="POST" action="{{ route('login') }}" class="space-y-5">
-            @csrf
-
-            <!-- Phone -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
-                <input type="tel" name="phone" value="{{ old('phone') }}" required autofocus
-                    class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                @error('phone')
-                <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
-                @enderror
+            <!-- Header -->
+            <div class="text-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Welcome Back</h1>
+                <p class="text-sm text-gray-500">Sign in to your account</p>
             </div>
 
-            <!-- Password -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <input type="password" name="password" required
-                    class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                @error('password')
-                <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
-                @enderror
-            </div>
+            <!-- Login Form -->
+            <form method="POST" action="{{ route('login') }}" class="space-y-5">
+                @csrf
 
-            <!-- Login Button -->
-            <button type="submit"
-                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg font-semibold transition duration-300">
-                Log in
-            </button>
-        </form>
+                <!-- Phone -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number
+                    </label>
+                    <input type="tel"
+                        name="phone"
+                        value="{{ old('phone') }}"
+                        required
+                        autofocus
+                        autocomplete="tel"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none">
 
-        <!-- Register -->
-        @if (Route::has('register'))
-        <div class="text-center mt-6">
-            <p class="text-sm text-gray-600">
-                Don’t have an account?
-                <a href="{{ route('register') }}"
-                    class="text-indigo-600 hover:text-indigo-800 font-semibold">
-                    Register
+                    @error('phone')
+                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Password
+                    </label>
+                    <input type="password"
+                        name="password"
+                        required
+                        autocomplete="current-password"
+                        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:outline-none">
+
+                    @error('password')
+                        <p class="text-sm text-red-600 mt-2">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit"
+                    class="w-full bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 text-white py-3 rounded-lg font-semibold transition duration-300">
+                    Log in
+                </button>
+            </form>
+
+            <!-- Register -->
+            @if (Route::has('register'))
+                <div class="text-center mt-6">
+                    <p class="text-sm text-gray-600">
+                        Don’t have an account?
+                        <a href="{{ route('register') }}"
+                            class="text-orange-600 hover:text-orange-800 font-semibold">
+                            Register
+                        </a>
+                    </p>
+                </div>
+            @endif
+
+            <!-- APK DOWNLOAD SECTION -->
+            <div class="text-center mt-8 border-t pt-6">
+                <a href="{{ asset('apk/Easyxpres.apk') }}" download>
+                    <img src="{{ asset('images/google-play-badge.png') }}"
+                        alt="Download Android App"
+                        class="mx-auto w-44 hover:scale-105 transition duration-300 cursor-pointer">
                 </a>
-            </p>
+            </div>
+
         </div>
-        @endif
 
     </div>
 
-    <!-- Footer Social Media -->
-    <footer class="absolute bottom-6 w-full text-center">
-        <div class="flex justify-center space-x-5">
+    <!-- Footer -->
+    <footer class="py-6 text-center">
 
         @php
-        $appSetup = DB::table('app_setups')->where('id', 1)->first();
+            $appSetup = DB::table('app_setups')->where('id', 1)->first();
         @endphp
 
+        <div class="flex justify-center space-x-6">
+
             <!-- Facebook -->
-            <a href="{{ $appSetup->facebook }}" target="_blank"
-                class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-blue-500 transition duration-300">
-                <i class="fab fa-facebook-f"></i>
+            <a href="{{ $appSetup->facebook ?? '#' }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 flex items-center justify-center
+                       rounded-full bg-white/20 text-white
+                       hover:bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-110
+                       transition duration-300 shadow-lg">
+                <i class="fab fa-facebook-f text-lg"></i>
             </a>
 
             <!-- YouTube -->
-            <a href="{{ $appSetup->youtube }}" target="_blank"
-                class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-red-500 transition duration-300">
-                <i class="fab fa-youtube"></i>
+            <a href="{{ $appSetup->youtube ?? '#' }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 flex items-center justify-center
+                       rounded-full bg-white/20 text-white
+                       hover:bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-110
+                       transition duration-300 shadow-lg">
+                <i class="fab fa-youtube text-lg"></i>
             </a>
 
             <!-- Telegram -->
-            <a href="{{ $appSetup->telegram }}" target="_blank"
-                class="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-sky-500 transition duration-300">
-                <i class="fab fa-telegram"></i>
+            <a href="{{ $appSetup->telegram ?? '#' }}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-11 h-11 flex items-center justify-center
+                       rounded-full bg-white/20 text-white
+                       hover:bg-gradient-to-r from-orange-500 to-orange-600 hover:scale-110
+                       transition duration-300 shadow-lg">
+                <i class="fab fa-telegram text-lg"></i>
             </a>
 
         </div>
 
-        <p class="text-white text-xs mt-3 opacity-80">
+        <p class="text-center text-white text-sm mt-4 opacity-80">
             © {{ date('Y') }} Easyxpres. All rights reserved.
         </p>
+
     </footer>
 
 </body>

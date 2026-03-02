@@ -13,13 +13,51 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+<style>
+/* Success Toast → Orange */
+#toast-container > .toast-success {
+    background: linear-gradient(to right, #f97316, #ea580c) !important; /* orange gradient */
+    color: #ffffff !important;
+    border-left: 5px solid #c2410c !important; /* darker orange */
+}
+
+/* Error Toast → Red */
+#toast-container > .toast-error {
+    background: linear-gradient(to right, #dc2626, #b91c1c) !important;
+    color: #ffffff !important;
+    border-left: 5px solid #7f1d1d !important;
+}
+
+/* Info Toast → Blue */
+#toast-container > .toast-info {
+    background: linear-gradient(to right, #3b82f6, #2563eb) !important;
+    color: #ffffff !important;
+    border-left: 5px solid #1e40af !important;
+}
+
+/* Warning Toast → Amber */
+#toast-container > .toast-warning {
+    background: linear-gradient(to right, #f59e0b, #d97706) !important;
+    color: #ffffff !important;
+    border-left: 5px solid #b45309 !important;
+}
+
+/* Common Toast styling */
+#toast-container .toast {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+    font-weight: 600 !important;
+    padding: 12px 16px !important;
+    font-size: 14px !important;
+}
+</style>
 </head>
 <body class="bg-blue-50">
 
 <main class="max-w-md mx-auto min-h-screen bg-white shadow-2xl flex flex-col">
 
     <!-- Header -->
-    <header class="bg-blue-600 p-4 flex justify-between items-center text-white">
+   <header class="bg-gradient-to-r from-orange-500 to-orange-600 p-4 flex justify-between items-center text-white">
         <div class="flex items-center gap-3">
             <div class="bg-gray-300 rounded-full h-10 w-10 flex items-center justify-center">
                 <i class="fas fa-user text-gray-700 text-xl"></i>
@@ -48,125 +86,131 @@
 
         <!-- Top-right dropdown menu -->
         <div class="relative">
-            <button id="dropdownButton" onclick="toggleDropdown()"
-                class="bg-white text-blue-600 font-bold px-4 py-2 rounded-lg shadow hover:bg-blue-50 flex items-center gap-2 transition">
-                Menu <i class="fas fa-caret-down"></i>
-            </button>
+    <!-- Dropdown Button -->
+    <button id="dropdownButton" onclick="toggleDropdown()"
+        class="bg-white text-orange-600 font-bold px-4 py-2 rounded-lg shadow hover:bg-orange-50 flex items-center gap-2 transition">
+        Menu <i class="fas fa-caret-down"></i>
+    </button>
 
-            <div id="dropdownMenu"
-                class="hidden absolute right-0 mt-2 w-48 bg-gradient-to-b from-blue-50 to-blue-100 border border-blue-300 rounded-lg shadow-lg z-50">
-                <button onclick="openPasswordModal()"
-                    class="w-full text-left px-4 py-2 text-blue-800 font-semibold hover:bg-yellow-300 rounded-t-lg transition">
-                    <i class="fas fa-user-circle mr-2"></i> My Account
-                </button>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="w-full text-left px-4 py-2 text-red-700 font-semibold hover:bg-red-200 rounded-b-lg transition">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                    </button>
-                </form>
-            </div>
-        </div>
+    <!-- Dropdown Menu -->
+    <div id="dropdownMenu"
+        class="hidden absolute right-0 mt-2 w-48 bg-gradient-to-b from-orange-50 to-orange-100 border border-orange-300 rounded-lg shadow-lg z-50">
+        
+        <!-- My Account Button -->
+        <button onclick="openPasswordModal()"
+            class="w-full text-left px-4 py-2 text-orange-800 font-semibold hover:bg-orange-200 rounded-t-lg transition">
+            <i class="fas fa-user-circle mr-2"></i> My Account
+        </button>
+
+        <!-- Logout Button -->
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" 
+                class="w-full text-left px-4 py-2 text-red-700 font-semibold hover:bg-red-200 rounded-b-lg transition">
+                <i class="fas fa-sign-out-alt mr-2"></i> Logout
+            </button>
+        </form>
+    </div>
+</div>
     </header>
 
     <!-- Marquee under header -->
-    <div class="bg-blue-500 overflow-hidden relative">
-        @php
-            $appNote = DB::table('app_setups')->where('id', 1)->first();
-        @endphp
-        <div class="marquee whitespace-nowrap text-white font-semibold py-2 px-4 text-sm md:text-base">
-            {!! $appNote->marquee !!}
-        </div>
+  <div class="bg-gradient-to-r from-orange-500 to-orange-600 overflow-hidden relative">
+    @php
+        $appNote = DB::table('app_setups')->where('id', 1)->first();
+    @endphp
+    <div class="marquee whitespace-nowrap text-white font-semibold py-2 px-4 text-sm md:text-base">
+        {!! $appNote->marquee !!}
     </div>
+</div>
 
     <!-- Main Content -->
     <div class="px-4 py-6 flex-1 space-y-6">
 
         <!-- My Account Section -->
-        <section class="border-2 border-gray-100 rounded-3xl p-5 shadow-sm">
+      <section class="border-2 border-orange-300 rounded-3xl p-5 shadow-sm">
             <div class="flex justify-between items-start mb-6">
-                <div>
-                    <p class="text-indigo-900 font-bold text-lg">My Name</p>
-                    <p class="text-blue-400 font-medium">{{ Auth::user()->name ?? 'No Name' }}</p>
-                </div>
+               <div>
+    <p class="text-orange-900 font-bold text-lg">My Name</p>
+    <p class="text-orange-400 font-medium">{{ Auth::user()->name ?? 'No Name' }}</p>
+</div>
 
                 <!-- My Balance Button with Dropdown -->
-                <div class="relative">
-                    <button onclick="toggleBalance()" 
-                        class="flex items-center gap-2 border-2 border-blue-600 rounded-full px-4 py-1 text-indigo-900 font-bold text-sm">
-                        <span class="bg-blue-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">M</span>
-                        My Balance
-                    </button>
+               <div class="relative">
+    <!-- Balance Button -->
+    <button onclick="toggleBalance()" 
+        class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-4 py-1 text-orange-900 font-bold text-sm">
+        <span class="bg-orange-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">M</span>
+        My Balance
+    </button>
 
-                    <!-- Balance Dropdown -->
-                    <div id="balanceDropdown" 
-                        class="hidden absolute right-0 mt-2 w-56 bg-white border border-blue-300 rounded-lg shadow-lg z-50 p-3 text-sm">
-                        
-                        @php
-                            $authID = auth()->id();
-                            $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
-                            $totalDeposit = DB::table('transactions')
-                                ->where('account_id', $accountID)
-                                ->where('type', 'deposit')
-                                ->where('status','approved')
-                                ->sum('amount');
-                        @endphp
+    <!-- Balance Dropdown -->
+    <div id="balanceDropdown" 
+        class="hidden absolute right-0 mt-2 w-56 bg-white border border-orange-300 rounded-lg shadow-lg z-50 p-3 text-sm">
+        
+        @php
+            $authID = auth()->id();
+            $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+            $totalDeposit = DB::table('transactions')
+                ->where('account_id', $accountID)
+                ->where('type', 'deposit')
+                ->where('status','approved')
+                ->sum('amount');
+        @endphp
 
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-gray-600 font-medium">Current Balance :</span>
-                            <span class="text-blue-600 font-bold">{{ Auth::user()->account->balance ?? 0 }}</span>
-                        </div>
-                      
-                        <hr class="my-1 border-gray-200">
-                        <p class="text-xs text-gray-500">Updated: {{ now()->format('d M Y H:i') }}</p>
-                    </div>
-                </div>
-
-                <div class="text-right">
-                    <p class="text-gray-400 font-bold text-sm">My Level</p>
-                    <p class="text-orange-400 font-bold">Retailer</p>
-                </div>
+        <div class="flex justify-between items-center mb-1">
+            <span class="text-gray-600 font-medium">Current Balance :</span>
+            <span class="text-orange-600 font-bold">{{ Auth::user()->account->balance ?? 0 }}</span>
+        </div>
+      
+        <hr class="my-1 border-gray-200">
+        <p class="text-xs text-gray-500">Updated: {{ now()->format('d M Y H:i') }}</p>
+    </div>
+</div>
+               
             </div>
 
             <!-- Quick Actions -->
-            <div class="grid grid-cols-4 gap-2 text-center">
-                <div class="group cursor-pointer" onclick="openBalanceModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                        <i class="fas fa-file-invoice-dollar text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">Add Balance</p>
-                </div>
+        <div class="grid grid-cols-4 gap-2 text-center">
 
-                <!-- Deposit History Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.balance.history') }}" class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-emerald-600 text-white rounded-full shadow hover:bg-green-700 transition">
-            <i class="fas fa-history text-2xl"></i>
+    <!-- Add Balance -->
+    <div class="group cursor-pointer" onclick="openBalanceModal()">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+            <i class="fas fa-file-invoice-dollar text-3xl"></i>
         </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">Deposit History</p>
-    </a>
-</div>
+        <p class="text-[11px] font-bold text-orange-900 mt-2">Add Balance</p>
+    </div>
 
-<!-- View Packages Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.package.history') }}" 
-       class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transition">
-            <i class="fas fa-box-open text-2xl"></i>
-        </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">View Packages</p>
-    </a>
-</div>
+    <!-- Deposit History -->
+    <div class="group cursor-pointer">
+        <a href="{{ route('app.balance.history') }}" class="flex flex-col items-center justify-center text-center">
+            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+                <i class="fas fa-history text-2xl"></i>
+            </div>
+            <p class="text-[11px] font-bold text-orange-900 mt-2">Deposit History</p>
+        </a>
+    </div>
 
-<!-- Package History Icon Button -->
-<div class="group cursor-pointer">
-    <a href="{{ route('app.recharge.packages.history') }}" 
-       class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-green-600 text-white rounded-full shadow hover:bg-green-700 transition">
-            <i class="fas fa-clock text-2xl"></i>
-        </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">Package History</p>
-    </a>
+    <!-- View Packages -->
+    <div class="group cursor-pointer">
+        <a href="{{ route('app.package.history') }}" class="flex flex-col items-center justify-center text-center">
+            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+                <i class="fas fa-box-open text-2xl"></i>
+            </div>
+            <p class="text-[11px] font-bold text-orange-900 mt-2">View Packages</p>
+        </a>
+    </div>
+
+    <!-- Package History -->
+    <div class="group cursor-pointer">
+        <a href="{{ route('app.recharge.packages.history') }}" class="flex flex-col items-center justify-center text-center">
+            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+                <i class="fas fa-clock text-2xl"></i>
+            </div>
+            <p class="text-[11px] font-bold text-orange-900 mt-2">Package History</p>
+        </a>
+    </div>
+
 </div>
 
 
@@ -176,23 +220,21 @@
         </section>
 
         <!-- Recharge & Bill Payments -->
-        <section class="border-2 border-gray-100 rounded-3xl p-5 shadow-sm relative">
+ <section class="border-2 border-orange-300 rounded-3xl p-5 shadow-sm relative">
             <div class="flex justify-between items-center mb-8">
-                <h2 class="text-indigo-900 font-bold text-lg">Recharge & Banking</h2>
-                <a href="#" class="text-blue-600 font-bold text-lg flex items-center gap-1">
-                    History <i class="fas fa-chevron-right text-sm"></i>
-                </a>
+               <h2 class="text-orange-900 font-bold text-lg">Recharge & Banking</h2>
+               
             </div>
 
             <div class="grid grid-cols-4 gap-y-10 gap-x-2 text-center">
                
 
-             <div class="group cursor-pointer" onclick="openRechargeModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                        <i class="fas fa-bolt text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">BD Recharge Now</p>
-                </div>
+            <div class="group cursor-pointer" onclick="openRechargeModal()">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+        <i class="fas fa-bolt text-3xl"></i>
+    </div>
+    <p class="text-[11px] font-bold text-orange-900 mt-2">BD Recharge Now</p>
+</div>
 
 
                 <div id="rechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
@@ -246,22 +288,24 @@
 
 
   <!-- Recharge History Button -->
-    <div class="group">
-        <a href="{{ route('app.recharge.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-                <i class="fas fa-history text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2">BD Recharge History</p>
-        </a>
-    </div>
+   <!-- BD Recharge History -->
+<div class="group">
+    <a href="{{ route('app.recharge.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+            <i class="fas fa-history text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-900 mt-2">BD Recharge History</p>
+    </a>
+</div>
 
-    <div class="group cursor-pointer" onclick="openMaleRechargeModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                       <i class="fas fa-wallet text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">Male Recharge Now</p>
-                </div>
+<!-- Male Recharge Now -->
+<div class="group cursor-pointer" onclick="openMaleRechargeModal()">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+       <i class="fas fa-wallet text-3xl"></i>
+    </div>
+    <p class="text-[11px] font-bold text-orange-900 mt-2">Male Recharge Now</p>
+</div>
 
 
                               <div id="maleRechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
@@ -317,46 +361,58 @@
 </div>
 
 
- <div class="group">
-        <a href="{{ route('app.male.recharge.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-               <i class="fas fa-file-invoice text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2">Male Recharge History</p>
-        </a>
-    </div>
+<div class="group">
+    <a href="{{ route('app.male.recharge.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-file-invoice text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">Male Recharge History</p>
+    </a>
+</div>
 
-   <div class="group">
+<div class="group">
     <a href="{{ route('app.mobile.banking.view') }}" 
        class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-           <i class="fas fa-building-columns text-2xl"></i>
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-mobile-screen-button text-2xl"></i>
         </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">
-            View Mobile Banking
-        </p>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">View Mobile Banking</p>
     </a>
 </div>
 
 <div class="group">
     <a href="{{ route('app.mobile.banking.history') }}" 
        class="flex flex-col items-center justify-center text-center">
-        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
            <i class="fas fa-clock-rotate-left text-2xl"></i>
         </div>
-        <p class="text-[11px] font-bold text-indigo-900 mt-2">
-            Mobile Banking History
-        </p>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">Mobile Banking History</p>
     </a>
 </div>
 
-     <div class="group cursor-pointer" onclick="openIBankingModal()">
-                    <div class="mx-auto w-12 h-12 flex items-center justify-center text-blue-600">
-                       <i class="fas fa-mobile-screen-button text-3xl"></i>
-                    </div>
-                    <p class="text-[11px] font-bold text-indigo-900 mt-2">View iBanking</p>
-                </div>
+   <div class="group cursor-pointer" onclick="openIBankingModal()">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                text-white rounded-full shadow 
+                hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                transition">
+       <i class="fas fa-money-bill text-3xl"></i>
+    </div>
+    <p class="text-[11px] font-bold text-orange-800 mt-2">View iBanking</p>
+</div>
 
 
                 <!-- iBanking Modal -->
@@ -454,14 +510,18 @@
 </div>
 
  <div class="group">
-        <a href="{{ route('app.ibanking.history') }}" 
-           class="flex flex-col items-center justify-center text-center">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-indigo-600 text-white rounded-full shadow hover:bg-indigo-700 transition">
-               <i class="fas fa-list-alt text-2xl"></i>
-            </div>
-            <p class="text-[11px] font-bold text-indigo-900 mt-2">iBanking History</p>
-        </a>
-    </div>
+    <a href="{{ route('app.ibanking.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-list-alt text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">iBanking History</p>
+    </a>
+</div>
               
             </div>
         </section>
@@ -506,35 +566,57 @@
 
 <!-- Add Balance Modal -->
 <div id="balanceModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 relative max-h-[90vh] overflow-y-auto">
-        <button onclick="closeBalanceModal()"
-            class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl">✕</button>
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Add Balance</h2>
-        @php
-            $appSetup = DB::table('app_setups')->first();
-        @endphp
-        {!! $appSetup->add_balance_content !!}
-        <form method="POST" action="{{ route('app.balance.add') }}" enctype="multipart/form-data">
-            @csrf
-            <label class="block text-sm font-medium text-gray-600 mb-1">Amount (MVR)</label>
-            <div class="flex items-center border rounded-lg overflow-hidden mb-4">
-                <span class="px-3 bg-gray-100 text-gray-600 font-semibold">MVR</span>
-                <input type="number" name="amount" required min="1" placeholder="Enter amount"
-                    class="w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
-            </div>
-            <label class="block text-sm font-medium text-gray-600 mb-1">Transaction ID</label>
-            <input type="text" name="transaction_id" required placeholder="Enter transaction ID"
-                class="w-full border rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-green-500">
-            <label class="block text-sm font-medium text-gray-600 mb-1">Payment Proof (Screenshot)</label>
-            <input type="file" name="file_upload" required accept="image/*,.pdf"
-                class="w-full border rounded-lg px-3 py-2 mb-5 file:bg-green-600 file:text-white file:px-4 file:py-2 file:rounded-lg file:border-0 file:cursor-pointer">
-            <div class="flex justify-end gap-3">
-                <button type="button" onclick="closeBalanceModal()"
-                    class="px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold">Cancel</button>
-                <button type="submit"
-                    class="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 font-semibold">Submit Request</button>
-            </div>
-        </form>
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg p-0 relative max-h-[90vh] overflow-y-auto">
+
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-4 rounded-t-2xl flex justify-between items-center">
+            <h2 class="text-xl font-bold text-white">Add Balance</h2>
+            <button onclick="closeBalanceModal()"
+                class="text-white hover:text-gray-200 text-2xl font-bold">✕</button>
+        </div>
+
+        <!-- Modal Content -->
+        <div class="px-6 py-6">
+            @php
+                $appSetup = DB::table('app_setups')->first();
+            @endphp
+            {!! $appSetup->add_balance_content !!}
+
+            <form method="POST" action="{{ route('app.balance.add') }}" enctype="multipart/form-data">
+                @csrf
+
+                <!-- Amount Field -->
+                <label class="block text-sm font-medium text-orange-700 mb-1">Amount (MVR)</label>
+                <div class="flex items-center border-2 border-orange-300 rounded-lg overflow-hidden mb-4 shadow-sm">
+                    <span class="px-3 bg-orange-100 text-orange-700 font-semibold">MVR</span>
+                    <input type="number" name="amount" required min="1" placeholder="Enter amount"
+                        class="w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded-r-lg">
+                </div>
+
+                <!-- Transaction ID Field -->
+                <label class="block text-sm font-medium text-orange-700 mb-1">Transaction ID</label>
+                <input type="text" name="transaction_id" required placeholder="Enter transaction ID"
+                    class="w-full border-2 border-orange-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-400">
+
+                <!-- Payment Proof Field -->
+                <label class="block text-sm font-medium text-orange-700 mb-1">Payment Proof (Screenshot)</label>
+                <input type="file" name="file_upload" required accept="image/*,.pdf"
+                    class="w-full border-2 border-orange-300 rounded-lg px-3 py-2 mb-5
+                           file:bg-orange-600 file:text-white file:px-4 file:py-2 file:rounded-lg file:border-0 file:cursor-pointer">
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeBalanceModal()"
+                        class="px-4 py-2 rounded-lg bg-orange-200 text-orange-800 hover:bg-orange-300 font-semibold transition">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-700 font-semibold transition">
+                        Submit Request
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -572,25 +654,40 @@
     function closeBalanceModal() { document.getElementById('balanceModal').classList.add('hidden'); }
 
     // Toastr
-    toastr.options = { "closeButton": true, "progressBar": true, "positionClass": "toast-top-right", "timeOut": 4000 };
-    @if(session('success')) toastr.success("{{ session('success') }}"); @endif
-    @if(session('error')) toastr.error("{{ session('error') }}"); @endif
-    @if($errors->any())
-        @foreach($errors->all() as $error)
-            toastr.error("{{ $error }}");
-        @endforeach
-        openBalanceModal();
-    @endif
+  toastr.options = { 
+    "closeButton": true, 
+    "progressBar": true, 
+    "positionClass": "toast-top-right", 
+    "timeOut": 4000 
+};
+
+@if(session('success')) 
+    toastr.success("{{ session('success') }}"); 
+@endif
+
+@if(session('error')) 
+    toastr.error("{{ session('error') }}"); 
+@endif
+
+@if($errors->any())
+    @foreach($errors->all() as $error)
+        toastr.error("{{ $error }}");
+    @endforeach
+    openBalanceModal();
+@endif
 
     
 </script>
 
+
+
 <!-- user ID Design JS  -->
 <script>
-    function copyUserId() {
+function copyUserId() {
     const userId = "{{ Auth::user()->account->account_number ?? '' }}";
     navigator.clipboard.writeText(userId);
-    toastr.success("User ID copied!");
+
+    toastr.success("User ID copied!"); // This will now show orange
 }
 </script>
 
