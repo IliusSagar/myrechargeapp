@@ -128,165 +128,116 @@
     <div class="px-4 py-6 flex-1 space-y-6">
 
         <!-- My Account Section -->
- <!-- My Account Section -->
-<section class="border-2 border-orange-300 rounded-3xl p-5 shadow-sm">
-    <div class="flex justify-between items-start mb-6">
-        <div>
-            <p class="text-orange-900 font-bold text-lg">My Name</p>
-            <p class="text-orange-400 font-medium">{{ Auth::user()->name ?? 'No Name' }}</p>
+      <section class="border-2 border-orange-300 rounded-3xl p-5 shadow-sm">
+            <div class="flex justify-between items-start mb-6">
+               <div>
+    <p class="text-orange-900 font-bold text-lg">My Name</p>
+    <p class="text-orange-400 font-medium">{{ Auth::user()->name ?? 'No Name' }}</p>
+</div>
+
+                <!-- My Balance Button with Dropdown -->
+               <div class="relative">
+    <!-- Balance Button -->
+    <button onclick="toggleBalance()" 
+        class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-4 py-1 text-orange-900 font-bold text-sm">
+        <span class="bg-orange-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">M</span>
+        My Balance
+    </button>
+
+    <!-- Balance Dropdown -->
+    <div id="balanceDropdown" 
+        class="hidden absolute right-0 mt-2 w-56 bg-white border border-orange-300 rounded-lg shadow-lg z-50 p-3 text-sm">
+        
+        @php
+            $authID = auth()->id();
+            $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
+            $totalDeposit = DB::table('transactions')
+                ->where('account_id', $accountID)
+                ->where('type', 'deposit')
+                ->where('status','approved')
+                ->sum('amount');
+        @endphp
+
+        <div class="flex justify-between items-center mb-1">
+            <span class="text-gray-600 font-medium">Current Balance :</span>
+            <span class="text-orange-600 font-bold">{{ Auth::user()->account->balance ?? 0 }}</span>
         </div>
+      
+        <hr class="my-1 border-gray-200">
+        <p class="text-xs text-gray-500">Updated: {{ now()->format('d M Y H:i') }}</p>
+    </div>
+</div>
+               
+            </div>
 
-            @php
-                    $authID = auth()->id();
-                    $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
-                    $totalDeposit = DB::table('transactions')
-                        ->where('account_id', $accountID)
-                        ->where('type', 'deposit')
-                        ->where('status','approved')
-                        ->sum('amount');
-                @endphp
+            <!-- Quick Actions -->
+        <div class="grid grid-cols-4 gap-2 text-center">
 
-
-        <!-- Balance Button with Dropdown -->
-        <div class="relative">
-           <button 
-    class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-3 py-1 text-orange-900 font-semibold text-xs">
-    
-    Balance : (MVR) {{ Auth::user()->account->balance ?? 0 }}
-</button>
-
-          
+    <!-- Add Balance -->
+    <div class="group cursor-pointer" onclick="openBalanceModal()">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+            <i class="fas fa-file-invoice-dollar text-3xl"></i>
         </div>
+        <p class="text-[11px] font-bold text-orange-900 mt-2">Add Balance</p>
     </div>
 
-    <!-- Quick Actions Grid -->
-    <div class="grid grid-cols-4 gap-4 text-center">
-        <!-- Add Balance -->
-        <div class="group cursor-pointer" onclick="openBalanceModal()">
+    <!-- Deposit History -->
+    <div class="group cursor-pointer">
+        <a href="{{ route('app.balance.history') }}" class="flex flex-col items-center justify-center text-center">
             <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                <i class="fas fa-file-invoice-dollar text-3xl"></i>
+                <i class="fas fa-history text-2xl"></i>
             </div>
-            <p class="text-[11px] font-bold text-orange-900 mt-2">Add Balance</p>
-        </div>
-
-        <!-- Deposit History -->
-        <div class="group cursor-pointer">
-            <a href="{{ route('app.balance.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                    <i class="fas fa-history text-2xl"></i>
-                </div>
-                <p class="text-[11px] font-bold text-orange-900 mt-2">Deposit History</p>
-            </a>
-        </div>
-
-        <!-- View Packages -->
-        <div class="group cursor-pointer">
-            <a href="{{ route('app.package.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                    <i class="fas fa-box-open text-2xl"></i>
-                </div>
-                <p class="text-[11px] font-bold text-orange-900 mt-2">View Packages</p>
-            </a>
-        </div>
-
-        <!-- Package History -->
-        <div class="group cursor-pointer">
-            <a href="{{ route('app.recharge.packages.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                    <i class="fas fa-clock text-2xl"></i>
-                </div>
-                <p class="text-[11px] font-bold text-orange-900 mt-2">Package History</p>
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- Recharge & Bill Payments Section -->
-<section class="border-2 border-orange-300 rounded-3xl p-5 shadow-sm mt-6">
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-orange-900 font-bold text-lg">Recharge & Banking</h2>
+            <p class="text-[11px] font-bold text-orange-900 mt-2">Deposit History</p>
+        </a>
     </div>
 
-    <!-- Grid -->
-    <div class="grid grid-cols-4 gap-4 text-center">
-        <!-- BD Recharge Now -->
-        <div class="group cursor-pointer" onclick="openRechargeModal()">
+    <!-- View Packages -->
+    <div class="group cursor-pointer">
+        <a href="{{ route('app.package.history') }}" class="flex flex-col items-center justify-center text-center">
             <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                <i class="fas fa-bolt text-3xl"></i>
+                <i class="fas fa-box-open text-2xl"></i>
             </div>
-            <p class="text-xs font-bold text-orange-900 mt-2">BD Recharge Now</p>
-        </div>
-
-        <!-- BD Recharge History -->
-        <div class="group">
-            <a href="{{ route('app.recharge.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                    <i class="fas fa-history text-2xl"></i>
-                </div>
-                <p class="text-xs font-bold text-orange-900 mt-2">BD Recharge History</p>
-            </a>
-        </div>
-
-        <!-- Male Recharge Now -->
-        <div class="group cursor-pointer" onclick="openMaleRechargeModal()">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
-                <i class="fas fa-wallet text-3xl"></i>
-            </div>
-            <p class="text-xs font-bold text-orange-900 mt-2">Male Recharge Now</p>
-        </div>
-
-        <!-- Male Recharge History -->
-        <div class="group">
-            <a href="{{ route('app.male.recharge.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-full shadow hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 transition">
-                    <i class="fas fa-file-invoice text-2xl"></i>
-                </div>
-                <p class="text-xs font-bold text-orange-800 mt-2">Male Recharge History</p>
-            </a>
-        </div>
-
-        <!-- View Mobile Banking -->
-        <div class="group">
-            <a href="{{ route('app.mobile.banking.view') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-full shadow hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 transition">
-                    <i class="fas fa-mobile-screen-button text-2xl"></i>
-                </div>
-                <p class="text-xs font-bold text-orange-800 mt-2">View Mobile Banking</p>
-            </a>
-        </div>
-
-        <!-- Mobile Banking History -->
-        <div class="group">
-            <a href="{{ route('app.mobile.banking.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-full shadow hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 transition">
-                    <i class="fas fa-clock-rotate-left text-2xl"></i>
-                </div>
-                <p class="text-xs font-bold text-orange-800 mt-2">Mobile Banking History</p>
-            </a>
-        </div>
-
-        <!-- View iBanking -->
-        <div class="group cursor-pointer" onclick="openIBankingModal()">
-            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-full shadow hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 transition">
-                <i class="fas fa-money-bill text-3xl"></i>
-            </div>
-            <p class="text-xs font-bold text-orange-800 mt-2">View iBanking</p>
-        </div>
-
-        <!-- iBanking History -->
-        <div class="group">
-            <a href="{{ route('app.ibanking.history') }}" class="flex flex-col items-center justify-center text-center">
-                <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 text-white rounded-full shadow hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 transition">
-                    <i class="fas fa-list-alt text-2xl"></i>
-                </div>
-                <p class="text-xs font-bold text-orange-800 mt-2">iBanking History</p>
-            </a>
-        </div>
+            <p class="text-[11px] font-bold text-orange-900 mt-2">View Packages</p>
+        </a>
     </div>
-</section>
 
-            <div id="rechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
+    <!-- Package History -->
+    <div class="group cursor-pointer">
+        <a href="{{ route('app.recharge.packages.history') }}" class="flex flex-col items-center justify-center text-center">
+            <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+                <i class="fas fa-clock text-2xl"></i>
+            </div>
+            <p class="text-[11px] font-bold text-orange-900 mt-2">Package History</p>
+        </a>
+    </div>
+
+</div>
+
+
+
+               
+            </div>
+        </section>
+
+        <!-- Recharge & Bill Payments -->
+<section class="mt-[-20px] border-2 border-orange-300 rounded-3xl p-5 shadow-sm relative">
+            <div class="flex justify-between items-center mb-8">
+               <h2 class="text-orange-900 font-bold text-lg">Recharge & Banking</h2>
+               
+            </div>
+
+            <div class="grid grid-cols-4 gap-y-10 gap-x-2 text-center">
+               
+
+            <div class="group cursor-pointer" onclick="openRechargeModal()">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+        <i class="fas fa-bolt text-3xl"></i>
+    </div>
+    <p class="text-[11px] font-bold text-orange-900 mt-2">BD Recharge Now</p>
+</div>
+
+
+          <div id="rechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
 
     <!-- Modal Card -->
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative overflow-hidden max-h-[90vh] overflow-y-auto">
@@ -351,7 +302,28 @@
 </div>
 
 
-                 <div id="maleRechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
+  <!-- Recharge History Button -->
+   <!-- BD Recharge History -->
+<div class="group">
+    <a href="{{ route('app.recharge.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+            <i class="fas fa-history text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-900 mt-2">BD Recharge History</p>
+    </a>
+</div>
+
+<!-- Male Recharge Now -->
+<div class="group cursor-pointer" onclick="openMaleRechargeModal()">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center bg-gradient-to-br from-orange-400 to-orange-600 text-white rounded-full shadow hover:from-orange-500 hover:to-orange-700 transition">
+       <i class="fas fa-wallet text-3xl"></i>
+    </div>
+    <p class="text-[11px] font-bold text-orange-900 mt-2">Male Recharge Now</p>
+</div>
+
+
+                              <div id="maleRechargeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
 
     <!-- Modal Card -->
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg relative overflow-hidden max-h-[90vh] overflow-y-auto">
@@ -374,7 +346,7 @@
                 <label class="block text-sm font-semibold text-orange-600 mb-1 text-left">
                     Mobile Number
                 </label>
-                <input type="text" name="mobile" required placeholder="+960XXXXXXXXX"
+                <input type="text" name="mobile" required placeholder="01XXXXXXXXX"
                     class="w-full border border-orange-200 rounded-lg px-3 py-2 mb-4
                            focus:outline-none focus:ring-2 focus:ring-orange-400
                            focus:border-orange-400">
@@ -414,6 +386,60 @@
             </form>
         </div>
     </div>
+</div>
+
+
+<div class="group">
+    <a href="{{ route('app.male.recharge.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-file-invoice text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">Male Recharge History</p>
+    </a>
+</div>
+
+<div class="group">
+    <a href="{{ route('app.mobile.banking.view') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-mobile-screen-button text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">View Mobile Banking</p>
+    </a>
+</div>
+
+<div class="group">
+    <a href="{{ route('app.mobile.banking.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-clock-rotate-left text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">Mobile Banking History</p>
+    </a>
+</div>
+
+   <div class="group cursor-pointer" onclick="openIBankingModal()">
+    <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                text-white rounded-full shadow 
+                hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                transition">
+       <i class="fas fa-money-bill text-3xl"></i>
+    </div>
+    <p class="text-[11px] font-bold text-orange-800 mt-2">View iBanking</p>
 </div>
 
 
@@ -513,6 +539,23 @@
 
     </div>
 </div>
+
+ <div class="group">
+    <a href="{{ route('app.ibanking.history') }}" 
+       class="flex flex-col items-center justify-center text-center">
+        <div class="mx-auto w-12 h-12 flex items-center justify-center 
+                    bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 
+                    text-white rounded-full shadow 
+                    hover:from-orange-600 hover:via-orange-700 hover:to-orange-800 
+                    transition">
+           <i class="fas fa-list-alt text-2xl"></i>
+        </div>
+        <p class="text-[11px] font-bold text-orange-800 mt-2">iBanking History</p>
+    </a>
+</div>
+              
+            </div>
+        </section>
 
     </div>
 
@@ -625,9 +668,9 @@
                 </div>
 
                 <!-- Transaction ID Field -->
-                <!-- <label class="block text-sm font-medium text-orange-700 mb-1">Transaction ID</label>
+                <label class="block text-sm font-medium text-orange-700 mb-1">Transaction ID</label>
                 <input type="text" name="transaction_id" required placeholder="Enter transaction ID"
-                    class="w-full border-2 border-orange-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-400"> -->
+                    class="w-full border-2 border-orange-300 rounded-lg px-3 py-2 mb-4 focus:outline-none focus:ring-2 focus:ring-orange-400">
 
                 <!-- Payment Proof Field -->
                 <label class="block text-sm font-medium text-orange-700 mb-1">Payment Proof (Screenshot)</label>

@@ -90,13 +90,28 @@
             </div>
           </div>
           <!-- ./col Yellow -->
-      
-
-
-           <!-- ./col Yellow -->
+          <!-- ./col Red -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{{ $totalUsers }}</h3>
+
+                <p>Total Users</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+              <a href="{{ URL('admin/users') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <!-- ./col Red-->
+
+             <div class="col-lg-1 col-6"></div>
+           <!-- ./col Yellow -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
               <div class="inner">
 
               @php
@@ -118,7 +133,7 @@
            <!-- ./col Red -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-danger">
               <div class="inner">
                 @php
                 $totalDBRecharges = DB::table('recharges')->where('status', 'approved')->sum('amount');
@@ -139,7 +154,7 @@
           <!-- ./col sky-->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-success">
+            <div class="small-box bg-info">
               <div class="inner">
 
               @php
@@ -157,13 +172,13 @@
             </div>
           </div>
             <!-- ./col sky-->
-    
+              <div class="col-lg-2 col-6"></div>
 
-
+              <div class="col-lg-1 col-6"></div>
               <!-- ./col sky-->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-warning">
+            <div class="small-box bg-info">
               <div class="inner">
 
              @php
@@ -184,7 +199,7 @@
           <!-- ./col green-->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-danger">
+            <div class="small-box bg-success">
               <div class="inner">
 
               @php
@@ -205,7 +220,7 @@
           <!-- ./col Yellow -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <div class="small-box bg-info">
+            <div class="small-box bg-warning">
               <div class="inner">
 
               @php

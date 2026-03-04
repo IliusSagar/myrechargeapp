@@ -149,11 +149,11 @@
 
         <!-- Balance Button with Dropdown -->
         <div class="relative">
-           <button 
-    class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-3 py-1 text-orange-900 font-semibold text-xs">
-    
-    Balance : (MVR) {{ Auth::user()->account->balance ?? 0 }}
-</button>
+            <button onclick="toggleBalance()" 
+                class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-4 py-1 text-orange-900 font-bold text-sm">
+            
+                Balance : (MVR) {{ Auth::user()->account->balance ?? 0 }}
+            </button>
 
           
         </div>

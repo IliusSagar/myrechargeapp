@@ -67,7 +67,7 @@
                           $bankName = DB::table('bank_names')->where('id', $bankID)->first();
                     @endphp
                                        
-                                        <td>{{ $bankName->bank_name }}</td>
+                                  <td>{{ optional($bankName)->bank_name ?? 'Bank Deleted' }}</td>
 
                                         <td>{{ $order->account_no }}</td>
                                         <td>{{ $order->amount }}</td>
@@ -157,7 +157,7 @@
                                             @if($order->status == 'pending')
                                                 <span class="badge badge-warning">Pending</span>
                                             @elseif($order->status == 'approved')
-                                                <span class="badge badge-success">Approved</span>
+                                                <span class="badge badge-success">Success</span>
                                             @else
                                                 <span class="badge badge-danger">Rejected</span>
                                             @endif

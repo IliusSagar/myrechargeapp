@@ -156,7 +156,7 @@
                                             @if($order->status == 'pending')
                                                 <span class="badge badge-warning">Pending</span>
                                             @elseif($order->status == 'approved')
-                                                <span class="badge badge-success">Approved</span>
+                                                <span class="badge badge-success">Success</span>
                                             @else
                                                 <span class="badge badge-danger">Rejected</span>
                                             @endif

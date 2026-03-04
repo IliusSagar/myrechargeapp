@@ -13,12 +13,18 @@
 
     <!-- Toastr CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <style>
+        /* Orange Toastr Theme */
+        .toast-success { background-color: #f97316 !important; }
+        .toast-error { background-color: #dc2626 !important; }
+    </style>
 </head>
 
-<body class="bg-gray-50 min-h-screen font-sans">
+<body class="bg-orange-50 min-h-screen font-sans">
 
 <!-- ================= APP HEADER ================= -->
-<header class="bg-blue-600 text-white shadow-md">
+<header class="bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg">
     <div class="max-w-md mx-auto flex justify-between items-center px-4 py-4">
         <h1 class="text-lg font-bold">Male Recharge History</h1>
         <form method="POST" action="{{ route('logout') }}">
@@ -30,11 +36,11 @@
     </div>
 </header>
 
-
+<!-- Back Button -->
 <div class="max-w-md mx-auto px-4 mt-4">
     <a href="{{ route('app_dashboard') }}"
-       class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 px-3 py-2 rounded-xl font-semibold shadow transition">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
+       class="inline-flex items-center gap-2 bg-white hover:bg-orange-100 px-3 py-2 rounded-xl font-semibold shadow border border-orange-200 transition">
+        <i class="fas fa-arrow-left text-orange-500"></i> Back to Dashboard
     </a>
 </div>
 
@@ -42,26 +48,26 @@
 
     @forelse($recharges as $key => $recharge)
 
-    <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition">
+    <div class="bg-white p-4 rounded-2xl shadow-xl border border-orange-100 hover:shadow-2xl transition">
 
         <!-- Top Row -->
         <div class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-3">
-                <div class="bg-indigo-100 text-indigo-600 p-2 rounded-full">
+                <div class="bg-orange-100 text-orange-600 p-2 rounded-full">
                     <i class="fas fa-mobile-alt text-sm"></i>
                 </div>
                 <div>
                     <p class="text-sm font-semibold text-gray-800">
                         {{ $recharge->mobile }}
                     </p>
-                    <p class="text-xs text-gray-500">
+                    <p class="text-xs text-orange-500">
                         {{ $recharge->created_at->format('d M Y, h:i A') }}
                     </p>
                 </div>
             </div>
 
             <div class="text-right">
-                <p class="text-indigo-600 font-bold text-sm">
+                <p class="text-orange-600 font-bold text-sm">
                     MVR {{ number_format($recharge->amount, 2) }}
                 </p>
             </div>
@@ -70,7 +76,7 @@
         <!-- Status -->
         <div>
             @if($recharge->status === 'pending')
-                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">
+                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-700">
                     <i class="fas fa-clock mr-1"></i> Pending
                 </span>
             @elseif($recharge->status === 'approved')
@@ -87,8 +93,8 @@
     </div>
 
     @empty
-    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center text-gray-500">
-        <i class="fas fa-folder-open text-3xl mb-3 text-gray-300"></i>
+    <div class="bg-white rounded-2xl shadow-xl border border-orange-100 p-6 text-center text-orange-400">
+        <i class="fas fa-folder-open text-3xl mb-3 text-orange-200"></i>
         <p>No recharge history found.</p>
     </div>
     @endforelse

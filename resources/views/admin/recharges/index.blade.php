@@ -60,7 +60,7 @@
                                                 @if ($recharge->status == 'pending')
                                                     <span class="badge badge-warning">Pending</span>
                                                 @elseif ($recharge->status == 'approved')
-                                                    <span class="badge badge-success">Approved</span>
+                                                    <span class="badge badge-success">Success</span>
                                                 @elseif ($recharge->status == 'rejected')
                                                     <span class="badge badge-danger">Rejected</span>
                                                 @endif

@@ -136,7 +136,18 @@
             <p class="text-orange-400 font-medium">{{ Auth::user()->name ?? 'No Name' }}</p>
         </div>
 
-            @php
+        <!-- Balance Button with Dropdown -->
+        <div class="relative">
+            <button onclick="toggleBalance()" 
+                class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-4 py-1 text-orange-900 font-bold text-sm">
+                <span class="bg-orange-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]">M</span>
+                My Balance
+            </button>
+
+            <div id="balanceDropdown" 
+                class="hidden absolute right-0 mt-2 w-56 bg-white border border-orange-300 rounded-lg shadow-lg z-50 p-3 text-sm">
+                
+                @php
                     $authID = auth()->id();
                     $accountID = DB::table('accounts')->where('user_id', $authID)->value('id');
                     $totalDeposit = DB::table('transactions')
@@ -146,16 +157,14 @@
                         ->sum('amount');
                 @endphp
 
-
-        <!-- Balance Button with Dropdown -->
-        <div class="relative">
-           <button 
-    class="flex items-center gap-2 border-2 border-orange-600 rounded-full px-3 py-1 text-orange-900 font-semibold text-xs">
-    
-    Balance : (MVR) {{ Auth::user()->account->balance ?? 0 }}
-</button>
-
-          
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-gray-600 font-medium">Current Balance :</span>
+                    <span class="text-orange-600 font-bold">{{ Auth::user()->account->balance ?? 0 }}</span>
+                </div>
+              
+                <hr class="my-1 border-gray-200">
+                <p class="text-xs text-gray-500">Updated: {{ now()->format('d M Y H:i') }}</p>
+            </div>
         </div>
     </div>
 

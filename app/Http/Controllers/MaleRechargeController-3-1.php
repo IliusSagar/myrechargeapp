@@ -57,18 +57,16 @@ class MaleRechargeController extends Controller
         return redirect()->route('dashboard')->with('success', 'Male Recharge request submitted successfully!');
     }
 
-   public function appSubmitRecharge(Request $request)
-{
-    // Validate the request data (minimum 20 enforced here)
-    $request->validate([
-        'mobile' => 'required|string|max:15',
-        'amount' => 'required|numeric|min:20', // ✅ minimum 20
-    ], [
-        'amount.min' => 'The recharge amount must be at least 20 MVR.',
-    ]);
+     public function appSubmitRecharge(Request $request)
+    {
+        // Validate the request data
+        $request->validate([
+            'mobile' => 'required|string|max:15',
+            'amount' => 'required|numeric|min:1',
+        ]);
 
-    $userId = auth()->id();
-    $account = DB::table('accounts')
+       $userId = auth()->id();
+        $account = DB::table('accounts')
         ->where('user_id', $userId)
         ->lockForUpdate()
         ->first();
@@ -81,9 +79,8 @@ class MaleRechargeController extends Controller
     if ($account->balance < $request->amount) {
         return back()->with('error', 'Insufficient balance.');
     }
-
-    // DB transaction to safely create recharge and deduct balance
-    DB::transaction(function () use ($request, $account) {
+        
+         DB::transaction(function () use ($request, $account) {
 
         MaleRecharge::create([
             'account_id' => $account->id,
@@ -92,20 +89,18 @@ class MaleRechargeController extends Controller
             'status'     => 'pending',
         ]);
 
-        // Deduct balance
+        // ✅ DEDUCT balance
         DB::table('accounts')
             ->where('id', $account->id)
             ->decrement('balance', $request->amount);
 
-        // Send email notification (optional: queue recommended)
-        Mail::to('easyxpres9@gmail.com')->send(
+            Mail::to('easyxpres9@gmail.com')->send(
             new MaleRechargeSuccessfulMail($request->mobile, $request->amount)
         );
-    });
-
-    // Redirect back with success
-    return redirect()->route('app_dashboard')->with('success', 'Male Recharge request submitted successfully!');
-}
+            });
+        // Redirect back with a success message
+        return redirect()->route('app_dashboard')->with('success', 'Male Recharge request submitted successfully!');
+    }
 
     public function rechargeHistory()
     {

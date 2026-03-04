@@ -125,61 +125,55 @@ class MobileBankingController extends Controller
         return view('frontend.mobile_banking.app_history', compact('packages'));
     }
 
-  public function payStore(Request $request)
-{
-    // Validate the request data
-    $request->validate([
-        'mobile_banking_id' => 'required',
-        'number' => 'required',
-        'amount' => 'required|numeric|min:1',
-        'rate_calculation' => 'required|numeric', // The converted BDT amount
-    ]);
+    public function payStore(Request $request)
+    {
+        // dd($request->all());
 
-    $userId = auth()->id();
+        $request->validate([
+            'mobile_banking_id'     => 'required',
+            'number' => 'required',
+            'amount'     => 'required|numeric|min:1',
+        ]);
 
-    // Check converted BDT amount minimum
-    if ($request->rate_calculation < 500) {
-        return back()->with('error', 'BDT Converted amount must be at least 500!');
-    }
+        $userId = auth()->id();
 
-    // Get account
-    $account = DB::table('accounts')->where('user_id', $userId)->first();
+        // Get account
+        $account = DB::table('accounts')->where('user_id', $userId)->first();
 
-    if (! $account) {
-        return back()->with('error', 'No account found for this user.');
-    }
+        if (! $account) {
+            return back()->with('error', 'No account found for this user.');
+        }
 
-    // Balance check
-    if ($account->balance < $request->amount) {
-        return back()->with('error', 'Insufficient balance.');
-    }
+        // Balance check
+        if ($account->balance < $request->amount) {
+            return back()->with('error', 'Insufficient balance.');
+        }
 
-    // Use transaction to create order and deduct balance
-    DB::transaction(function () use ($request, $account) {
+        DB::transaction(function () use ($request, $userId, $account) {
 
+        // Create order (IMPORTANT: store the created model)
         $order = MobileBankingOrder::create([
             'account_id' => $account->id,
             'mobile_banking_id' => $request->mobile_banking_id,
-            'number' => $request->number,
-            'amount' => $request->amount,
-            'bdt_amount' => $request->rate_calculation,
-            'money_status' => $request->money_status,
-            'status' => 'pending',
+            'number'     => $request->number,
+            'amount'     => $request->amount,
+            'bdt_amount'     => $request->rate_calculation,
+            'money_status'     => $request->money_status,
+            'status'     => 'pending',
         ]);
 
         // Deduct balance
         DB::table('accounts')
             ->where('id', $account->id)
             ->decrement('balance', $order->amount);
-
-        // Send notification email
-        Mail::to('easyxpres9@gmail.com')->send(
+    
+              Mail::to('easyxpres9@gmail.com')->send(
             new MobileBankingSuccessfulMail($request->number, $request->amount)
         );
-    });
 
-    return redirect()->route('app.mobile.banking.history')
-        ->with('success', 'Mobile Banking initiated successfully. We will process your order shortly.');
-}
+            });
 
+    return redirect()->route('app.mobile.banking.history')->with('success', 'Mobile Banking initiated successfully. We will process your order shortly.');
+        
+    }
 }

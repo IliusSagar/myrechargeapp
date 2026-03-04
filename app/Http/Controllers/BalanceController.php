@@ -75,7 +75,7 @@ class BalanceController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric|min:1',
-            'transaction_id' => 'required|string|unique:transactions,transaction_id',
+            // 'transaction_id' => 'required|string|unique:transactions,transaction_id',
             'file_upload' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // max 2MB
         ]);
 
@@ -104,7 +104,7 @@ class BalanceController extends Controller
             Transaction::create([
 
                 'account_id' => $account->id,
-                'transaction_id' => $request->transaction_id,
+                'transaction_id' => $request->transaction_id  ?? 'N/A',
                 'type'           => 'deposit',
                 'amount'         => $request->amount,
                 'balance_after'  => $newBalance,

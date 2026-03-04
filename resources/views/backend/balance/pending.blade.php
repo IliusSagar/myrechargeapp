@@ -95,12 +95,24 @@
 
 
                             
-
-                                        <td class="badge bg-warning">{{ ucfirst($transaction->status) }}
+                                @if ($transaction->status === 'approved')
+<td class="badge bg-success">
+                                        
+                                        Success
+                                            
+                                        </td>
+                                @else
+                                        <td class="badge bg-warning">
+                                        
+                                        {{ ucfirst($transaction->status) }}
                                             
                                         </td>
 
+
+                                        @endif
+
                                         <td>
+
                                            
 
             @if ($transaction->status === 'pending')

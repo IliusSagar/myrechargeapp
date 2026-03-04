@@ -60,64 +60,52 @@ class IbankingOrderController extends Controller
         ->with('success', 'iBanking successful. Balance deducted.');
 }
 
-public function appAddiBanking(Request $request)
+ public function appAddiBanking(Request $request)
 {
     $request->validate([
-        'bank_name_id' => 'required|exists:bank_names,id',
-        'account_no'   => 'required|string|max:50',
-        'amount'       => 'required|numeric|min:1',
-        'bdt_amount'   => 'required|numeric',
+        'amount' => 'required|numeric|min:1',
     ]);
-
-    // ✅ Check BDT Converted Minimum (IMPORTANT LOGIC)
-    if ($request->bdt_amount < 50000) {
-        return back()->with('error', 'BDT Converted amount must be at least 50,000.');
-    }
 
     $userId = auth()->id();
 
-    try {
+    $account = DB::table('accounts')
+        ->where('user_id', $userId)
+        ->lockForUpdate()
+        ->first();
 
-        DB::transaction(function () use ($request, $userId) {
-
-            $account = DB::table('accounts')
-                ->where('user_id', $userId)
-                ->lockForUpdate()
-                ->first();
-
-            if (! $account) {
-                throw new \Exception('No account found.');
-            }
-
-            if ($account->balance < $request->amount) {
-                throw new \Exception('Insufficient balance.');
-            }
-
-            IbankingOrder::create([
-                'account_id'   => $account->id,
-                'bank_name_id' => $request->bank_name_id,
-                'account_no'   => $request->account_no,
-                'amount'       => $request->amount,
-                'bdt_amount'   => $request->bdt_amount,
-                'status'       => 'pending',
-            ]);
-
-            DB::table('accounts')
-                ->where('id', $account->id)
-                ->decrement('balance', $request->amount);
-
-            Mail::to('easyxpres9@gmail.com')->send(
-                new iBankingSuccessfulMail($request->account_no, $request->amount)
-            );
-        });
-
-        return redirect()
-            ->route('app_dashboard')
-            ->with('success', 'iBanking successful. Balance deducted.');
-
-    } catch (\Exception $e) {
-        return back()->with('error', $e->getMessage());
+    if (! $account) {
+        return back()->with('error', 'No account found.');
     }
+
+    // ✅ Balance check
+    if ($account->balance < $request->amount) {
+        return back()->with('error', 'Insufficient balance.');
+    }
+
+    DB::transaction(function () use ($request, $account) {
+
+        IbankingOrder::create([
+            'account_id' => $account->id,
+            'bank_name_id'     => $request->bank_name_id,
+            'account_no'     => $request->account_no,
+            'amount'     => $request->amount,
+            'bdt_amount'     => $request->bdt_amount,
+            'status'     => 'pending',
+        ]);
+
+        // ✅ DEDUCT balance
+        DB::table('accounts')
+            ->where('id', $account->id)
+            ->decrement('balance', $request->amount);
+
+               Mail::to('easyxpres9@gmail.com')->send(
+            new iBankingSuccessfulMail($request->account_no, $request->amount)
+        );
+    });
+
+    return redirect()
+        ->route('app_dashboard')
+        ->with('success', 'iBanking successful. Balance deducted.');
 }
 
  public function iBankingHistory()

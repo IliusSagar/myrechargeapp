@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <style>
+
+
 /* Orange Toastr */
 .toast-success { background-color: #f97316 !important; }
 .toast-error { background-color: #dc2626 !important; }
@@ -79,11 +81,11 @@
  @endforelse
 </div>
 
-<!-- MODAL (CENTERED) -->
+<!-- MODAL -->
 <div id="mobileBankingModal"
-    class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4">
+    class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden items-end justify-center z-50 p-4">
 
-    <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden">
+    <div class="bg-white w-full max-w-md rounded-t-3xl shadow-2xl overflow-hidden animate-slideUp">
 
         <!-- Modal Header -->
         <div class="bg-gradient-to-r from-orange-500 to-orange-600 px-6 py-4 text-white flex justify-between items-center">
@@ -147,7 +149,6 @@
 <script>
 let currentRate = 0;
 
-// Open modal in center
 function openMobileBankingModal(id, rate) {
     currentRate = parseFloat(rate);
     const modal = document.getElementById('mobileBankingModal');
@@ -157,21 +158,18 @@ function openMobileBankingModal(id, rate) {
     document.getElementById('totalAmount').innerText = '0';
 }
 
-// Close modal
 function closeMobileBankingModal() {
     const modal = document.getElementById('mobileBankingModal');
     modal.classList.add('hidden');
     modal.classList.remove('flex');
 }
 
-// Submit button processing
 document.getElementById('mobileBankingForm').addEventListener('submit', function () {
     const btn = document.getElementById('submitBtn');
     btn.innerText = 'Processing...';
     btn.disabled = true;
 });
 
-// Real-time conversion calculation
 document.getElementById('amountInput').addEventListener('input', function() {
     const amount = parseFloat(this.value) || 0;
     const total = amount * currentRate;
@@ -180,20 +178,11 @@ document.getElementById('amountInput').addEventListener('input', function() {
 });
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
-toastr.options = {
-    closeButton: true,
-    progressBar: true,
-    timeOut: 3000,
-    positionClass: "toast-top-right"
-};
-
 @if(session('success'))
     toastr.success("{{ session('success') }}");
 @endif
-
 @if(session('error'))
     toastr.error("{{ session('error') }}");
 @endif
