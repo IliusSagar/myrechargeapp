@@ -107,6 +107,8 @@
 
 </main>
 
+<div class="h-20"></div>
+
 <!-- ================= PAYMENT MODAL ================= -->
 <div id="paymentModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50 p-4">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md p-6 relative">

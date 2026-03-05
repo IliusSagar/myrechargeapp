@@ -100,7 +100,7 @@
               <div class="inner">
 
               @php
-                $totalTransactions = DB::table('accounts')->sum('balance');
+                $totalTransactions = DB::table('transactions')->where('status', 'approved')->sum('amount');
               @endphp
 
                 <h3>{{ $totalTransactions }} (MVR)</h3>

@@ -14,6 +14,13 @@ class AppSetupController extends Controller
         return view('admin.app_setup.content', compact('appSetup'));
     }
 
+     public function contentRegister()
+    {
+        $appSetup = DB::table('app_setups')->where('id', 1)->first();
+
+        return view('admin.app_setup.content_register', compact('appSetup'));
+    }
+
       public function notification()
     {
         $appSetup = DB::table('app_setups')->where('id', 1)->first();
@@ -58,6 +65,22 @@ class AppSetupController extends Controller
 
         return redirect()
             ->route('admin.setup.content')
+            ->with('success', 'App content updated successfully.');
+    }
+
+     public function updateRegister(Request $request)
+    {
+       
+
+        DB::table('app_setups')->updateOrInsert(
+            ['id' => 1],
+            [
+                'registered_balance_content'        => $request->registered_balance_content
+            ]
+        );
+
+        return redirect()
+            ->route('admin.setup.content.register')
             ->with('success', 'App content updated successfully.');
     }
 

@@ -144,6 +144,8 @@
     </div>
 </div>
 
+<div class="h-20"></div>
+
 <script>
 let currentRate = 0;
 

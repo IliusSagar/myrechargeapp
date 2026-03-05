@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <h1>
                 <span class="text-danger" style="border-bottom:1px dotted red;">
-                    User Balance Content Update
+                    Register Balance Content Update
                 </span>
             </h1>
         </div>
@@ -33,20 +33,20 @@
             <div class="card">
                 <div class="card-body">
 
-                    <form action="{{ route('admin.setup.content.update') }}" method="POST">
+                    <form action="{{ route('admin.setup.content.register.update') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
-                            <label class="form-label">Add User Balance Content</label>
-                            <textarea name="add_balance_content"
-                                      id="add_balance_content"
+                            <label class="form-label">Add Register Balance Content</label>
+                            <textarea name="registered_balance_content"
+                                      id="registered_balance_content"
                                       class="form-control">
-                                {{ old('add_balance_content', $appSetup->add_balance_content ?? '') }}
+                                {{ old('registered_balance_content', $appSetup->registered_balance_content ?? '') }}
                             </textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary">
-                            Update User Content
+                            Update Register Content
                         </button>
                     </form>
 
@@ -60,9 +60,9 @@
 {{-- Summernote Init --}}
 <script>
     $(document).ready(function () {
-        $('#add_balance_content').summernote({
+        $('#registered_balance_content').summernote({
             height: 250,
-            placeholder: 'Write add balance content here...',
+            placeholder: 'Write registered balance content here...',
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear']],
                 ['font', ['fontsize', 'color']],

@@ -346,7 +346,15 @@
     <a href="{{ route('admin.setup.content') }}"
        class="nav-link {{ request()->routeIs('admin.setup.content') ? 'active' : '' }}">
         <i class="fas fa-edit nav-icon text-info"></i>
-        <p>Content Change</p>
+        <p>User Balance Content</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('admin.setup.content.register') }}"
+       class="nav-link {{ request()->routeIs('admin.setup.content.register') ? 'active' : '' }}">
+        <i class="fas fa-edit nav-icon text-info"></i>
+        <p>Register Balance Content</p>
     </a>
 </li>
 

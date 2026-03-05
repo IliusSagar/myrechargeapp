@@ -81,7 +81,7 @@
                 </span>
             @elseif($recharge->status === 'approved')
                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
-                    <i class="fas fa-check-circle mr-1"></i> Approved
+                    <i class="fas fa-check-circle mr-1"></i> Success
                 </span>
             @else
                 <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700">
@@ -100,6 +100,8 @@
     @endforelse
 
 </main>
+
+<div class="h-20"></div>
 
 <!-- ================= TOASTR ================= -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

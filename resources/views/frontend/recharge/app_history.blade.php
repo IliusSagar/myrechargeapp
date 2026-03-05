@@ -77,7 +77,7 @@
                     </span>
                 @elseif($recharge->status === 'approved')
                     <span class="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
-                        Approved
+                        Success
                     </span>
                 @else
                     <span class="px-3 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700">
@@ -94,6 +94,8 @@
     @endforelse
 
 </main>
+
+<div class="h-20"></div>
 
 <script>
     toastr.options = {

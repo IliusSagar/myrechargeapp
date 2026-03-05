@@ -96,8 +96,8 @@ $bankName = DB::table('bank_names')->where('id', $package->bank_name_id)->first(
                 </span>
 
             @elseif($package->status === 'approved')
-                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-orange-200 text-orange-800">
-                    <i class="fas fa-check-circle mr-1"></i> Approved
+                <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">
+                    <i class="fas fa-check-circle mr-1"></i> Success
                 </span>
 
             @else
@@ -123,6 +123,8 @@ $bankName = DB::table('bank_names')->where('id', $package->bank_name_id)->first(
 @endforelse
 
 </main>
+
+<div class="h-20"></div>
 
 <!-- ================= SLIP MODAL ================= -->
 <div id="slipModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50">

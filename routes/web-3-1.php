@@ -16,6 +16,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RechargeController;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/', function () {
     return view('auth.login');
@@ -32,7 +35,9 @@ Route::get('/storage-link', function () {
     return 'Done';
 })->middleware('auth');
 
-
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/app', function () {
     return view('app_dashboard');
@@ -55,10 +60,9 @@ Route::get('/pending-approval', function () {
 })->name('pending.approval');
 
 Route::middleware(['auth', 'approved'])->group(function () {
- 
-  Route::get('/app', function () {
-        return view('app_dashboard');
-    })->name('app_dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
     // Balance Add Routes
     Route::get('/balance/add', [App\Http\Controllers\BalanceController::class, 'showAddForm'])->name('balance.add.form');
@@ -249,12 +253,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
             ->name('notification.message');
         Route::post('/app-setup/notification/update', [AppSetupController::class, 'updateNotification'])
             ->name('setup.notification.update');
-
-             // Admin Register Balance Content
-        Route::get('/app-setup/content/register', [AppSetupController::class, 'contentRegister'])
-            ->name('setup.content.register');
-        Route::post('/app-setup/content/register', [AppSetupController::class, 'updateRegister'])
-            ->name('setup.content.register.update');
 
         // change password
         Route::get('/app-setup/change/password', [AppSetupController::class, 'changePassword'])

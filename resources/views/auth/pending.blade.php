@@ -8,6 +8,7 @@
 </head>
 <body class="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600">
 
+    <!-- Main Card -->
     <div class="bg-white rounded-2xl shadow-2xl p-10 max-w-md text-center">
         
         <!-- Icon -->
@@ -17,20 +18,97 @@
             </svg>
         </div>
 
-        <!-- Heading -->
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Your account is pending approval</h1>
-        <p class="text-gray-600 mb-6">Please wait for an administrator to approve your account before you can access the system.</p>
+        <!-- Username -->
+        <p class="text-lg font-semibold text-gray-800 mb-2">Welcome! {{ Auth::user()->name ?? 'Guest' }}</p>
 
-        <!-- Logout Button -->
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" 
-                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-300">
-                Logout
+         @php
+                $appSetup = DB::table('app_setups')->first();
+            @endphp
+           
+
+        <!-- Heading & Message -->
+        <h1 class="text-2xl font-bold text-gray-800 mb-4">Please Pay Register Amount!!!</h1>
+        <p class="text-gray-600 mb-6"> {!! $appSetup->registered_balance_content !!}</p>
+
+        <!-- Buttons -->
+        <div class="flex flex-col gap-4">
+
+            <!-- Register Payment Button -->
+            <button onclick="openBalanceModal()"
+                class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg transition duration-300">
+                Register Payment
             </button>
-        </form>
+
+            <!-- Logout Button -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" 
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition duration-300">
+                    Logout
+                </button>
+            </form>
+
+        </div>
 
     </div>
+
+    <!-- Payment Modal -->
+    <div id="balanceModal" class="fixed inset-0 bg-black/50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md relative">
+
+            <!-- Close Button -->
+            <button onclick="closeBalanceModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl font-bold">
+                &times;
+            </button>
+
+            <!-- Modal Heading -->
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Register Payment</h2>
+
+            <!-- Payment Form -->
+            <form method="POST" action="" enctype="multipart/form-data">
+                @csrf
+
+                <!-- Amount Field -->
+                <label class="block text-sm font-medium text-orange-700 mb-1">Amount (MVR)</label>
+                <div class="flex items-center border-2 border-orange-300 rounded-lg overflow-hidden mb-4 shadow-sm">
+                    <span class="px-3 bg-orange-100 text-orange-700 font-semibold">MVR</span>
+                    <input type="number" name="amount" required min="1" placeholder="Enter amount"
+                        class="w-full px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 rounded-r-lg">
+                </div>
+
+                <!-- Payment Proof Field -->
+                <label class="block text-sm font-medium text-orange-700 mb-1">Payment Proof (Screenshot)</label>
+                <input type="file" name="file_upload" required accept="image/*,.pdf"
+                    class="w-full border-2 border-orange-300 rounded-lg px-3 py-2 mb-5
+                           file:bg-orange-600 file:text-white file:px-4 file:py-2 file:rounded-lg file:border-0 file:cursor-pointer">
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="closeBalanceModal()"
+                        class="px-4 py-2 rounded-lg bg-orange-200 text-orange-800 hover:bg-orange-300 font-semibold transition">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-4 py-2 rounded-lg bg-orange-600 text-white hover:bg-orange-700 font-semibold transition">
+                        Submit Request
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Modal JS -->
+    <script>
+        function openBalanceModal() {
+            document.getElementById('balanceModal').classList.remove('hidden');
+        }
+
+        function closeBalanceModal() {
+            document.getElementById('balanceModal').classList.add('hidden');
+        }
+    </script>
 
 </body>
 </html>

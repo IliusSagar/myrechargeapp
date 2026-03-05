@@ -61,6 +61,6 @@ class RegisteredUserController extends Controller
             new RegisterSuccessfulMail($request->name, $request->phone)
         );
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('app_dashboard', absolute: false));
     }
 }

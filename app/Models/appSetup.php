@@ -8,6 +8,7 @@ class appSetup extends Model
 {
      protected $fillable = [
         'add_balance_content',
+        'registered_balance_content',
         'facebook',
         'youtube',
         'telegram',

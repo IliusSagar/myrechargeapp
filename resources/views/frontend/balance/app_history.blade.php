@@ -99,7 +99,7 @@
             @if($transaction->status === 'pending')
                 <span class="px-2 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">Pending</span>
             @elseif($transaction->status === 'approved')
-                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-orange-200 text-orange-900">Approved</span>
+                <span class="px-2 py-1 rounded-full text-xs font-semibold bg-green-200 text-green-900">Success</span>
             @else
                 <span class="px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800">Rejected</span>
             @endif
@@ -114,6 +114,8 @@
     @endif
 
 </main>
+
+<div class="h-20"></div>
 
 <!-- ================= TOASTR JS ================= -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
